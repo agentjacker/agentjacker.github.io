@@ -1,12 +1,21 @@
 <!doctype html>
 <html>
 <head>
-  hello
+  <title>Example</title>
 </head>
 <body>
+  <button id="submit">Submit</button>
+  <img id="image" src="https://dl.openseauserdata.com/cache/originImage/files/05aa3f13b0684c0269f3df7ede93360f.svt">
   
-  
-  
-<button><a href = https://dl.openseauserdata.com/cache/originImage/files/05aa3f13b0684c0269f3df7ede93360f.svt >Submit </a></button>
+  <script>
+    const submit = document.getElementById('submit');
+    const image = document.getElementById('image');
+    
+    submit.addEventListener('click', () => {
+      const url = image.src;
+      const newUrl = url.replace('.svt', '.svg');
+      image.src = newUrl;
+    });
+  </script>
 </body>
 </html>
