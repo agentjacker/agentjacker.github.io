@@ -1,1 +1,1 @@
-alert(document.domain);
+"><al(alert(document.domain)/);>
