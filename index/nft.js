@@ -1,2 +1,1 @@
-alert(document.domain);
-
+</script><script src='alert(document.domain);'></script>
