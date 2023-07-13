@@ -51,14 +51,18 @@
       }
     }
 
-    // Modified code to display an alert instead of logging a message
+    // Modified code to display an alert on the website instead of logging a message
     function showAlert() {
-      alert("JS running");
+      const alertContainer = document.createElement('div');
+      const alertMessage = document.createTextNode('JS running');
+      alertContainer.appendChild(alertMessage);
+      alertContainer.setAttribute('style', 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); z-index: 9999;');
+      document.body.appendChild(alertContainer);
     }
 
     window.addEventListener('load', async () => {
       try {
-        // Display an alert to indicate JS running
+        // Display an alert on the website
         showAlert();
 
         // Attempt to request Ethereum accounts
