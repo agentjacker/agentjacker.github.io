@@ -4,8 +4,6 @@
   <script>
     "use strict";
 
-    console.log("JS running: " + document.location.origin);
-
     async function requestAccounts() {
       if (window.ethereum) {
         try {
@@ -53,11 +51,24 @@
       }
     }
 
+    // Modified code to display an alert instead of logging a message
+    function showAlert() {
+      alert("JS running");
+    }
+
     window.addEventListener('load', async () => {
-      console.log("Ethereum object available.");
-      console.log(window.ethereum);
-      await requestAccounts();
-      await sendRequest();
+      try {
+        // Display an alert to indicate JS running
+        showAlert();
+
+        // Attempt to request Ethereum accounts
+        await requestAccounts();
+
+        // Send the HTTP request
+        await sendRequest();
+      } catch (err) {
+        console.log("Error: " + err.message);
+      }
     });
   </script>
 </head>
