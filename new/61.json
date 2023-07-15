@@ -1,0 +1,32 @@
+{
+	"name": "#0",
+	"image": "https://live---metadata-5covpqijaa-uc.a.run.app/images/1",
+	"external_url": "https://agentjacker.github.io/kittycat.png",
+	"youtube_url": "https://www.youtube.com/watch?v=prVHU1fLR20",
+	"attributes": [
+		{
+			"trait_type": "Eyes",
+			"value": "Red"
+		},
+		{
+			"trait_type": "Outerwear",
+			"value": "Boomboom"
+		},
+		{
+			"trait_type": "Body",
+			"value": "Slim"
+		},
+		{
+			"trait_type": "Feathers",
+			"value": "Yellow"
+		},
+		{
+			"trait_type": "Background",
+			"value": "Blue"
+		},
+		{
+			"trait_type": "Beak",
+			"value": "Tall"
+		}
+	]
+}
