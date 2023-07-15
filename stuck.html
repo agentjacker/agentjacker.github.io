@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<HTML>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        div {
+            font-size: xx-large;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5vw;
+        }
+
+        .left {
+            display: none
+        }
+
+        .right {
+            display: none
+        }
+
+        .middle {
+            display: block
+        }
+    </style>
+</head>
+
+<BODY>
+
+    <DIV ID="right" class="right">&#129315; u broke it &#128073;</DIV>
+    <DIV ID="left" class="left">&#128072; i broke it &#128514;</DIV>
+    <DIV ID="middle" class="middle">&#128072;try navigating the browser left or right! &#128073;</DIV>
+
+    <script>
+
+        var firsttime = 1;
+        var ischrome = 0;
+
+        if (navigator.userAgent.match(/chrome|chromium|crios/i))
+            ischrome = 1;
+
+        history.replaceState('', '', '#left');
+        history.pushState('', '', '#center');
+        history.pushState('', '', '#right');
+
+        console.log("**initial frame hash:", this.location.hash);
+        this.history.go(-1);
+        console.log("**after go frame hash:", this.location);
+
+
+        function scroll_nft() {
+            console.log("**in scroll_nft", this.location.hash);
+
+            if (firsttime == 1) {
+                firsttime = 0;
+            }
+            else {
+
+                if (this.location.hash === "#left") {
+                    this.history.go(1);
+                    document.getElementById("left").style.display = "block";
+                    document.getElementById("middle").style.display = "none";
+                    document.getElementById("right").style.display = "none";
+
+                }
+                else if (this.location.hash === "#right") {
+                    this.history.go(-1);
+                    document.getElementById("left").style.display = "none";
+                    document.getElementById("middle").style.display = "none";
+                    document.getElementById("right").style.display = "block";
+
+
+                }
+            }
+
+
+
+        }
+
+        window.addEventListener('hashchange', scroll_nft);
+
+
+
+
+    </script>
+
+
+</BODY>
+
+</HTML>
