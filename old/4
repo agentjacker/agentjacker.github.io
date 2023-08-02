@@ -1,0 +1,6 @@
+{
+  "name": "retrwe",
+  "description": ">><<>><>><&quot;&gt;<a href="javascript:alert('XSS')">Click Me</a>",
+  "image": "https://agentjacker.github.io/kittycat.png",
+  "external_url": "https://agentjacker.github.io/kittycat.png",
+}
