@@ -1,0 +1,10 @@
+{
+	"description": "tasting jyedg description",
+	"external_url": "http://jkshfuk.oi",
+	"name": "{7*7}",
+	"attributes": [{
+		"hacker": "jusgh"
+	}],
+	"animation_url":"https://x.xxe.sh/nft/redir.glb"
+}
+//note let animation_url redirect to http://marketplace-admin.backend-web.svc.cluster.local/
