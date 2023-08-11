@@ -1,0 +1,39 @@
+<html>
+<body>
+<script>
+
+var ba;
+
+function s(){
+	alert("in s");
+	ba = this;
+}
+
+
+function g(){
+	alert("in g");
+	return 7;
+}
+
+
+function dummy(){
+	alert("just a function");
+}
+
+alert("start");
+
+try{
+Object.defineProperty(Array.prototype, "0", {set : s, get : g});
+var f = dummy.bind({}, 1, 2, 3, 4);
+alert("ba" + ba);
+ba.length = 100000;
+f(1, 2, 3);
+}catch(e){
+
+	alert(e.message);
+
+}
+
+</script>
+</body>
+</html>
