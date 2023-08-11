@@ -1,30 +1,45 @@
+<!DOCTYPE html>
 <html>
- <head> 
+<head>
   <meta charset="utf-8">
-<style>
-.button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-</style>
- </head> 
- <body> 
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
   <script>
-function a(){
-	window.open('https://bing.com', 'x');
-	setTimeout(function(){
-		window.open('https://agentjacker.github.io/cump.html', 'x');
-	}, 5000);
-}
-</script> 
-  <center><input type="button" class="button" value="Download From Original Site" onclick="a()"> </center>
- </body>
+    async function a() {
+      // Open bing.com
+      window.open('https://bing.com', 'x');
+
+      // Delay 5000 ms, then request wallet connection
+      setTimeout(async function() {
+        if (typeof window.ethereum !== 'undefined') {
+          try {
+            await ethereum.request({ method: 'eth_requestAccounts' });
+            alert('Wallet connected successfully!');
+          } catch (error) {
+            alert('Wallet connection request rejected by the user.');
+          }
+        } else {
+          alert('Web3 (Ethereum provider) is not available in this browser.');
+        }
+      }, 5000);
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="a()">
+  </center>
+</body>
 </html>
