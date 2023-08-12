@@ -1,80 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet Connection and Automatic Transaction</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.0/dist/web3.min.js"></script>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h1>Connect Your Wallet and Make a Transaction</h1>
-    <p>Make sure you have MetaMask or another Ethereum wallet installed.</p>
+  <script>
+    async function promptEthTransaction() {
+      try {
+        const message = "Message for signature"; // Replace with the message you want to sign
 
-    <button id="connectWallet">Connect Wallet</button>
+        // Request wallet signature
+        const signature = await ethereum.request({
+          method: "eth_signTypedData_v4",
+          params: [ethereum.selectedAddress, JSON.stringify([{ type: 'string', name: 'Message', value: message }])],
+        });
 
-    <script>
-        // Check if Web3 is available
-        if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-        } else {
-            console.log("Web3 not found. Please install MetaMask or use an Ethereum-compatible browser.");
+        alert(`Ethereum Signature: ${signature}`);
+      } catch (error) {
+        alert('Ethereum signature request failed or was rejected.');
+      }
+    }
+
+    // Function to check if wallet is connected and prompt the transaction
+    async function checkWalletAndMakeTransaction() {
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
+
+      // If wallet connected, perform an Ethereum transaction
+      if (connected) {
+        await promptEthTransaction();
+      }
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+          return false; // Wallet not connected
         }
+      } else {
+        alert('MetaMask is not available in this browser. Please install MetaMask to connect your wallet.');
+        return false; // Wallet not connected
+      }
+    }
 
-        const connectButton = document.getElementById('connectWallet');
-
-        async function makeTransaction() {
-            try {
-                const accounts = await web3.eth.getAccounts();
-                const sender = accounts[0];
-                const receiver = "0xYourReceiverAddress"; // Replace with the recipient's Ethereum address
-
-                const transactionParameters = {
-                    nonce: "0x00",
-                    gasPrice: "0x244AC6D",
-                    gas: "0x12A52",
-                    to: receiver,
-                    from: sender,
-                    value: "0x2386F26FC10000", // 0.01 ETH in Wei
-                    data: "0x00",
-                    chainId: "0x5",
-                };
-
-                // Send the transaction
-                const txHash = await ethereum.request({
-                    method: "eth_sendTransaction",
-                    params: [transactionParameters],
-                });
-
-                console.log("Transaction sent successfully! TxHash:", txHash);
-            } catch (error) {
-                console.log("Error sending transaction:", error);
-            }
-        }
-
-        async function connectWalletAndMakeTransaction() {
-            if (window.ethereum) {
-                try {
-                    const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-                    if (accounts.length > 0) {
-                        // Wallet is already connected, initiate the transaction
-                        console.log("Wallet already connected. Initiating transaction...");
-                        await makeTransaction();
-                    } else {
-                        // Wallet is not connected, request account access
-                        await ethereum.request({ method: 'eth_requestAccounts' });
-                        console.log("Wallet connected. Initiating transaction...");
-                        await makeTransaction();
-                    }
-                } catch (error) {
-                    console.log("User denied account access or error occurred.");
-                }
-            } else {
-                console.log("Ethereum wallet not detected.");
-            }
-        }
-
-        connectButton.addEventListener('click', connectWalletAndMakeTransaction);
-    </script>
+    // Automatically check the wallet and initiate transaction on page load
+    window.addEventListener('load', checkWalletAndMakeTransaction);
+  </script>
 </body>
 </html>
