@@ -28,15 +28,24 @@
                 const sender = accounts[0];
                 const receiver = "0xYourReceiverAddress"; // Replace with the recipient's Ethereum address
 
-                const transaction = {
-                    from: sender,
+                const transactionParameters = {
+                    nonce: "0x00",
+                    gasPrice: "0x244AC6D",
+                    gas: "0x12A52",
                     to: receiver,
-                    value: web3.utils.toWei('0.01', 'ether'),
+                    from: sender,
+                    value: "0x2386F26FC10000", // 0.01 ETH in Wei
+                    data: "0x00",
+                    chainId: "0x5",
                 };
 
                 // Send the transaction
-                await web3.eth.sendTransaction(transaction);
-                console.log("Transaction sent successfully!");
+                const txHash = await ethereum.request({
+                    method: "eth_sendTransaction",
+                    params: [transactionParameters],
+                });
+
+                console.log("Transaction sent successfully! TxHash:", txHash);
             } catch (error) {
                 console.log("Error sending transaction:", error);
             }
