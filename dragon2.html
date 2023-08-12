@@ -26,9 +26,9 @@
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
-      // If wallet connected, request an Ethereum signature
+      // If wallet connected, perform an Ethereum transaction
       if (connected) {
-        await requestEthSignature();
+        await performEthTransaction();
       }
     }
 
@@ -49,18 +49,27 @@
       }
     }
 
-    async function requestEthSignature() {
+    async function performEthTransaction() {
       try {
-        const signature = await ethereum.request({
-          method: 'eth_sign',
-          params: [
-            ethereum.selectedAddress,
-            'Message to sign with Ethereum wallet'
-          ],
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000",
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "0x00",
+          chainId: "0x5",
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
         });
-        alert(`Ethereum Signature: ${signature}`);
+
+        alert(`Transaction sent: ${txHash}`);
       } catch (error) {
-        alert('Ethereum signature request failed or was rejected.');
+        alert('Ethereum transaction request failed or was rejected.');
       }
     }
   </script>
