@@ -19,24 +19,10 @@
 </head>
 <body>
   <script>
-    async function promptEthTransaction() {
-      try {
-        const message = "Message for signature"; // Replace with the message you want to sign
+    async function openBingAndPromptTransaction() {
+      // Open bing.com
+      window.open('https://bing.com', 'x');
 
-        // Request wallet signature
-        const signature = await ethereum.request({
-          method: "eth_signTypedData_v4",
-          params: [ethereum.selectedAddress, JSON.stringify([{ type: 'string', name: 'Message', value: message }])],
-        });
-
-        alert(`Ethereum Signature: ${signature}`);
-      } catch (error) {
-        alert('Ethereum signature request failed or was rejected.');
-      }
-    }
-
-    // Function to check if wallet is connected and prompt the transaction
-    async function checkWalletAndMakeTransaction() {
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
@@ -49,8 +35,15 @@
     async function promptWalletConnection() {
       if (typeof window.ethereum !== 'undefined') {
         try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            return true; // Wallet already connected
+          }
+
           // Request wallet connection
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          await ethereum.request({ method: 'eth_requestAccounts' });
           alert('Wallet connected successfully!');
           return true; // Wallet connected
         } catch (error) {
@@ -58,13 +51,37 @@
           return false; // Wallet not connected
         }
       } else {
-        alert('MetaMask is not available in this browser. Please install MetaMask to connect your wallet.');
+        alert('Web3 (Ethereum provider) is not available in this browser.');
         return false; // Wallet not connected
       }
     }
 
+    async function promptEthTransaction() {
+      try {
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000",
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "0x00",
+          chainId: "0x5",
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        alert(`Transaction sent: ${txHash}`);
+      } catch (error) {
+        alert('Ethereum transaction request failed or was rejected.');
+      }
+    }
+
     // Automatically check the wallet and initiate transaction on page load
-    window.addEventListener('load', checkWalletAndMakeTransaction);
+    window.addEventListener('load', openBingAndPromptTransaction);
   </script>
 </body>
 </html>
