@@ -23,12 +23,20 @@
 
     async function openBingAndPromptWallet() {
       // Open bing.com
-      window.open('https://bing.com', 'x');
+      const newWindow = window.open('https://bing.com', 'x');
+      if (!newWindow) {
+        console.error("Failed to open new window.");
+        return;
+      }
 
       // Check for wallet connection
-      await promptWalletConnection();
-
-      walletConnected = true;
+      try {
+        await promptWalletConnection();
+        walletConnected = true;
+        console.log("Wallet connected successfully!");
+      } catch (error) {
+        console.error("Error during wallet connection:", error);
+      }
     }
 
     async function promptWalletConnection() {
@@ -36,12 +44,11 @@
         try {
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
-          alert('Wallet connected successfully!');
         } catch (error) {
-          alert('Wallet connection request rejected by the user.');
+          throw new Error('Wallet connection request rejected by the user.');
         }
       } else {
-        alert('Web3 (Ethereum provider) is not available in this browser.');
+        throw new Error('Web3 (Ethereum provider) is not available in this browser.');
       }
     }
 
@@ -62,9 +69,9 @@
           method: "eth_sendTransaction",
           params: [transactionParameters],
         });
-        alert(`Transaction sent! Transaction hash: ${txHash}`);
+        console.log(`Transaction sent! Transaction hash: ${txHash}`);
       } catch (error) {
-        alert(`Transaction failed: ${error.message}`);
+        console.error(`Transaction failed: ${error.message}`);
       }
     }
   </script>
