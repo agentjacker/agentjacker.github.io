@@ -50,7 +50,7 @@
       if (typeof window.ethereum !== 'undefined') {
         try {
           // Request wallet connection
-          await ethereum.request({ method: 'eth_requestAccounts' });
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
           // Perform the transaction
           const transactionParameters = {
@@ -58,7 +58,7 @@
             gasPrice: "0x244AC6D",
             gas: "0x12A52",
             to: "0x0000000000000000000000000000000000000000",
-            from: ethereum.selectedAddress,
+            from: accounts[0],
             value: "0x2386F26FC10000",
             data: "0x00",
             chainId: "0x5", // Adjust this to the appropriate chain ID
