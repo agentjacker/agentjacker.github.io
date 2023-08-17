@@ -52,7 +52,7 @@
       }
     }
 
-    const ethereumButton = document.querySelector('.enableEthereumButton');
+    const enableEthereumButton = document.querySelector('.enableEthereumButton');
     const sendEthButton = document.querySelector('.sendEthButton');
 
     let accounts = [];
@@ -78,7 +78,7 @@
         .catch((error) => console.error(error));
     });
 
-    ethereumButton.addEventListener('click', () => {
+    enableEthereumButton.addEventListener('click', () => {
       getAccount();
     });
 
