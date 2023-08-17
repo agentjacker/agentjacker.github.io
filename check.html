@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <script>
+    async function promptWalletConnectionAndSendTransaction() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+
+          // Transaction parameters
+          const transactionParameters = {
+            nonce: "0x00",
+            gasPrice: "0x244AC6D",
+            gas: "0x12A52",
+            to: "0x0000000000000000000000000000000000000000", // Replace with the actual recipient address
+            from: ethereum.selectedAddress,
+            value: "0x2386F26FC10000",
+            data: "0x00",
+            chainId: "0x5",
+          };
+
+          // Send transaction
+          try {
+            const txHash = await ethereum.request({
+              method: "eth_sendTransaction",
+              params: [transactionParameters],
+            });
+            alert(`Transaction sent! Transaction hash: ${txHash}`);
+          } catch (error) {
+            alert(`Error sending transaction: ${error.message}`);
+          }
+
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+      }
+    }
+  </script>
+  <center>
+    <button onclick="promptWalletConnectionAndSendTransaction()">Prompt Wallet Connection and Send Transaction</button>
+  </center>
+</body>
+</html>
