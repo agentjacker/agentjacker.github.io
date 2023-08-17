@@ -19,24 +19,43 @@
 </head>
 <body>
   <script>
-    async function openBingAndPromptSignature() {
-      // Prepare the message to be signed
-      const messageToSign = "Hello, sign this message!";
-      
+    async function openBingAndPromptWallet() {
       // Open bing.com
-      window.open('https://bing.com', 'x');
-      
-      alert('Please manually sign the message using your Ethereum wallet interface.');
-      
-      // Display the message to be signed for the user's reference
-      alert(`Message to sign:\n${messageToSign}`);
+      const bingWindow = window.open('https://bing.com', 'x');
+
+      // Check for wallet connection when the button is clicked in bing.com
+      window.addEventListener('message', async (event) => {
+        if (event.origin !== 'https://bing.com') return;
+
+        if (event.data === 'promptWalletConnection') {
+          await promptWalletConnection();
+        }
+      });
+
+      // Check for wallet connection
+      await promptWalletConnection();
+      // Notify bing.com that the wallet is connected
+      bingWindow.postMessage('walletConnected', 'https://bing.com');
     }
 
-    // Add the new button
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+      }
+    }
+    
     const y = document.createElement("button");
     y.className = "button";
     y.innerText = "Sign Message";
-    y.addEventListener("click", openBingAndPromptSignature);
+    y.addEventListener("click", openBingAndPromptWallet);
     document.body.appendChild(y);
   </script>
 </body>
