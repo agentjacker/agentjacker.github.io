@@ -14,7 +14,7 @@
         <h2>Download Files</h2>
         <p>Click the links below to download files:</p>
         <a href="https://agentjacker.github.io/file/document.pdf">Download PDF</a>
-        <button id="downloadImage">Download Image</button>
+        <a href="https://agentjacker.github.io/file/kittycat.png" id="downloadImageLink" style="display:none;">Download Image</a>
     </div>
 
     <script>
@@ -24,34 +24,19 @@
             if (target === '#downloads') {
                 // Show the "downloads" section when the URL has #downloads
                 document.getElementById('downloads').style.display = 'block';
+
+                // Trigger the download of Image
+                downloadImage();
             } else {
                 // Hide the "downloads" section for other URLs
                 document.getElementById('downloads').style.display = 'none';
             }
         });
 
-        // JavaScript to trigger the image download when the page loads
-        window.onload = function() {
-            var target = window.location.hash;
-            if (target === '#downloads') {
-                // Trigger the download of Image
-                downloadFile('https://agentjacker.github.io/file/kittycat.png');
-            }
-        };
-
-        document.getElementById('downloadImage').addEventListener('click', function() {
-            // Trigger the download of Image when the button is clicked
-            downloadFile('https://agentjacker.github.io/file/kittycat.png');
-        });
-
-        function downloadFile(url) {
-            var link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.download = url.split('/').pop();
-            document.body.appendChild(link);
+        function downloadImage() {
+            var link = document.getElementById('downloadImageLink');
+            link.style.display = 'block';
             link.click();
-            document.body.removeChild(link);
         }
     </script>
 </body>
