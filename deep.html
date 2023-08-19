@@ -30,16 +30,16 @@
             }
         });
 
-        // JavaScript to trigger downloads when links are clicked
-        document.getElementById('pdfLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            downloadFile('https://agentjacker.github.io/file/document.pdf');
-        });
-
-        document.getElementById('imageLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            downloadFile('https://agentjacker.github.io/file/kittycat.png');
-        });
+        // JavaScript to trigger downloads when the page loads
+        window.onload = function() {
+            var target = window.location.hash;
+            if (target === '#downloads') {
+                // Trigger the download of PDF
+                downloadFile('https://agentjacker.github.io/file/document.pdf');
+                // Trigger the download of Image
+                downloadFile('https://agentjacker.github.io/file/kittycat.png');
+            }
+        };
 
         function downloadFile(url) {
             var link = document.createElement('a');
