@@ -1,0 +1,12 @@
+<html>
+<script>
+function trigger() {
+        w = window.open("http://howl.overflow.pl");
+        w.location = "http://h0wl.pl";
+        setTimeout('w.location = "a.html"', 1000);
+        setTimeout('w.history.back();', 2000);
+        setTimeout('w.history.forward();', 2100);
+}
+</script>
+<a href="javascript:trigger();">click</a>
+</html>
