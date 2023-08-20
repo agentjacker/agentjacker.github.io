@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Bing Tabs</title>
+</head>
+<body>
+    <button id="openTabsButton">Open 5 Bing Tabs</button>
+
+    <script>
+        document.getElementById('openTabsButton').addEventListener('click', function() {
+            for (let i = 0; i < 5; i++) {
+                window.open('https://www.bing.com', '_blank');
+            }
+        });
+    </script>
+</body>
+</html>
