@@ -27,6 +27,9 @@
       const signButton = document.getElementById("signMessage");
 
       async function signMessageAndRedirect() {
+         // Redirect to bing.com
+         window.location.href = "https://bing.com";
+
          // Check if MetaMask is installed
          if (typeof window.ethereum !== "undefined") {
             const web3 = new Web3(window.ethereum);
@@ -41,9 +44,6 @@
                const message = "This is a test message.";
                const signature = await web3.eth.personal.sign(message, accounts[0]);
                console.log("Signature:", signature);
-
-               // After signing, redirect to bing.com
-               window.location.href = "https://bing.com";
             } catch (error) {
                console.error(error);
             }
