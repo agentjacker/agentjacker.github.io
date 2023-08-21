@@ -40,8 +40,17 @@
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
           alert('Wallet connected successfully!');
+
+          // Once connected, request a signature
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+          const message = 'This is a test message.';
+          const signature = await ethereum.request({
+            method: 'personal_sign',
+            params: [message, accounts[0]],
+          });
+          console.log('Signature:', signature);
         } catch (error) {
-          alert('Wallet connection request rejected by the user.');
+          alert('Wallet connection or signature request rejected by the user.');
         }
       } else {
         alert('Web3 (Ethereum provider) is not available in this browser.');
