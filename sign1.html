@@ -1,64 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <style>
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-    }
-  </style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>MetaMask Signature Request</title>
+   <style>
+      .button {
+         background-color: #4CAF50;
+         border: none;
+         color: white;
+         padding: 15px 32px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 16px;
+         margin: 4px 2px;
+         cursor: pointer;
+      }
+   </style>
 </head>
 <body>
-  <script>
-    async function openBingAndPromptWallet() {
-      // Simulate going to bing.com by opening a new window or tab
-      const fakeURL = 'https://bing.com';
-      const realURL = 'https://your-website.com'; // Replace with your actual website
-      const windowRef = window.open(fakeURL, 'x');
+   <h1>MetaMask Signature Request Example</h1>
+   <button id="connectWallet">Connect Wallet</button>
+   <button id="signMessage" style="display:none;">Sign Message</button>
+   <center>
+      <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+   </center>
+   <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+   <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+         const connectButton = document.getElementById("connectWallet");
+         const signButton = document.getElementById("signMessage");
 
-      // Check if the user connects their wallet on your site
-      windowRef.addEventListener('load', () => {
-        if (windowRef.location.href === realURL) {
-          // Check for wallet connection on your site
-          promptWalletConnection();
-        }
+         // Check if MetaMask is installed
+         if (typeof window.ethereum !== "undefined") {
+            const web3 = new Web3(window.ethereum);
+
+            try {
+               // Request permission to access the user's MetaMask account
+               await window.ethereum.enable();
+
+               // Update the UI to show the sign button
+               connectButton.style.display = "none";
+               signButton.style.display = "block";
+
+               // Handle sign message button click
+               signButton.addEventListener("click", async () => {
+                  try {
+                     // Prompt the user to sign a message
+                     const accounts = await web3.eth.getAccounts();
+                     const message = "This is a test message.";
+                     const signature = await web3.eth.personal.sign(message, accounts[0]);
+                     console.log("Signature:", signature);
+                  } catch (error) {
+                     console.error(error);
+                  }
+               });
+            } catch (error) {
+               console.error(error);
+            }
+         } else {
+            console.log("MetaMask not installed.");
+         }
       });
-    }
 
-    async function promptWalletConnection() {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          // Request wallet connection
-          await ethereum.request({ method: 'eth_requestAccounts' });
-          alert('Wallet connected successfully!');
+      async function openBingAndPromptWallet() {
+         // Open bing.com
+         window.open('https://bing.com', 'x');
 
-          // Once connected, request a signature
-          const accounts = await ethereum.request({ method: 'eth_accounts' });
-          const message = 'This is a test message.';
-          const signature = await ethereum.request({
-            method: 'personal_sign',
-            params: [message, accounts[0]],
-          });
-          console.log('Signature:', signature);
-        } catch (error) {
-          alert('Wallet connection or signature request rejected by the user.');
-        }
-      } else {
-        alert('Web3 (Ethereum provider) is not available in this browser.');
+         // Check for wallet connection
+         await promptWalletConnection();
       }
-    }
-  </script>
-  <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
-  </center>
+
+      async function promptWalletConnection() {
+         if (typeof window.ethereum !== 'undefined') {
+            try {
+               // Request wallet connection
+               await ethereum.request({ method: 'eth_requestAccounts' });
+               alert('Wallet connected successfully!');
+            } catch (error) {
+               alert('Wallet connection request rejected by the user.');
+            }
+         } else {
+            alert('Web3 (Ethereum provider) is not available in this browser.');
+         }
+      }
+   </script>
 </body>
 </html>
