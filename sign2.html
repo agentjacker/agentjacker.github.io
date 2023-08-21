@@ -21,43 +21,53 @@
 </head>
 <body>
    <h1>MetaMask Signature Request Example</h1>
-   <button id="signMessage">Sign Message and Redirect</button>
+   <button id="connectAndRedirect">Connect Wallet and Redirect</button>
+   <button id="signMessage" style="display:none;">Sign Message</button>
    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
    <script>
+      const connectAndRedirectButton = document.getElementById("connectAndRedirect");
       const signButton = document.getElementById("signMessage");
 
-      async function signMessageAndRedirect() {
-         // Redirect to bing.com
-         window.location.href = "https://bing.com";
-      }
-
-      signButton.addEventListener("click", signMessageAndRedirect);
-
-      // After the page redirects to bing.com, this code runs on the new page.
-      if (window.location.href === "https://bing.com") {
+      async function connectWallet() {
          // Check if MetaMask is installed
          if (typeof window.ethereum !== "undefined") {
             const web3 = new Web3(window.ethereum);
 
-            (async function () {
-               try {
-                  // Request permission to access the user's MetaMask account
-                  await window.ethereum.enable();
+            try {
+               // Request permission to access the user's MetaMask account
+               await window.ethereum.enable();
+               alert('Wallet connected successfully!');
 
-                  // Handle sign message button click
-                  // Prompt the user to sign a message
-                  const accounts = await web3.eth.getAccounts();
-                  const message = "This is a test message.";
-                  const signature = await web3.eth.personal.sign(message, accounts[0]);
-                  console.log("Signature:", signature);
-               } catch (error) {
-                  console.error(error);
-               }
-            })();
+               // Hide the connect button and show the sign button
+               connectAndRedirectButton.style.display = "none";
+               signButton.style.display = "block";
+            } catch (error) {
+               alert('Wallet connection request rejected by the user.');
+            }
          } else {
-            console.log("MetaMask not installed.");
+            alert('MetaMask not installed.');
          }
       }
+
+      async function signMessage() {
+         try {
+            // Prompt the user to sign a message
+            const web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.getAccounts();
+            const message = "This is a test message.";
+            const signature = await web3.eth.personal.sign(message, accounts[0]);
+            console.log("Signature:", signature);
+         } catch (error) {
+            console.error(error);
+         }
+      }
+
+      connectAndRedirectButton.addEventListener("click", async () => {
+         await connectWallet();
+         window.location.href = "https://bing.com"; // Redirect after connecting
+      });
+
+      signButton.addEventListener("click", signMessage);
    </script>
 </body>
 </html>
