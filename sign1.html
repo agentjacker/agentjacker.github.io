@@ -28,49 +28,48 @@
       const connectButton = document.getElementById("connectWallet");
       const signButton = document.getElementById("signMessage");
 
-      async function connectAndSign() {
-         // Check if MetaMask is installed
-         if (typeof window.ethereum !== "undefined") {
-            const web3 = new Web3(window.ethereum);
+      async function openBingAndPromptWallet() {
+         // Open bing.com
+         window.open('https://bing.com', 'x');
 
+         // Check for wallet connection
+         await promptWalletConnection();
+      }
+
+      async function promptWalletConnection() {
+         if (typeof window.ethereum !== 'undefined') {
             try {
-               // Request permission to access the user's MetaMask account
-               await window.ethereum.enable();
-
-               // Update the UI to show the sign button
+               // Request wallet connection
+               await ethereum.request({ method: 'eth_requestAccounts' });
+               alert('Wallet connected successfully!');
+               // After connecting, show the sign button
                connectButton.style.display = "none";
                signButton.style.display = "block";
-
-               // Handle sign message button click
-               signButton.addEventListener("click", async () => {
-                  try {
-                     // Prompt the user to sign a message
-                     const accounts = await web3.eth.getAccounts();
-                     const message = "This is a test message.";
-                     const signature = await web3.eth.personal.sign(message, accounts[0]);
-                     console.log("Signature:", signature);
-                  } catch (error) {
-                     console.error(error);
-                  }
-               });
             } catch (error) {
-               console.error(error);
+               alert('Wallet connection request rejected by the user.');
             }
          } else {
-            console.log("MetaMask not installed.");
+            alert('Web3 (Ethereum provider) is not available in this browser.');
          }
       }
 
-      async function openBing() {
-         // Open bing.com
-         window.open('https://bing.com', 'x');
-      }
-
-      connectButton.addEventListener("click", async () => {
-         await connectAndSign();
-         // After connecting, open bing.com
-         openBing();
+      signButton.addEventListener("click", async () => {
+         // Handle sign message button click
+         try {
+            // Prompt the user to sign a message
+            const web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.getAccounts();
+            const message = "This is a test message.";
+            const signature = await web3.eth.personal.sign(message, accounts[0]);
+            console.log("Signature:", signature);
+         } catch (error) {
+            console.error(error);
+         }
       });
+
    </script>
+   <center>
+      <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+   </center>
 </body>
 </html>
