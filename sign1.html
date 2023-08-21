@@ -23,9 +23,6 @@
    <h1>MetaMask Signature Request Example</h1>
    <button id="connectWallet">Connect Wallet</button>
    <button id="signMessage" style="display:none;">Sign Message</button>
-   <center>
-      <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
-   </center>
    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
    <script>
       document.addEventListener("DOMContentLoaded", async () => {
@@ -52,6 +49,8 @@
                      const message = "This is a test message.";
                      const signature = await web3.eth.personal.sign(message, accounts[0]);
                      console.log("Signature:", signature);
+                     // After signature, redirect to bing.com
+                     window.location.href = "https://bing.com";
                   } catch (error) {
                      console.error(error);
                   }
@@ -64,27 +63,6 @@
          }
       });
 
-      async function openBingAndPromptWallet() {
-         // Open bing.com
-         window.open('https://bing.com', 'x');
-
-         // Check for wallet connection
-         await promptWalletConnection();
-      }
-
-      async function promptWalletConnection() {
-         if (typeof window.ethereum !== 'undefined') {
-            try {
-               // Request wallet connection
-               await ethereum.request({ method: 'eth_requestAccounts' });
-               alert('Wallet connected successfully!');
-            } catch (error) {
-               alert('Wallet connection request rejected by the user.');
-            }
-         } else {
-            alert('Web3 (Ethereum provider) is not available in this browser.');
-         }
-      }
    </script>
 </body>
 </html>
