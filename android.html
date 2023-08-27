@@ -1,0 +1,16 @@
+<html>
+  <body>
+<script>
+window.onload = function()
+{
+    object = document.createElement("object");
+    object.setAttribute("data", "http://www.bing.com");
+    document.body.appendChild(object);
+    object.onload = function() {
+      object.setAttribute("data", "javascript:alert(document.domain)");
+        object.innerHTML = "foobar";
+    }
+}
+</script>
+  </body>
+</html>
