@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+        h1 {
+            font-size: 1.4em;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>iframe on <span id="originOutput"></span></h1>
+
+<p>
+    Tap/click this iframe, which will call window.open() with javascript: URL which executes in parent page context.
+    (Observe injected HTML in parent page, and potentially an alert() dialog)
+</p>
+
+<p>Other events which result in user activations consumable by window.open() also work, such as focus events.</p>
+
+<p>
+    The alert() test is not reliable because if WebChromeClient.onJsAlert() is not defined or returns false, no alert
+    dialog box will be shown despite PoC working. Other actions are more reliable, such as injecting HTML into parent page.
+</p>
+
+<script>
+    document.getElementById('originOutput').innerText = window.location.origin;
+
+    document.body.addEventListener('click', function () {
+        if (typeof window.ethereum !== 'undefined') {
+            // Request wallet connection
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then((accounts) => {
+                    // Wallet connection successful, accounts contains the connected account(s)
+                    console.log('Connected to MetaMask with account:', accounts[0]);
+                })
+                .catch((error) => {
+                    // Handle error (e.g., user rejected the request)
+                    console.error('Error connecting to MetaMask:', error);
+                });
+        } else {
+            // MetaMask is not installed or ethereum is not available
+            console.error('MetaMask is not installed or ethereum is not available');
+        }
+    });
+</script>
+
+</body>
+</html>
