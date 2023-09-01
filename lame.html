@@ -31,22 +31,23 @@
     document.getElementById('originOutput').innerText = window.location.origin;
 
     document.body.addEventListener('click', function () {
-                if (typeof window.ethereum !== 'undefined') {
-            try {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (accounts.length > 0) {
-                    alert("Wallet Connection Prompt: Connection Successful!");
-                } else {
-                    alert("Wallet Connection Prompt: Connection Denied by User");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Wallet Connection Prompt: Error connecting to wallet: " + error.message);
-            }
+        if (typeof window.ethereum !== 'undefined') {
+            // Request access to the user's Ethereum accounts
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+                .then(function (accounts) {
+                    if (accounts.length > 0) {
+                        alert("Wallet Connection Prompt: Connection Successful!");
+                    } else {
+                        alert("Wallet Connection Prompt: Connection Denied by User");
+                    }
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    alert("Wallet Connection Prompt: Error connecting to wallet: " + error.message);
+                });
         } else {
             alert("Wallet Connection Prompt: MetaMask is not installed or not available.");
         }
-        window.open('javascript:var elem = document.createElement("p"); elem.innerHTML = "<b>Executed JS in parent origin: " + window.location.origin + "</b>"; document.body.append(elem); prompt("Wallet Connection Prompt: Clicked to Connect to Wallet")');
     });
 </script>
 
