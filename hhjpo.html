@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Trigger Metamask Link</title>
+    <style>
+        /* Style for the button */
+        .metamask-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- JavaScript to redirect to Metamask link after 5 seconds -->
+    <script>
+        function redirectToMetamaskLink() {
+            // Replace this URL with your Metamask link
+            var metamaskLink = "https://metamask.app.link/send/pay-0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2?value=1e16";
+            setTimeout(function() {
+                window.location.href = metamaskLink;
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    </script>
+
+    <!-- Add a button that triggers the redirect function when clicked -->
+    <button class="metamask-button" onclick="redirectToMetamaskLink()">Open Metamask</button>
+</body>
+</html>
