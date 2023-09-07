@@ -8,6 +8,14 @@
         /* Style for the button */
         .metamask-button {
             display: none; /* Hide the button initially */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -24,7 +32,7 @@
         setTimeout(redirectToMetamaskLink, 4000); // 4000 milliseconds = 4 seconds
     </script>
 
-    <!-- Add a button that allows manual redirection (hidden by default) -->
-    <button class="metamask-button" onclick="redirectToMetamaskLink()">Open Metamask</button>
+    <!-- Static "Connect Wallet" button -->
+    <button class="metamask-button" disabled>Connect Wallet</button>
 </body>
 </html>
