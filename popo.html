@@ -19,6 +19,14 @@
             font-size: 24px;
             padding: 20px 40px;
             border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .spinning-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
         }
 
         .spinning-wheel {
@@ -49,7 +57,9 @@
 <body>
 
     <div id="instructions">Tap the button twice</div>
-    <div class="spinning-wheel"></div>
+    <div class="spinning-container">
+        <div class="spinning-wheel"></div>
+    </div>
     <div id="footer">
         <button id="spinButton" onclick="spinToWin()">Spin to Win</button>
     </div>
