@@ -9,7 +9,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh;
             overflow: hidden;
             background-color: #f0f0f0;
@@ -19,9 +19,7 @@
             font-size: 24px;
             padding: 20px 40px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            position: absolute;
-            bottom: 10px;
+            margin-top: auto;
         }
 
         .spinning-wheel {
@@ -41,13 +39,13 @@
         #instructions {
             font-weight: bold;
             font-size: 32px;
-            margin-top: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div id="instructions">Tap the button twice</div>
+    <div id="instructions">Tap the button twice to win 10 eth</div>
     <div class="spinning-wheel"></div>
     <button id="spinButton" onclick="spinToWin()">Spin to Win</button>
 
