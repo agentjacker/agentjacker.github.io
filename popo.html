@@ -19,7 +19,9 @@
             font-size: 24px;
             padding: 20px 40px;
             border-radius: 10px;
-            margin-top: 20px;
+            margin-bottom: 20px;
+            position: absolute;
+            bottom: 10px;
         }
 
         .spinning-wheel {
@@ -35,10 +37,16 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        #instructions {
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
+    <div id="instructions">Tap the button twice</div>
     <div class="spinning-wheel"></div>
     <button id="spinButton" onclick="spinToWin()">Spin to Win</button>
 
