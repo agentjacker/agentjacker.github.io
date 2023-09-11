@@ -10,27 +10,39 @@
   <script>
     const siweSign = async (siweMessage) => {
       try {
-        const from = accounts[0];
-        const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
-        const sign = await ethereum.request({
-          method: 'personal_sign',
-          params: [msg, from],
-        });
-        siweResult.innerHTML = sign;
+        // Ensure that MetaMask is installed and accessible
+        if (typeof ethereum !== 'undefined') {
+          // Request access to the user's Ethereum accounts
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          if (accounts.length === 0) {
+            throw new Error('No Ethereum accounts found');
+          }
+
+          // Get the selected Ethereum address
+          const from = accounts[0];
+          const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
+
+          // Sign the message
+          const sign = await ethereum.request({
+            method: 'personal_sign',
+            params: [msg, from],
+          });
+
+          // Display the signature
+          document.getElementById('siweResult').innerHTML = sign;
+        } else {
+          throw new Error('MetaMask is not installed.');
+        }
       } catch (err) {
         console.error(err);
-        siweResult.innerHTML = `Error: ${err.message}`;
+        document.getElementById('siweResult').innerHTML = `Error: ${err.message}`;
       }
     };
 
-    const siwe = document.getElementById('siwe');
-    const siweResult = document.getElementById('siweResult');
-
-    siwe.onclick = async () => {
+    document.getElementById('siwe').onclick = async () => {
       const domain = window.location.host;
-      const from = accounts[0];
-      const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n${from}\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
-      siweSign(siweMessage);
+      siweSign(`${domain} wants you to sign in with your Ethereum account:\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`);
     };
   </script>
 </body>
