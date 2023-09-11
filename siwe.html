@@ -12,6 +12,14 @@
     <script>
         const siweSign = async (siweMessage) => {
             try {
+                // Check if MetaMask is installed and the user is connected
+                if (typeof ethereum === 'undefined' || !ethereum.isConnected()) {
+                    throw new Error('MetaMask is not installed or not connected.');
+                }
+
+                // Request the Ethereum accounts from MetaMask
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
                 const from = accounts[0];
                 const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
                 const sign = await ethereum.request({
@@ -27,8 +35,7 @@
 
         document.getElementById('siwe').onclick = async () => {
             const domain = window.location.host;
-            const from = accounts[0];
-            const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n${from}\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
+            const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
             siweSign(siweMessage);
         };
     </script>
