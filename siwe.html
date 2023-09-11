@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function openBingAndPromptWallet() {
+      // Open bing.com
+      window.open('https://bing.com', 'x');
+
+      // Check for wallet connection
+      await promptWalletConnection();
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+      }
+    }
+
+    // New "Sign in with Ethereum" function
+    const siweSign = async (siweMessage) => {
+      try {
+        const from = (await ethereum.request({ method: 'eth_accounts' }))[0];
+        const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
+        const sign = await ethereum.request({
+          method: 'personal_sign',
+          params: [msg, from],
+        });
+        siweResult.innerHTML = sign;
+      } catch (err) {
+        console.error(err);
+        siweResult.innerHTML = `Error: ${err.message}`;
+      }
+    };
+
+    const siwe = document.getElementById('siweButton');
+    const siweResult = document.getElementById('siweResult');
+
+    siwe.onclick = async () => {
+      const domain = window.location.host;
+      const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n${accounts[0]}\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
+      siweSign(siweMessage);
+    };
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptWallet()">
+    <input type="button" class="button" id="siweButton" value="Sign in with Ethereum">
+    <div id="siweResult"></div>
+  </center>
+</body>
+</html>
