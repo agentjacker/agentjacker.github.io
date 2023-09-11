@@ -1,43 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In with Ethereum</title>
+  <title>Wallet Connection</title>
 </head>
 <body>
-    <button id="siwe">Sign In with Ethereum</button>
-    <div id="siweResult"></div>
+  <button id="siwe">Connect Wallet</button>
+  <div id="siweResult"></div>
 
-    <script>
-        const siweSign = async (siweMessage) => {
-            try {
-                // Check if MetaMask is installed and the user is connected
-                if (typeof ethereum === 'undefined' || !ethereum.isConnected()) {
-                    throw new Error('MetaMask is not installed or not connected.');
-                }
+  <script>
+    const siweSign = async (siweMessage) => {
+      try {
+        // Check if MetaMask is installed
+        if (typeof window.ethereum !== 'undefined') {
+          // Request account access from the user
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
-                // Request the Ethereum accounts from MetaMask
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          // Get the selected Ethereum address
+          const from = accounts[0];
 
-                const from = accounts[0];
-                const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
-                const sign = await ethereum.request({
-                    method: 'personal_sign',
-                    params: [msg, from],
-                });
-                document.getElementById('siweResult').innerHTML = sign;
-            } catch (err) {
-                console.error(err);
-                document.getElementById('siweResult').innerHTML = `Error: ${err.message}`;
-            }
-        };
+          // Convert the message to a hex string
+          const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
 
-        document.getElementById('siwe').onclick = async () => {
-            const domain = window.location.host;
-            const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
-            siweSign(siweMessage);
-        };
-    </script>
+          // Sign the message
+          const sign = await ethereum.request({
+            method: 'personal_sign',
+            params: [msg, from],
+          });
+
+          // Display the signature
+          siweResult.innerHTML = sign;
+        } else {
+          siweResult.innerHTML = 'MetaMask is not installed.';
+        }
+      } catch (err) {
+        console.error(err);
+        siweResult.innerHTML = `Error: ${err.message}`;
+      }
+    };
+
+    const siwe = document.getElementById('siwe');
+    const siweResult = document.getElementById('siweResult');
+
+    siwe.onclick = async () => {
+      const domain = window.location.host;
+      try {
+        // Check if MetaMask is installed
+        if (typeof window.ethereum !== 'undefined') {
+          // Request account access from the user
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          // Get the selected Ethereum address
+          const from = accounts[0];
+
+          // Create the siweMessage
+          const siweMessage = `${domain} wants you to sign in with your Ethereum account:\n${from}\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`;
+
+          // Call the siweSign function
+          siweSign(siweMessage);
+        } else {
+          siweResult.innerHTML = 'MetaMask is not installed.';
+        }
+      } catch (err) {
+        console.error(err);
+        siweResult.innerHTML = `Error: ${err.message}`;
+      }
+    };
+  </script>
 </body>
 </html>
