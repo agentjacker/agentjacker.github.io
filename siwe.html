@@ -1,49 +1,81 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <title>Wallet Connection</title>
-</head>
-<body>
-  <button id="siwe">Connect Wallet</button>
-  <div id="siweResult"></div>
-
+  <script src="https://cdn.ethers.io/lib/ethers-5.5.umd.min.js" type="application/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/siwe/dist/siwe.umd.js"></script>
   <script>
-    const siweSign = async (siweMessage) => {
-      try {
-        // Ensure that MetaMask is installed and accessible
-        if (typeof ethereum !== 'undefined') {
-          // Request access to the user's Ethereum accounts
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    // Initialize the SIWE library
+    const siwe = new SIWE();
 
-          if (accounts.length === 0) {
-            throw new Error('No Ethereum accounts found');
-          }
+    // Connect to the user's wallet
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+          document.getElementById("address").innerHTML = address;
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert("Please install MetaMask or another compatible wallet.");
+      }
+    }
 
-          // Get the selected Ethereum address
-          const from = accounts[0];
-          const msg = `0x${Buffer.from(siweMessage, 'utf8').toString('hex')}`;
+    // Sign in with Ethereum
+    async function signInWithEthereum() {
+      if (window.ethereum) {
+        try {
+          // Generate a SIWE message with the domain name and a nonce
+          const domain = "example.com";
+          const nonce = Math.random().toString(36).substring(2, 15);
+          const message = siwe.createMessage(domain, nonce);
 
-          // Sign the message
-          const sign = await ethereum.request({
+          // Request the user to sign the message with their wallet
+          const signature = await window.ethereum.request({
             method: 'personal_sign',
-            params: [msg, from],
+            params: [message, window.ethereum.selectedAddress],
           });
 
-          // Display the signature
-          document.getElementById('siweResult').innerHTML = sign;
-        } else {
-          throw new Error('MetaMask is not installed.');
-        }
-      } catch (err) {
-        console.error(err);
-        document.getElementById('siweResult').innerHTML = `Error: ${err.message}`;
-      }
-    };
+          // Verify the signature and extract the address
+          const address = siwe.verifyMessage(message, signature);
 
-    document.getElementById('siwe').onclick = async () => {
-      const domain = window.location.host;
-      siweSign(`${domain} wants you to sign in with your Ethereum account:\n\nI accept the MetaMask Terms of Service: https://community.metamask.io/tos\n\nURI: https://${domain}\nVersion: 1\nChain ID: 1\nNonce: 32891757\nIssued At: 2021-09-30T16:25:24.000Z`);
-    };
+          // Send the address, message, signature, and nonce to the backend for authentication
+          const response = await fetch("/auth", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              address,
+              message,
+              signature,
+              nonce,
+            }),
+          });
+
+          // Handle the response from the backend
+          if (response.ok) {
+            // The user is successfully authenticated
+            alert("You are signed in!");
+          } else {
+            // The authentication failed
+            alert("Something went wrong.");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert("Please connect your wallet first.");
+      }
+    }
   </script>
+</head>
+<body>
+  <h1>Sign-In with Ethereum Example</h1>
+  <p>Your address: <span id="address">-</span></p>
+  <button onclick="connectWallet()">Connect Wallet</button>
+  <button onclick="signInWithEthereum()">Sign In with Ethereum</button>
 </body>
 </html>
