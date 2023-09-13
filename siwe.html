@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <title>Sign-In with Ethereum Example</title>
   <script src="https://cdn.ethers.io/lib/ethers-5.5.umd.min.js" type="application/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/siwe/dist/siwe.umd.js"></script>
   <script>
@@ -28,7 +30,7 @@
       if (window.ethereum) {
         try {
           // Generate a SIWE message with the domain name and a nonce
-          const domain = "example.com";
+          const domain = "agentjacker.github.io";
           const nonce = Math.random().toString(36).substring(2, 15);
           const message = siwe.createMessage(domain, nonce);
 
