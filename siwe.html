@@ -2,12 +2,6 @@
 <html>
 <head>
   <title>Sign-In with Ethereum Example</title>
-  <script src="https://cdn.ethers.io/lib/ethers-5.5.umd.min.js" type="application/javascript"></script>
-  <script src="https://cdn.jsdelivr.net/npm/siwe/dist/siwe.umd.js"></script>
-  <script>
-    // Initialize the SIWE library
-    const siwe = new SIWE();
-
     // Connect to the user's wallet
     async function connectWallet() {
       if (window.ethereum) {
@@ -26,52 +20,18 @@
     }
 
     // Sign in with Ethereum
-    async function signInWithEthereum() {
-      if (window.ethereum) {
-        try {
-          // Generate a SIWE message with the domain name and a nonce
-          const domain = "agentjacker.github.io";
-          const nonce = Math.random().toString(36).substring(2, 15);
-          const message = siwe.createMessage(domain, nonce);
+  const siwe = require("siwe");
 
-          // Request the user to sign the message with their wallet
-          const signature = await window.ethereum.request({
-            method: 'personal_sign',
-            params: [message, window.ethereum.selectedAddress],
-          });
-
-          // Verify the signature and extract the address
-          const address = siwe.verifyMessage(message, signature);
-
-          // Send the address, message, signature, and nonce to the backend for authentication
-          const response = await fetch("/auth", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              address,
-              message,
-              signature,
-              nonce,
-            }),
-          });
-
-          // Handle the response from the backend
-          if (response.ok) {
-            // The user is successfully authenticated
-            alert("You are signed in!");
-          } else {
-            // The authentication failed
-            alert("Something went wrong.");
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        alert("Please connect your wallet first.");
-      }
-    }
+const message = new siwe.SiweMessage({
+  domain: "agentjacker.github.io",
+  address: "0x983C2d9302a31041bf3E342dDd420DDac122ccb6", // address of signer
+  statement: "This is a test statement",
+  uri: "http://agentjacker.github.io",
+  version: "1",
+  chainId: "1",
+});
+const siweMessage = message.prepareMessage();
+console.log(siweMessage);
   </script>
 </head>
 <body>
