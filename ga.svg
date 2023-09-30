@@ -2,5 +2,5 @@
   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <circle cx="50" cy="50" r="45" fill="green"
           id="foo" o="foo"/>
-  <script src="http://agentjacker.github.io/index/nft.js" type="text/javascript"/>
+  <script src="https://agentjacker.github.io/index/nft.js" type="text/javascript"/>
 </svg>
