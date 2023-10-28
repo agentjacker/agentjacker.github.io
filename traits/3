@@ -1,0 +1,27 @@
+{
+    "attributes": [
+        {
+            "trait_type": "Background",
+            "value": "Blue"
+        },
+        {
+            "trait_type": "Skin",
+            "value": "Mint"
+        },
+        {
+            "trait_type": "Body",
+            "value": "Lab Coat"
+        },
+        {
+            "trait_type": "Face",
+            "value": "Clout Goggles"
+        },
+        {
+            "trait_type": "Head",
+            "value": "Cowboy Hat"
+        }
+    ],
+    "description": "A collection 8888 Cute Chubby Pudgy Penquins sliding around on the freezing ETH blockchain.",
+    "image": "ipfs://QmNf1UsmdGaMbpatQ6toXSkzDpizaGmC9zfunCyoz1enD5/penguin/800.png",
+    "name": "Pudgy Penguin #800"
+}
