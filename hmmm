@@ -1,0 +1,18 @@
+s = tf('s');
+K = 1; % You can change the value of K as needed
+
+% Define the transfer functions
+L1 = K*(s+1)^2/(s^2*(s+2)^2);
+L2 = K*(s^2+2*s+2)/(s^2*(s-1)*(s+10));
+
+% Plot the root locus
+figure;
+rlocus(L1);
+title('Root Locus of L1(s)');
+
+figure;
+rlocus(L2);
+title('Root Locus of L2(s)');
+
+
+% use https://octave-online.net/
