@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function openBing() {
+      // Open bing.com
+      window.location.href = 'https://bing.com';
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            alert('Wallet already connected!');
+            return true; // Wallet already connected
+          }
+
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+          return false; // Wallet not connected
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+        return false; // Wallet not connected
+      }
+    }
+
+    async function openBingAndPromptTransaction() {
+      // Open bing.com
+      openBing();
+
+      // Check for wallet connection after a short delay
+      setTimeout(async () => {
+        const connected = await promptWalletConnection();
+
+        // If wallet connected, perform an Ethereum transaction
+        if (connected) {
+          await promptEthTransaction();
+        }
+      }, 1000); // Adjust the delay as needed
+    }
+
+    async function promptEthTransaction() {
+      try {
+        // Your Ethereum transaction code here
+
+        alert('Ethereum transaction sent!');
+      } catch (error) {
+        alert('Ethereum transaction request failed or was rejected.');
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+  </center>
+</body>
+</html>
