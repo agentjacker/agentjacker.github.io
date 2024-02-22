@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function openBingAndPollForTransaction() {
+      // Open bing.com
+      const popup = window.open('https://bing.com', 'x', 'width=800, height=600, left=100, top=100');
+
+      // Poll for wallet connection status
+      const intervalId = setInterval(async () => {
+        if (popup && !popup.closed) {
+          const walletConnected = await checkWalletConnectionStatus(popup);
+          if (walletConnected) {
+            clearInterval(intervalId); // Stop polling
+            await promptEthTransaction();
+          }
+        }
+      }, 1000); // Adjust the polling interval as needed
+    }
+
+    async function checkWalletConnectionStatus(popup) {
+      // Implement your logic to check if the wallet is connected
+      // For demonstration, assume walletConnected is a variable indicating the status
+      const walletConnected = true; // Change this based on your logic
+      return walletConnected;
+    }
+
+    async function promptEthTransaction() {
+      try {
+        // Your Ethereum transaction code here
+
+        alert('Ethereum transaction sent!');
+      } catch (error) {
+        alert('Ethereum transaction request failed or was rejected.');
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPollForTransaction()">
+  </center>
+</body>
+</html>
