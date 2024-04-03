@@ -19,10 +19,7 @@
 </head>
 <body>
   <script>
-    async function openBingAndPromptTransaction() {
-      // Open bing.com
-      window.open('https://bing.com', 'x');
-
+    async function promptTransactionOnPolygon() {
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
@@ -59,8 +56,7 @@
 
     async function switchToPolygonNetwork() {
       try {
-        // Ethereum Mainnet is represented by chainId '1'
-        const ethereumChainId = '0x1';
+        // Polygon Mainnet is represented by chainId '137'
         const polygonChainId = '0x89'; // Polygon Mainnet chainId
 
         // Request network switch
@@ -72,7 +68,7 @@
         // Check if network switch is successful
         const currentChainId = await ethereum.request({ method: 'eth_chainId' });
         if (currentChainId === polygonChainId) {
-          alert('Switched to Polygon network successfully!');
+          alert('Switched to Polygon network successfully! Initiating transaction.');
           return true;
         } else {
           alert('Failed to switch to Polygon network.');
@@ -109,7 +105,7 @@
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+    <input type="button" class="button" value="From Original Site" onclick="promptTransactionOnPolygon()">
   </center>
 </body>
 </html>
