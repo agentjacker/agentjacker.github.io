@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MetaMask Demo</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+<body>
+    <button id="connectButton">Connect to MetaMask</button>
+    <button id="sendTransactionButton">Send Transaction</button>
+
+    <script>
+        const connectButton = document.getElementById('connectButton');
+        const sendTransactionButton = document.getElementById('sendTransactionButton');
+
+        let accounts = [];
+        let web3;
+
+        connectButton.addEventListener('click', async () => {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    web3 = new Web3(window.ethereum);
+                    const networkId = await web3.eth.net.getId();
+                    if (networkId === 420) { // Optimism network ID
+                        // Optimism RPC endpoint
+                        web3.setProvider('https://optimism-mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
+                    } else {
+                        alert('Please switch to the Optimism network.');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('User denied account access or other error occurred.');
+                }
+            } else {
+                alert('MetaMask not detected. Please install MetaMask extension.');
+            }
+        });
+
+        sendTransactionButton.addEventListener('click', async () => {
+            if (!web3) {
+                alert('Please connect to MetaMask first.');
+                return;
+            }
+
+            if (accounts.length === 0) {
+                alert('Please connect to MetaMask first.');
+                return;
+            }
+
+            const transactionParameters = {
+                to: '0x983C2d9302a31041bf3E342dDd420DDac122ccb6', // Replace with the recipient address
+                value: web3.utils.toHex(web3.utils.toWei('0.1', 'ether')), // Sending 0.1 Ether
+            };
+
+            try {
+                const txHash = await web3.eth.sendTransaction(transactionParameters);
+                alert(`Transaction sent: ${txHash}`);
+            } catch (error) {
+                console.error(error);
+                alert('Error sending transaction.');
+            }
+        });
+    </script>
+</body>
+</html>
