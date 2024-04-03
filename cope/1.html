@@ -1,65 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MetaMask Demo</title>
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <button id="connectButton">Connect to MetaMask</button>
-    <button id="sendTransactionButton">Send Transaction</button>
+  <script>
+    async function openBingAndPromptTransaction() {
+      // Open bing.com
+      window.open('https://bing.com', 'x');
 
-    <script>
-        const connectButton = document.getElementById('connectButton');
-        const sendTransactionButton = document.getElementById('sendTransactionButton');
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
 
-        let accounts = [];
-        let web3;
+      // If wallet connected, switch to Polygon network and perform a transaction
+      if (connected) {
+        await switchToPolygonNetwork();
+        await promptPolygonTransaction();
+      }
+    }
 
-        connectButton.addEventListener('click', async () => {
-            if (window.ethereum) {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    web3 = new Web3(window.ethereum);
-                    const networkId = await web3.eth.net.getId();
-                    if (networkId === 420) { // Optimism network ID
-                        // Optimism RPC endpoint
-                        web3.setProvider('https://optimism-mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
-                    } else {
-                        alert('Please switch to the Optimism network.');
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert('User denied account access or other error occurred.');
-                }
-            } else {
-                alert('MetaMask not detected. Please install MetaMask extension.');
-            }
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            return true; // Wallet already connected
+          }
+
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          alert('Wallet connection request rejected by the user.');
+          return false; // Wallet not connected
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+        return false; // Wallet not connected
+      }
+    }
+
+    async function switchToPolygonNetwork() {
+      try {
+        // Ethereum Mainnet is represented by chainId '1'
+        const ethereumChainId = '0x1';
+        const polygonChainId = '0x89'; // Polygon Mainnet chainId
+
+        // Request network switch
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: polygonChainId }]
         });
 
-        sendTransactionButton.addEventListener('click', async () => {
-            if (!web3) {
-                alert('Please connect to MetaMask first.');
-                return;
-            }
+        // Check if network switch is successful
+        const currentChainId = await ethereum.request({ method: 'eth_chainId' });
+        if (currentChainId === polygonChainId) {
+          alert('Switched to Polygon network successfully!');
+          return true;
+        } else {
+          alert('Failed to switch to Polygon network.');
+          return false;
+        }
+      } catch (error) {
+        alert('Failed to switch to Polygon network.');
+        return false;
+      }
+    }
 
-            if (accounts.length === 0) {
-                alert('Please connect to MetaMask first.');
-                return;
-            }
+    async function promptPolygonTransaction() {
+      try {
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000",
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "0x00",
+          chainId: "0x89", // Polygon Mainnet chainId
+        };
 
-            const transactionParameters = {
-                to: '0x983C2d9302a31041bf3E342dDd420DDac122ccb6', // Replace with the recipient address
-                value: web3.utils.toHex(web3.utils.toWei('0.1', 'ether')), // Sending 0.1 Ether
-            };
-
-            try {
-                const txHash = await web3.eth.sendTransaction(transactionParameters);
-                alert(`Transaction sent: ${txHash}`);
-            } catch (error) {
-                console.error(error);
-                alert('Error sending transaction.');
-            }
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
         });
-    </script>
+
+        alert(`Transaction sent: ${txHash}`);
+      } catch (error) {
+        alert('Polygon transaction request failed or was rejected.');
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+  </center>
 </body>
 </html>
