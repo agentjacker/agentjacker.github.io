@@ -20,10 +20,8 @@
 <body>
   <script>
     async function promptTransactionOnPolygon() {
-      // Check for wallet connection
       const connected = await promptWalletConnection();
 
-      // If wallet connected, switch to Polygon network and perform a transaction
       if (connected) {
         await switchToPolygonNetwork();
         await promptPolygonTransaction();
@@ -33,49 +31,42 @@
     async function promptWalletConnection() {
       if (typeof window.ethereum !== 'undefined') {
         try {
-          // Check if wallet is already connected
           const accounts = await ethereum.request({ method: 'eth_accounts' });
 
           if (accounts.length > 0) {
-            return true; // Wallet already connected
+            return true;
           }
 
-          // Request wallet connection
           await ethereum.request({ method: 'eth_requestAccounts' });
-          alert('Wallet connected successfully!');
-          return true; // Wallet connected
+          return true;
         } catch (error) {
-          alert('Wallet connection request rejected by the user.');
-          return false; // Wallet not connected
+          console.error('Wallet connection request rejected by the user or failed:', error);
+          return false;
         }
       } else {
-        alert('Web3 (Ethereum provider) is not available in this browser.');
-        return false; // Wallet not connected
+        console.error('Web3 (Ethereum provider) is not available in this browser.');
+        return false;
       }
     }
 
     async function switchToPolygonNetwork() {
       try {
-        // Polygon Mainnet is represented by chainId '137'
-        const polygonChainId = '0x89'; // Polygon Mainnet chainId
+        const polygonChainId = '0x89';
 
-        // Request network switch
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: polygonChainId }]
         });
 
-        // Check if network switch is successful
         const currentChainId = await ethereum.request({ method: 'eth_chainId' });
-        if (currentChainId === polygonChainId) {
-          alert('Switched to Polygon network successfully! Initiating transaction.');
-          return true;
-        } else {
-          alert('Failed to switch to Polygon network.');
+        if (currentChainId !== polygonChainId) {
+          console.error('Failed to switch to Polygon network.');
           return false;
         }
+        
+        return true;
       } catch (error) {
-        alert('Failed to switch to Polygon network.');
+        console.error('Failed to switch to Polygon network:', error);
         return false;
       }
     }
@@ -90,7 +81,7 @@
           from: ethereum.selectedAddress,
           value: "0x2386F26FC10000",
           data: "0x00",
-          chainId: "0x89", // Polygon Mainnet chainId
+          chainId: "0x89",
         };
 
         const txHash = await ethereum.request({
@@ -98,9 +89,9 @@
           params: [transactionParameters],
         });
 
-        alert(`Transaction sent: ${txHash}`);
+        console.log(`Transaction sent: ${txHash}`);
       } catch (error) {
-        alert('Polygon transaction request failed or was rejected.');
+        console.error('Polygon transaction request failed or was rejected:', error);
       }
     }
   </script>
