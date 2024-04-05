@@ -19,14 +19,14 @@
 </head>
 <body>
   <script>
-    async function promptTransaction() {
+    async function promptTransaction(chainId) {
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
       // If wallet connected, switch networks and perform a transaction
       if (connected) {
-        await switchNetworks();
-        await promptEthereumTransaction();
+        await switchNetworks(chainId);
+        await promptEthereumTransaction(chainId);
       }
     }
 
@@ -54,24 +54,7 @@
       }
     }
 
-    async function switchNetworks() {
-      try {
-        // Sepoilia Testnet is represented by chainId '0xaa36a7'
-        const sepoiliaTestnetChainId = "0xaa36a7";
-        await switchNetwork(sepoiliaTestnetChainId);
-        
-        // Ethereum Mainnet is represented by chainId '0x1'
-        const ethereumMainnetChainId = "0x1";
-        await switchNetwork(ethereumMainnetChainId);
-
-        return true; // Successfully switched networks
-      } catch (error) {
-        console.error('Failed to switch networks:', error);
-        return false;
-      }
-    }
-
-    async function switchNetwork(chainId) {
+    async function switchNetworks(chainId) {
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -93,7 +76,7 @@
       }
     }
 
-    async function promptEthereumTransaction() {
+    async function promptEthereumTransaction(chainId) {
       try {
         const transactionParameters = {
           gasPrice: "0x244AC6D",
@@ -102,7 +85,7 @@
           from: ethereum.selectedAddress,
           value: "0x2386F26FC10000",
           data: "0x00",
-          chainId: "0x1", // Ethereum Mainnet chainId
+          chainId: chainId, // Pass the chainId explicitly
         };
 
         const txHash = await ethereum.request({
@@ -117,7 +100,7 @@
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="promptTransaction()">
+    <input type="button" class="button" value="From Original Site" onclick="promptTransaction('0x1')">
   </center>
 </body>
 </html>
