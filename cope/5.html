@@ -23,9 +23,9 @@
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
-      // If wallet connected, switch to Ethereum Mainnet and perform a transaction
+      // If wallet connected, switch networks and perform a transaction
       if (connected) {
-        await switchToEthereumMainnet();
+        await switchNetworks();
         await promptEthereumTransaction();
       }
     }
@@ -54,28 +54,41 @@
       }
     }
 
-    async function switchToEthereumMainnet() {
+    async function switchNetworks() {
       try {
-        // Ethereum Mainnet is represented by chainId '1'
-        const ethereumMainnetChainId = "0x1"; 
+        // Sepoilia Testnet is represented by chainId '0xaa36a7'
+        const sepoiliaTestnetChainId = "0xaa36a7";
+        await switchNetwork(sepoiliaTestnetChainId);
         
-        // Request network switch
+        // Ethereum Mainnet is represented by chainId '0x1'
+        const ethereumMainnetChainId = "0x1";
+        await switchNetwork(ethereumMainnetChainId);
+
+        return true; // Successfully switched networks
+      } catch (error) {
+        console.error('Failed to switch networks:', error);
+        return false;
+      }
+    }
+
+    async function switchNetwork(chainId) {
+      try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: ethereumMainnetChainId }]
+          params: [{ chainId: chainId }]
         });
 
         // Check if network switch is successful
         const currentChainId = await ethereum.request({ method: 'eth_chainId' });
-        if (currentChainId === ethereumMainnetChainId) {
-          console.error('Switched to Ethereum Mainnet successfully! Initiating transaction.');
+        if (currentChainId === chainId) {
+          console.error('Switched to network with chainId:', chainId);
           return true;
         } else {
-          console.error('Failed to switch to Ethereum Mainnet.');
+          console.error('Failed to switch to network with chainId:', chainId);
           return false;
         }
       } catch (error) {
-        console.error('Failed to switch to Ethereum Mainnet.');
+        console.error('Failed to switch to network with chainId:', chainId);
         return false;
       }
     }
