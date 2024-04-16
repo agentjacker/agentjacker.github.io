@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Network Prompt</title>
+<script>
+    async function addNetwork() {
+        try {
+            await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: "0xf00" }],
+            });
+        } catch (switchError) {
+            // This error code indicates that the chain has not been added to MetaMask.
+            if (switchError.code === 4902) {
+                try {
+                    await window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [
+                            {
+                                chainId: "0x1",
+                                chainName: "Ethereum Mainnet",
+                                rpcUrls: ["http://httpbin.org/basic-auth/foo/bar"],
+                                nativeCurrency: {
+                                    name: "Eth mainnet",
+                                    symbol: "ETH",
+                                    decimals: 18,
+                                },
+                                blockExplorerUrls: ["https://etherscan.io"],
+                            },
+                        ],
+                    });
+                } catch (addError) {
+                    // Handle "add" error.
+                    console.error("Error adding network:", addError);
+                }
+            } else {
+                // Handle other "switch" errors.
+                console.error("Error switching network:", switchError);
+            }
+        }
+    }
+</script>
+</head>
+<body>
+<button onclick="addNetwork()">Add Network</button>
+</body>
+</html>
