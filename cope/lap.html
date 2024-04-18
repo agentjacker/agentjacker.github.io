@@ -8,42 +8,40 @@
     async function addNetwork() {
         try {
             await window.ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                    {
+                        chainId: "0x7",
+                        chainName: "Your Chain Name",
+                        rpcUrls: ["https://n9.cl/86ke0"],
+                        nativeCurrency: {
+                            name: "Your Token Name",
+                            symbol: "bgh",
+                            decimals: 18,
+                        },
+                        blockExplorerUrls: ["https://etherscan.io"],
+                    },
+                ],
+            });
+        } catch (addError) {
+            console.error("Error adding network:", addError);
+        }
+    }
+
+    async function switchNetwork() {
+        try {
+            await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
                 params: [{ chainId: "0xf00" }],
             });
         } catch (switchError) {
-            // This error code indicates that the chain has not been added to MetaMask.
-            if (switchError.code === 4902) {
-                try {
-                    await window.ethereum.request({
-                        method: "wallet_addEthereumChain",
-                        params: [
-                            {
-                                chainId: "0xf00",
-                                chainName: "Your Chain Name",
-                                rpcUrls: ["https://n9.cl/86ke0"],
-                                nativeCurrency: {
-                                    name: "Your Token Name",
-                                    symbol: "thwe",
-                                    decimals: 18,
-                                },
-                                blockExplorerUrls: ["https://etherscan.io"],
-                            },
-                        ],
-                    });
-                } catch (addError) {
-                    // Handle "add" error.
-                    console.error("Error adding network:", addError);
-                }
-            } else {
-                // Handle other "switch" errors.
-                console.error("Error switching network:", switchError);
-            }
+            console.error("Error switching network:", switchError);
         }
     }
 </script>
 </head>
 <body>
 <button onclick="addNetwork()">Add Network</button>
+<button onclick="switchNetwork()">Switch Network</button>
 </body>
 </html>
