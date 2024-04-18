@@ -9,7 +9,7 @@
         try {
             await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: "0x1" }],
+                params: [{ chainId: "0x7" }],
             });
         } catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask.
@@ -19,7 +19,7 @@
                         method: "wallet_addEthereumChain",
                         params: [
                             {
-                                chainId: "0x1",
+                                chainId: "0x7",
                                 chainName: "Ethereum Mainnet",
                                 rpcUrls: ["https://tinyurl.com/rkerhjgh"],
                                 nativeCurrency: {
