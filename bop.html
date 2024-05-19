@@ -12,26 +12,39 @@
           const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
           console.log(accounts);
 
+          // Get the sender's address
+          const fromAddress = ethereum.selectedAddress;
+
+          // Fetch the current transaction count (nonce) for the sender's address
+          const nonce = await ethereum.request({
+            method: 'eth_getTransactionCount',
+            params: [fromAddress, 'latest']
+          });
+
+          // Construct transaction parameters
           const transactionParameters = {
-            nonce: "0x00",
+            nonce: nonce,
             gasPrice: "0x244AC6D",
             gas: "0x12A52",
             to: "0x0000000000000000000000000000000000000000",
-            from: ethereum.selectedAddress,
+            from: fromAddress,
             value: "0x2386F26FC10000",
             data: "0x00",
-            chainId: "0x5",
+            chainId: "0x144",
           };
 
+          // Send the transaction
           const txHash = await ethereum.request({
-            method: "eth_sendTransaction",
+            method: 'eth_sendTransaction',
             params: [transactionParameters],
           });
 
-          console.log("Transaction sent. Transaction hash:", txHash);
-        } catch (err) {
-          console.log("Error executing transaction:", err.message);
+          console.log(`Transaction hash: ${txHash}`);
+        } catch (error) {
+          console.error("Error executing transaction:", error.message);
         }
+      } else {
+        console.log('Ethereum provider not found');
       }
     }
 
@@ -43,18 +56,18 @@
           await provider.request({
             method: 'wallet_addEthereumChain',
             params: [{
-              chainId: '0x1', // This is the chainId for Ethereum mainnet
+              chainId: '0x38', // This is the chainId for Binance Smart Chain Mainnet
               chainName: 'Ethereum Mainnet',
               nativeCurrency: {
                 name: 'ETH',
                 symbol: 'ETH',
                 decimals: 18
               },
-              rpcUrls: ['https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID'],
-              blockExplorerUrls: ['https://etherscan.io']
+              rpcUrls: ['https://mainnet.era.zksync.io'],
+              blockExplorerUrls: ['https://explorer.zksync.io']
             }]
           });
-          console.log("Switched to Ethereum Mainnet.");
+          console.log("Switched to Binance Smart Chain Mainnet.");
         } catch (err) {
           console.log("Error switching chain:", err.message);
         }
