@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Sign</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethereumjs-util@7.1.3/dist/ethereumjs-util.min.js"></script>
+</head>
+<body>
+    <h3>Connect Wallet</h3>
+    <button type="button" id="connectWalletButton">Connect Wallet</button>
+
+    <h3>Personal sign</h3>
+    <button type="button" id="personalSignButton" disabled>personal_sign</button>
+    <p id="personalSignResult"></p>
+    <button type="button" id="personalSignVerify" disabled>Verify Signer</button>
+    <p id="personalSignVerifyResult"></p>
+
+    <script>
+        let web3;
+        let userAccount;
+
+        document.getElementById('connectWalletButton').addEventListener('click', async function () {
+            if (typeof window.ethereum !== 'undefined' || (typeof window.web3 !== 'undefined')) {
+                const provider = window['ethereum'] || window.web3.currentProvider;
+                web3 = new Web3(provider);
+
+                try {
+                    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                    userAccount = accounts[0];
+                    document.getElementById('personalSignButton').disabled = false;
+                    alert('Wallet connected: ' + userAccount);
+                } catch (error) {
+                    console.error('User denied account access', error);
+                    alert('Failed to connect wallet');
+                }
+            } else {
+                alert('MetaMask is not installed. Please install it to use this feature.');
+            }
+        });
+
+        document.getElementById('personalSignButton').addEventListener('click', async function (event) {
+            event.preventDefault();
+            const exampleMessage = "Example `personal_sign` message.";
+            try {
+                const msg = `0x${Buffer.from(exampleMessage, "utf8").toString("hex")}`;
+                const sign = await ethereum.request({
+                    method: "personal_sign",
+                    params: [msg, userAccount],
+                });
+                document.getElementById('personalSignResult').innerHTML = sign;
+                document.getElementById('personalSignVerify').disabled = false;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('personalSignResult').innerHTML = `Error: ${err.message}`;
+            }
+        });
+
+        document.getElementById('personalSignVerify').addEventListener('click', function () {
+            const sign = document.getElementById('personalSignResult').innerHTML;
+            const exampleMessage = "Example `personal_sign` message.";
+            const msg = `0x${Buffer.from(exampleMessage, "utf8").toString("hex")}`;
+
+            try {
+                const recovered = ethereumjs.Util.ecrecover(
+                    ethereumjs.Util.toBuffer(msg),
+                    ethereumjs.Util.bufferToInt(sign.v),
+                    ethereumjs.Util.toBuffer(sign.r),
+                    ethereumjs.Util.toBuffer(sign.s)
+                );
+
+                const recoveredAddress = ethereumjs.Util.pubToAddress(recovered).toString('hex');
+                const isVerified = ethereumjs.Util.toChecksumAddress(recoveredAddress) === ethereumjs.Util.toChecksumAddress(userAccount);
+
+                document.getElementById('personalSignVerifyResult').innerHTML = isVerified ? "Successfully verified signer." : "Failed to verify signer.";
+            } catch (err) {
+                console.error(err);
+                document.getElementById('personalSignVerifyResult').innerHTML = `Error: ${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
