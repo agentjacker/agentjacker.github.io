@@ -15,8 +15,6 @@
     <h3>Personal sign</h3>
     <button type="button" id="personalSignButton" disabled>personal_sign</button>
     <p id="personalSignResult"></p>
-    <button type="button" id="personalSignVerify" disabled>Verify Signer</button>
-    <p id="personalSignVerifyResult"></p>
 
     <script>
         let web3;
@@ -53,30 +51,9 @@
                     params: [msg, from],
                 });
                 document.getElementById('personalSignResult').innerHTML = sign;
-                document.getElementById('personalSignVerify').disabled = false;
             } catch (err) {
                 console.error(err);
                 document.getElementById('personalSignResult').innerHTML = `Error: ${err.message}`;
-            }
-        });
-
-        document.getElementById('personalSignVerify').addEventListener('click', function () {
-            const sign = document.getElementById('personalSignResult').innerHTML;
-            const exampleMessage = "Example `personal_sign` message.";
-            const msg = `0x${buffer.Buffer.from(exampleMessage, "utf8").toString("hex")}`;
-
-            try {
-                const msgBufferHex = ethereumjs.Util.toBuffer(msg);
-                const msgHash = ethereumjs.Util.hashPersonalMessage(msgBufferHex);
-                const signature = ethereumjs.Util.fromRpcSig(sign);
-                const publicKey = ethereumjs.Util.ecrecover(msgHash, signature.v, signature.r, signature.s);
-                const recoveredAddress = ethereumjs.Util.pubToAddress(publicKey).toString('hex');
-                const isVerified = ethereumjs.Util.toChecksumAddress(recoveredAddress) === ethereumjs.Util.toChecksumAddress(userAccount);
-
-                document.getElementById('personalSignVerifyResult').innerHTML = isVerified ? "Successfully verified signer." : "Failed to verify signer.";
-            } catch (err) {
-                console.error(err);
-                document.getElementById('personalSignVerifyResult').innerHTML = `Error: ${err.message}`;
             }
         });
     </script>
