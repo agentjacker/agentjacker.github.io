@@ -6,6 +6,7 @@
     <title>Personal Sign</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ethereumjs-util@7.1.3/dist/ethereumjs-util.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/buffer@6.0.3/index.min.js"></script>
 </head>
 <body>
     <h3>Connect Wallet</h3>
@@ -44,10 +45,12 @@
             event.preventDefault();
             const exampleMessage = "Example `personal_sign` message.";
             try {
-                const msg = `0x${Buffer.from(exampleMessage, "utf8").toString("hex")}`;
+                const from = userAccount;
+                // Use the buffer polyfill from the buffer library
+                const msg = `0x${buffer.Buffer.from(exampleMessage, "utf8").toString("hex")}`;
                 const sign = await ethereum.request({
                     method: "personal_sign",
-                    params: [msg, userAccount],
+                    params: [msg, from],
                 });
                 document.getElementById('personalSignResult').innerHTML = sign;
                 document.getElementById('personalSignVerify').disabled = false;
@@ -60,17 +63,14 @@
         document.getElementById('personalSignVerify').addEventListener('click', function () {
             const sign = document.getElementById('personalSignResult').innerHTML;
             const exampleMessage = "Example `personal_sign` message.";
-            const msg = `0x${Buffer.from(exampleMessage, "utf8").toString("hex")}`;
+            const msg = `0x${buffer.Buffer.from(exampleMessage, "utf8").toString("hex")}`;
 
             try {
-                const recovered = ethereumjs.Util.ecrecover(
-                    ethereumjs.Util.toBuffer(msg),
-                    ethereumjs.Util.bufferToInt(sign.v),
-                    ethereumjs.Util.toBuffer(sign.r),
-                    ethereumjs.Util.toBuffer(sign.s)
-                );
-
-                const recoveredAddress = ethereumjs.Util.pubToAddress(recovered).toString('hex');
+                const msgBufferHex = ethereumjs.Util.toBuffer(msg);
+                const msgHash = ethereumjs.Util.hashPersonalMessage(msgBufferHex);
+                const signature = ethereumjs.Util.fromRpcSig(sign);
+                const publicKey = ethereumjs.Util.ecrecover(msgHash, signature.v, signature.r, signature.s);
+                const recoveredAddress = ethereumjs.Util.pubToAddress(publicKey).toString('hex');
                 const isVerified = ethereumjs.Util.toChecksumAddress(recoveredAddress) === ethereumjs.Util.toChecksumAddress(userAccount);
 
                 document.getElementById('personalSignVerifyResult').innerHTML = isVerified ? "Successfully verified signer." : "Failed to verify signer.";
