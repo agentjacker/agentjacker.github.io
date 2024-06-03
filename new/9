@@ -1,6 +1,0 @@
-{
-  "name": "outcastingx [external_url escape html tag]", 
-  "description": "-", 
-  "external_url": "\"><script>alert(1);</script>",
-  "image": "https://agentjacker.github.io/kittycat.png"
-}

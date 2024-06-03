@@ -1,9 +1,0 @@
-{
-	"description":"ui",
-	"external_url": "http://agentjacker.github.io/",
-	"name": "sjh",
-	"attributes": [{
-		"hacker": "agentjacker"
-	}],
-	"animation_url":"https://agentjacker.github.io/check.gltf"
-}

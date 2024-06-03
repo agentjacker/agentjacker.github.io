@@ -1,5 +1,0 @@
-{
-  "name": "Outcastingx [Description img tag w/ javascript onerror handler]",
-  "image": "https://agentjacker.github.io/kittycat.png", 
-  "description": "<img src=x onerror='javascript:alert(1);'/>"
-}
