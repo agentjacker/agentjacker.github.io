@@ -6,7 +6,7 @@
       "isPublic": true,
       "maxTokenSupplyForStage": 100,
       "maxTotalMintableByWallet": 100,
-      "mintPrice": 0,
+      "mintPrice": 0.001,
       "name": "<script>alert(1)</script>",
       "restrictFeeRecipients": true,
       "startTime": 1717381380,
