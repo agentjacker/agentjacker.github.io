@@ -7,7 +7,7 @@
       "maxTokenSupplyForStage": 100,
       "maxTotalMintableByWallet": 100,
       "mintPrice": 0.001,
-      "name": "<script>alert(1)</script>",
+      "name": "editing",
       "restrictFeeRecipients": true,
       "startTime": 1717381380,
     }
