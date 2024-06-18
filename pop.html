@@ -42,7 +42,7 @@
             const exampleMessage = "Example `personal_sign` message.";
 
             try {
-                const msg = `0x${Buffer.from(exampleMessage, "utf8").toString("hex")}`;
+                const msg = `0x${ethereumjs.Util.bufferToHex(Buffer.from(exampleMessage, "utf8")).slice(2)}`;
 
                 web3.currentProvider.sendAsync({
                     method: "personal_sign",
