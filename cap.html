@@ -13,14 +13,16 @@
           console.log(accounts);
 
           const transactionParameters = {
-            nonce: "0x00",
-            gasPrice: "0x244AC6D",
-            gas: "0x12A52",
-            to: "0x0000000000000000000000000000000000000000",
-            from: ethereum.selectedAddress,
-            value: "0x2386F26FC10000",
-            data: "0x00",
-            chainId: "0x5",
+          //nonce: "0x00",
+            //gasPrice: "0x244AC6D",
+            //gas: "0x12A52",
+            //to: "0x0000000000000000000000000000000000000000",
+            //from: ethereum.selectedAddress,
+            //value: "0x2386F26FC10000",
+            //data: "0x00",
+            //chainId: "0x5",
+            "challenge": "0x506c65617365207369676e2074686973206d65737361676520746f20636f6e6669726d20796f7572206964656e746974792e",
+            "address": "0x778e3cDa129Bf3A15E44722D304112EeA6a05D95"
           };
 
           const txHash = await ethereum.request({
