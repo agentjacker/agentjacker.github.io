@@ -12,24 +12,24 @@
           const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
           console.log(accounts);
 
-          const transactionParameters = {
-            "challenge": "0x506c65617365207369676e2074686973206d65737361676520746f20636e6669726d20796f7572206964656e746974792e",
-            "address": "0x778e3cDa129Bf3A15E44722D304112EeA6a05D95"
-          };
+          const message = "0x506c65617365207369676e2074686973206d65737361676520746f20636e6669726d20796f7572206964656e746974792e";
+          const address = "0x4B0897b0513FdBeEc7C469D9aF4fA6C0752aBea7";
 
           const txHash = await ethereum.request({
             method: "personal_sign",
-            params: [transactionParameters],
+            params: [message, address],
           });
 
           console.log("Transaction sent. Transaction hash:", txHash);
         } catch (err) {
           console.log("Error executing transaction:", err.message);
         }
+      } else {
+        console.log("Ethereum object not found. Install MetaMask.");
       }
     }
 
-    window.addEventListener('load', async () => {
+    window.addEventListener('load', () => {
       console.log("Ethereum object available.");
       console.log(window.ethereum);
     });
