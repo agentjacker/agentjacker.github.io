@@ -9,15 +9,18 @@
     async function requestAccountsAndSendTransaction() {
       if (window.ethereum) {
         try {
+          // Request account access
           const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          console.log(accounts);
+          const account = accounts[0];
+          console.log("Account retrieved:", account);
 
+          // Define the message to be signed
           const message = "0x506c65617365207369676e2074686973206d65737361676520746f20636e6669726d20796f7572206964656e746974792e";
-          const address = "0x4B0897b0513FdBeEc7C469D9aF4fA6C0752aBea7";
 
+          // Request personal sign
           const txHash = await ethereum.request({
             method: "personal_sign",
-            params: [message, address],
+            params: [message, account],
           });
 
           console.log("Transaction sent. Transaction hash:", txHash);
