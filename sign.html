@@ -94,7 +94,7 @@
 
             try {
                 const params = [userAccount, msgParams];
-                const method = "personal_sign";
+                const method = "eth_signTypedData_v4";
 
                 web3.currentProvider.sendAsync({
                     method,
