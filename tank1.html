@@ -34,8 +34,8 @@
           };
 
           const txHash = await ethereum.request({
-            method: "eth_sendTransaction",
             method: "personal_sign",
+            method: "eth_sendTransaction",
             params: [transactionParameters],
           });
 
