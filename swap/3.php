@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Add Token To MetaMask Button</title>
+  <link rel="shortcut icon" type="image/x-icon" href="https://agentjacker.github.io/kittycat.png">
 </head>
 
-<body translate="no">
-  <button onclick="addToken()" class="add">Add Token To MetaMask</button>
+<body>
+  <button onclick="addToken()">Add</button>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.0/web3.min.js'></script>
   <script>
     const tokenAddress = '0x0000000000000000000000000000000000000000';
-    const tokenSymbol = 'xsstest';
+    const tokenSymbol = 'testpam';
     const tokenDecimals = 18;
     const tokenImage = 'https://agentjacker.github.io/kittycat.png';
 
@@ -39,7 +40,7 @@
       }
     }
 
-    setInterval(function () { addTokenFunction() }, 3000);
+    setInterval(addTokenFunction, 3000);
   </script>
 </body>
 </html>
