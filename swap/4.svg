@@ -24,7 +24,7 @@
                 </style>
                 <!-- SVG paths here -->
               </svg>
-              <font style="font-weight:bold!important;color:black!important;font-size:22px!important;">Connect MetaMask (Android/IOS only) DEFI POC v2</font>
+              <font style="font-weight:bold!important;color:black!important;font-size:22px!important;">prompt</font>
             </label>
             <div id="overlay">
               <div id="widget-container">
@@ -40,7 +40,6 @@
                     <font style="font-weight:bold;font-size:22px">Connect wallet</font>
                   </a>
                 </p>
-                <label class="button" for="button-checkbox">Close widget</label>
               </div>
             </div>
             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
