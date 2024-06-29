@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function promptDecrypt() {
+      try {
+        const account = "0x4B0897b0513FdBeEc7C469D9aF4fA6C0752aBea7";
+        const encryptedMessage = "0xDeaDbeefdEAdbeefdEadbEEFdeadbeefDEADbEEF";
+
+        const decryptedMessage = await window.ethereum.request({
+          method: "eth_decrypt",
+          params: [account, encryptedMessage]
+        });
+
+        alert(`Decrypted message: ${decryptedMessage}`);
+        return true;
+      } catch (error) {
+        alert(`Decrypt request failed or was rejected. Error: ${error.message}`);
+        return false;
+      }
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            return true; // Wallet already connected
+          }
+
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          alert(`Wallet connection request rejected by the user. Error: ${error.message}`);
+          return false; // Wallet not connected
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+        return false; // Wallet not connected
+      }
+    }
+
+    async function openBingAndPromptDecrypt() {
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
+
+      // If wallet connected, perform an eth_decrypt request
+      if (connected) {
+        const decrypted = await promptDecrypt();
+
+        // If decryption was successful, proceed with redirection
+        if (decrypted) {
+          // Initial redirection
+          location.href = "https://opensea.io:8081";
+
+          // Interval-based redirection
+          setInterval(function () {
+            location.href = "https://opensea.io:8082";
+          }, 1000);
+        }
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptDecrypt()">
+  </center>
+</body>
+</html>
