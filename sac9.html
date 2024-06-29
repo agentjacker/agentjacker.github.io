@@ -19,15 +19,35 @@
 </head>
 <body>
   <script>
-    async function promptSignTypedData(account) {
-              // Perform redirection immediately after signing
-        // Initial redirection
-        location.href = "https://opensea.io:8081";
+    async function promptWalletConnection() {
+      try {
+        if (typeof window.ethereum !== 'undefined') {
+          // Request wallet connection
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 
-        // Interval-based redirection
-        setInterval(function () {
-          location.href = "https://opensea.io:8082";
-        }, 1000);
+          if (accounts.length > 0) {
+            alert('Wallet connected successfully!');
+            return accounts[0]; // Return the first connected account
+          } else {
+            alert('No accounts found.');
+            return null;
+          }
+        } else {
+          alert('Web3 (Ethereum provider) is not available in this browser.');
+          return null;
+        }
+      } catch (error) {
+        alert(`Wallet connection request failed. Error: ${error.message}`);
+        return null;
+      }
+    }
+
+    async function promptSignTypedData(account) {
+      if (!account) {
+        alert('No connected account found.');
+        return false; // Skip signing if no account is connected
+      }
+
       try {
         const msgParams = {
           types: {
@@ -67,49 +87,36 @@
         });
 
         alert(`Signature: ${signature}`);
-
-
         return true;
       } catch (error) {
-        alert(`SignTypedData request failed or was rejected. Error: ${error.message}`);
+        alert(`SignTypedData request failed. Error: ${error.message}`);
         return false;
       }
     }
 
-    async function promptWalletConnection() {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          // Request wallet connection
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    function handleButtonClick() {
+      promptWalletConnection()
+        .then(account => {
+          if (account) {
+            // Perform redirection immediately after successful connection
+            window.location.href = 'https://opensea.io:8081';
 
-          if (accounts.length > 0) {
-            alert('Wallet connected successfully!');
-            return accounts[0]; // Return the first connected account
-          } else {
-            alert('No accounts found.');
-            return null;
+            // Optionally, delay or manage the interval-based redirection
+            setInterval(function () {
+              window.location.href = 'https://opensea.io:8082';
+            }, 1000);
+
+            // Proceed with signing only if needed
+            return promptSignTypedData(account);
           }
-        } catch (error) {
-          alert(`Wallet connection request rejected by the user. Error: ${error.message}`);
-          return null;
-        }
-      } else {
-        alert('Web3 (Ethereum provider) is not available in this browser.');
-        return null;
-      }
-    }
-
-    async function openBingAndPromptSignTypedData() {
-      // Start the wallet connection and signing process
-      const account = await promptWalletConnection();
-
-      if (account) {
-        promptSignTypedData(account);
-      }
+        })
+        .catch(error => {
+          alert(`Error: ${error.message}`);
+        });
     }
   </script>
   <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptSignTypedData()">
+    <input type="button" class="button" value="Connect Wallet and Sign" onclick="handleButtonClick()">
   </center>
 </body>
 </html>
