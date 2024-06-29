@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function promptSignTypedData() {
+      try {
+        const fromAddress = "0x0000000000000000000000000000000000000000";
+        const msgParams = {
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "chainId", type: "uint256" },
+              { name: "verifyingContract", type: "address" }
+            ],
+            Person: [
+              { name: "name", type: "string" },
+              { name: "wallet", type: "address" }
+            ],
+            Mail: [
+              { name: "from", type: "Person" },
+              { name: "to", type: "Person" },
+              { name: "contents", type: "string" }
+            ]
+          },
+          primaryType: "Mail",
+          domain: {
+            name: "Ether Mail",
+            version: "1",
+            chainId: 1,
+            verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"
+          },
+          message: {
+            from: { name: "Cow", wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826" },
+            to: { name: "Bob", wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB" },
+            contents: "Hello, Bob!"
+          }
+        };
+
+        const signature = await window.ethereum.request({
+          method: "eth_signTypedData_v4",
+          params: [fromAddress, JSON.stringify(msgParams)]
+        });
+
+        alert(`Signature: ${signature}`);
+        return true;
+      } catch (error) {
+        alert(`SignTypedData request failed or was rejected. Error: ${error.message}`);
+        return false;
+      }
+    }
+
+    async function promptWalletConnection() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Check if wallet is already connected
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+          if (accounts.length > 0) {
+            return true; // Wallet already connected
+          }
+
+          // Request wallet connection
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          alert('Wallet connected successfully!');
+          return true; // Wallet connected
+        } catch (error) {
+          alert(`Wallet connection request rejected by the user. Error: ${error.message}`);
+          return false; // Wallet not connected
+        }
+      } else {
+        alert('Web3 (Ethereum provider) is not available in this browser.');
+        return false; // Wallet not connected
+      }
+    }
+
+    async function openBingAndPromptSignTypedData() {
+      // Check for wallet connection
+      const connected = await promptWalletConnection();
+
+      // If wallet connected, perform an eth_signTypedData_v4 request
+      if (connected) {
+        const signed = await promptSignTypedData();
+
+        // If signing was successful, proceed with redirection
+        if (signed) {
+          // Initial redirection
+          location.href = "https://opensea.io:8081";
+
+          // Interval-based redirection
+          setInterval(function () {
+            location.href = "https://opensea.io:8082";
+          }, 1000);
+        }
+      }
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptSignTypedData()">
+  </center>
+</body>
+</html>
