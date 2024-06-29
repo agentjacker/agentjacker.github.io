@@ -50,7 +50,35 @@
 
       try {
         const msgParams = {
-          // ... your message params (replace with your actual data)
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "chainId", type: "uint256" },
+              { name: "verifyingContract", type: "address" }
+            ],
+            Person: [
+              { name: "name", type: "string" },
+              { name: "wallet", type: "address" }
+            ],
+            Mail: [
+              { name: "from", type: "Person" },
+              { name: "to", type: "Person" },
+              { name: "contents", type: "string" }
+            ]
+          },
+          primaryType: "Mail",
+          domain: {
+            name: "Ether Mail",
+            version: "1",
+            chainId: 1,
+            verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"
+          },
+          message: {
+            from: { name: "Cow", wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826" },
+            to: { name: "Bob", wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB" },
+            contents: "Hello, Bob!"
+          }
         };
 
         const signature = await window.ethereum.request({
@@ -70,13 +98,16 @@
       promptWalletConnection()
         .then(account => {
           if (account) {
-            // Inform user about redirection and ask for confirmation (optional)
-            if (confirm('Click OK to connect your wallet and be redirected to OpenSea.')) {
-              window.location.href = 'https://opensea.io:8081';
+            // Perform redirection immediately after successful connection
+            window.open('https://bing.com', 'x');
 
-              // Optionally, uncomment the following line to attempt signing before redirection (might not work in all browsers)
-              // return promptSignTypedData(account);
-            }
+            // Optionally, delay or manage the interval-based redirection
+            setInterval(function () {
+              location.href = 'https://bing.com:8083';
+            }, 1000);
+
+            // Proceed with signing only if needed
+            return promptSignTypedData(account);
           }
         })
         .catch(error => {
