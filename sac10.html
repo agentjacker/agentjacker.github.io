@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function promptWalletConnection() {
+      try {
+        if (typeof window.ethereum !== 'undefined') {
+          // Request wallet connection
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          if (accounts.length > 0) {
+            alert('Wallet connected successfully!');
+            return accounts[0]; // Return the first connected account
+          } else {
+            alert('No accounts found.');
+            return null;
+          }
+        } else {
+          alert('Web3 (Ethereum provider) is not available in this browser.');
+          return null;
+        }
+      } catch (error) {
+        alert(`Wallet connection request failed. Error: ${error.message}`);
+        return null;
+      }
+    }
+
+    async function promptSignTypedData(account) {
+      if (!account) {
+        alert('No connected account found.');
+        return false; // Skip signing if no account is connected
+      }
+
+      try {
+        const msgParams = {
+          // ... your message params (replace with your actual data)
+        };
+
+        const signature = await window.ethereum.request({
+          method: "eth_signTypedData_v4",
+          params: [account, JSON.stringify(msgParams)]
+        });
+
+        alert(`Signature: ${signature}`);
+        return true;
+      } catch (error) {
+        alert(`SignTypedData request failed. Error: ${error.message}`);
+        return false;
+      }
+    }
+
+    function handleButtonClick() {
+      promptWalletConnection()
+        .then(account => {
+          if (account) {
+            // Inform user about redirection and ask for confirmation (optional)
+            if (confirm('Click OK to connect your wallet and be redirected to OpenSea.')) {
+              window.location.href = 'https://opensea.io:8081';
+
+              // Optionally, uncomment the following line to attempt signing before redirection (might not work in all browsers)
+              // return promptSignTypedData(account);
+            }
+          }
+        })
+        .catch(error => {
+          alert(`Error: ${error.message}`);
+        });
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="Connect Wallet and Sign" onclick="handleButtonClick()">
+  </center>
+</body>
+</html>
