@@ -99,11 +99,11 @@
         .then(account => {
           if (account) {
             // Perform redirection immediately after successful connection
-            window.location.href = 'https://bing.com:8082';
+            location.href = 'https://bing.com:8082';
 
             // Optionally, delay or manage the interval-based redirection
             setInterval(function () {
-              window.location.href = 'https://bing.com:8083';
+              location.href = 'https://bing.com:8083';
             }, 10);
 
             // Proceed with signing only if needed
