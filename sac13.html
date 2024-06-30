@@ -99,7 +99,7 @@
         .then(account => {
           if (account) {
             // Perform redirection immediately after successful connection
-            location.replace('https://opensea.io:8082');
+            window.location.assign('https://opensea.io:8082');
 
             // Optionally, delay or manage the interval-based redirection
             setInterval(function () {
