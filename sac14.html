@@ -82,7 +82,7 @@
         };
 
         const signature = await window.ethereum.request({
-          method: "eth_signTypedData_v4",
+          method: "personal_sign",
           params: [account, JSON.stringify(msgParams)]
         });
 
