@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Transaction</title>
+    <script src="https://unpkg.com/@solana/web3.js@latest"></script>
+</head>
+<body>
+    <h1>Solana Transaction</h1>
+    <button id="sendTransactionBtn">Send Transaction</button>
+
+    <script>
+        document.getElementById('sendTransactionBtn').addEventListener('click', async () => {
+            try {
+                // Connect to the Solana network
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+
+                // Generate a new random keypair for the sender
+                const from = solanaWeb3.Keypair.generate();
+
+                // The recipient address (replace with the actual recipient address)
+                const to = new solanaWeb3.PublicKey('3G8FH9vRaBWQDCjrbbQ9ioa3Bju9iPsakCmpcRgmpoJc');
+
+                // Fund the sender with some SOL to cover the transaction fees
+                await connection.requestAirdrop(from.publicKey, solanaWeb3.LAMPORTS_PER_SOL);
+
+                // Create the transaction
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: from.publicKey,
+                        toPubkey: to,
+                        lamports: solanaWeb3.LAMPORTS_PER_SOL / 100, // Adjust the amount as needed
+                    })
+                );
+
+                // Sign the transaction
+                const signature = await solanaWeb3.sendAndConfirmTransaction(
+                    connection,
+                    transaction,
+                    [from]
+                );
+
+                console.log('Transaction successful with signature:', signature);
+                alert('Transaction successful with signature: ' + signature);
+            } catch (error) {
+                console.error('Transaction failed', error);
+                alert('Transaction failed: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
