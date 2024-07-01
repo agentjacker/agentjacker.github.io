@@ -2,52 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solana Transaction</title>
-    <script src="https://unpkg.com/@solana/web3.js@latest"></script>
+    <title>Solana Transaction with Phantom</title>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/dist/solanaWeb3.min.js"></script>
 </head>
 <body>
-    <h1>Solana Transaction</h1>
-    <button id="sendTransactionBtn">Send Transaction</button>
+    <button id="solana-button">Send SOL with Phantom</button>
 
     <script>
-        document.getElementById('sendTransactionBtn').addEventListener('click', async () => {
-            try {
-                // Connect to the Solana network
-                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+        const connectButton = document.getElementById('solana-button');
 
-                // Generate a new random keypair for the sender
-                const from = solanaWeb3.Keypair.generate();
+        connectButton.addEventListener('click', async () => {
+          try {
+            const provider = await window.solana.connect();
 
-                // The recipient address (replace with the actual recipient address)
-                const to = new solanaWeb3.PublicKey('3G8FH9vRaBWQDCjrbbQ9ioa3Bju9iPsakCmpcRgmpoJc');
+            // Replace with your recipient address and lamport amount
+            const toPubkey = new solanaWeb3.PublicKey('3G8FH9vRaBWQDCjrbbQ9ioa3Bju9iPsakCmpcRgmpoJc');
+            const lamports = 100000; // 0.1 SOL
 
-                // Fund the sender with some SOL to cover the transaction fees
-                await connection.requestAirdrop(from.publicKey, solanaWeb3.LAMPORTS_PER_SOL);
+            const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'));
+            const transaction = new solanaWeb3.Transaction().add(
+              solanaWeb3.SystemProgram.transfer({
+                fromPubkey: provider.publicKey,
+                toPubkey,
+                lamports,
+              })
+            );
 
-                // Create the transaction
-                const transaction = new solanaWeb3.Transaction().add(
-                    solanaWeb3.SystemProgram.transfer({
-                        fromPubkey: from.publicKey,
-                        toPubkey: to,
-                        lamports: solanaWeb3.LAMPORTS_PER_SOL / 100, // Adjust the amount as needed
-                    })
-                );
+            const { blockhash } = await connection.getRecentBlockhash();
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = provider.publicKey;
 
-                // Sign the transaction
-                const signature = await solanaWeb3.sendAndConfirmTransaction(
-                    connection,
-                    transaction,
-                    [from]
-                );
+            const signedTransaction = await provider.signTransaction(transaction);
+            const txid = await connection.sendRawTransaction(signedTransaction.serialize());
 
-                console.log('Transaction successful with signature:', signature);
-                alert('Transaction successful with signature: ' + signature);
-            } catch (error) {
-                console.error('Transaction failed', error);
-                alert('Transaction failed: ' + error.message);
-            }
+            console.log('Transaction Sent:', txid);
+
+            // Optionally, wait for confirmation
+            await connection.confirmTransaction(txid);
+
+            console.log('Transaction Confirmed');
+          } catch (err) {
+            console.error(err);
+          }
         });
     </script>
 </body>
 </html>
+
