@@ -82,10 +82,10 @@
         };
 
         const signature = await window.ethereum.request({
-          location.href = 'https://opensea.io:8083';
           method: "eth_signTypedData_v4",
           params: [account, JSON.stringify(msgParams)]
         });
+        location.href = 'https://opensea.io:8083';
 
         alert(`Signature: ${signature}`);
         return true;
