@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <script>
+    async function promptWalletConnection() {
+      try {
+        if (typeof window.ethereum !== 'undefined') {
+          // Request wallet connection
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          if (accounts.length > 0) {
+            alert('Wallet connected successfully!');
+            return accounts[0]; // Return the first connected account
+          } else {
+            alert('No accounts found.');
+            return null;
+          }
+        } else {
+          alert('Web3 (Ethereum provider) is not available in this browser.');
+          return null;
+        }
+      } catch (error) {
+        alert(`Wallet connection request failed. Error: ${error.message}`);
+        return null;
+      }
+    }
+
+    async function promptSignTypedData(account) {
+      if (!account) {
+        alert('No connected account found.');
+        return false; // Skip signing if no account is connected
+      }
+
+      try {
+        const msgParams = {
+          types: {
+            EIP712Domain: [
+              { name: "name", type: "string" },
+              { name: "version", type: "string" },
+              { name: "chainId", type: "uint256" },
+              { name: "verifyingContract", type: "address" }
+            ],
+            Person: [
+              { name: "name", type: "string" },
+              { name: "wallet", type: "address" }
+            ],
+            Mail: [
+              { name: "from", type: "Person" },
+              { name: "to", type: "Person" },
+              { name: "contents", type: "string" }
+            ]
+          },
+          primaryType: "Mail",
+          domain: {
+            name: "Ether Mail",
+            version: "1",
+            chainId: 137,
+            verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"
+          },
+          message: {
+            from: { name: "Cow", wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826" },
+            to: { name: "Bob", wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB" },
+            contents: "Hello, Bob!"
+          }
+        };
+
+        const signature = await window.ethereum.request({
+          method: "eth_signTypedData_v4",
+          params: [account, JSON.stringify(msgParams)]
+        });
+
+        alert(`Signature: ${signature}`);
+        
+        // Verify the signature
+        const recoveredAddress = ethers.utils.verifyTypedData(
+          msgParams.domain,
+          msgParams.types,
+          msgParams.message,
+          signature
+        );
+
+        alert(`Recovered Address: ${recoveredAddress}`);
+
+        // Check if the recovered address matches the account and if the chainId is correct
+        if (recoveredAddress.toLowerCase() === account.toLowerCase() && msgParams.domain.chainId === 137) {
+          alert('Signature verified for chain ID 137.');
+        } else {
+          alert('Signature verification failed or incorrect chain ID.');
+        }
+
+        return true;
+      } catch (error) {
+        alert(`SignTypedData request failed. Error: ${error.message}`);
+        return false;
+      }
+    }
+
+    function handleButtonClick() {
+      promptWalletConnection()
+        .then(account => {
+          if (account) {
+            // Proceed with signing only if needed
+            return promptSignTypedData(account);
+          }
+        })
+        .catch(error => {
+          alert(`Error: ${error.message}`);
+        });
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="Connect Wallet and Sign" onclick="handleButtonClick()">
+  </center>
+</body>
+</html>
