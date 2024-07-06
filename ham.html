@@ -16,11 +16,11 @@
       cursor: pointer;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
   <script>
     async function openBingAndPromptTransaction() {
-    
       // Check for wallet connection
       const connected = await promptWalletConnection();
 
@@ -56,23 +56,40 @@
 
     async function promptEthTransaction() {
       try {
-        const transactionParameters = {
-          nonce: "0x00",
-          gasPrice: "0x244AC6D",
-          gas: "0x12A52",
-          to: "0x0000000000000000000000000000000000000000",
-          from: ethereum.selectedAddress,
-          value: "0x0",
-          data: "0x00",
-          chainId: "0x1",
-        };
+        // Check if Ethereum provider is available
+        if (typeof window.ethereum !== 'undefined') {
+          // Create a new instance of web3 using the provider
+          const web3 = new Web3(window.ethereum);
 
-        const txHash = await ethereum.request({
-          method: "eth_sendTransaction",
-          params: [transactionParameters],
-        });
+          // Get the selected account from MetaMask
+          const selectedAccount = ethereum.selectedAddress;
 
-        alert(`Transaction sent: ${txHash}`);
+          // Get the current nonce for the selected account
+          const nonce = await web3.eth.getTransactionCount(selectedAccount, 'latest'); // 'latest' or 'pending'
+
+          // Define the transaction parameters
+          const transactionParameters = {
+            nonce: web3.utils.toHex(nonce),
+            gasPrice: "0x244AC6D",
+            gas: "0x12A52",
+            to: "0x0000000000000000000000000000000000000000",
+            from: selectedAccount,
+            value: "0x0",
+            data: "0x00",
+            chainId: "0x1",
+          };
+
+          // Send the transaction request to MetaMask
+          const txHash = await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transactionParameters],
+          });
+
+          // Log the transaction hash
+          alert(`Transaction sent: ${txHash}`);
+        } else {
+          alert('Ethereum provider is not available.');
+        }
       } catch (error) {
         alert('Ethereum transaction request failed or was rejected.');
       }
