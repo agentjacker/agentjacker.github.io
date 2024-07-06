@@ -1,102 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    .button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-</head>
-<body>
-  <script>
-    async function openBingAndPromptTransaction() {
-      // Check for wallet connection
-      const connected = await promptWalletConnection();
+ <html>
+ <head>
+   <meta charset="utf-8">
+   <style>
+     .button {
+       background-color: #4CAF50;
+       border: none;
+       color: white;
+       padding: 15px 32px;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 16px;
+       margin: 4px 2px;
+       cursor: pointer;
+     }
+   </style>
+ </head>
+ <body>
+   <script>
+     async function openBingAndPromptTransaction() {
 
-      // If wallet connected, perform an Ethereum transaction
-      if (connected) {
-        await promptEthTransaction();
-      }
-    }
+       // Check for wallet connection
+       const connected = await promptWalletConnection();
 
-    async function promptWalletConnection() {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          // Check if wallet is already connected
-          const accounts = await ethereum.request({ method: 'eth_accounts' });
+       // If wallet connected, perform an Ethereum transaction
+       if (connected) {
+         await promptEthTransaction();
+       }
+     }
 
-          if (accounts.length > 0) {
-            return true; // Wallet already connected
-          }
+     async function promptWalletConnection() {
+       if (typeof window.ethereum !== 'undefined') {
+         try {
+           // Check if wallet is already connected
+           const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-          // Request wallet connection
-          await ethereum.request({ method: 'eth_requestAccounts' });
-          alert('Wallet connected successfully!');
-          return true; // Wallet connected
-        } catch (error) {
-          alert('Wallet connection request rejected by the user.');
-          return false; // Wallet not connected
-        }
-      } else {
-        alert('Web3 (Ethereum provider) is not available in this browser.');
-        return false; // Wallet not connected
-      }
-    }
+           if (accounts.length > 0) {
+             return true; // Wallet already connected
+           }
 
-    async function promptEthTransaction() {
-      try {
-        // Check if Ethereum provider is available
-        if (typeof window.ethereum !== 'undefined') {
-          // Create a new instance of web3 using the provider
-          const web3 = new Web3(window.ethereum);
+           // Request wallet connection
+           await ethereum.request({ method: 'eth_requestAccounts' });
+           alert('Wallet connected successfully!');
+           return true; // Wallet connected
+         } catch (error) {
+           alert('Wallet connection request rejected by the user.');
+           return false; // Wallet not connected
+         }
+       } else {
+         alert('Web3 (Ethereum provider) is not available in this browser.');
+         return false; // Wallet not connected
+       }
+     }
 
-          // Get the selected account from MetaMask
-          const selectedAccount = ethereum.selectedAddress;
+     async function promptEthTransaction() {
+       try {
+         const transactionParameters = {
+           nonce: "0x00",
+           gasPrice: "0x244AC6D",
+           gas: "0x12A52",
+           to: "0x0000000000000000000000000000000000000000",
+           from: ethereum.selectedAddress,
+           value: "0x0",
+           data: "0x00",
+           chainId: "0x1",
+         };
 
-          // Get the current nonce for the selected account
-          const nonce = await web3.eth.getTransactionCount(selectedAccount, 'latest'); // 'latest' or 'pending'
+         const txHash = await ethereum.request({
+           method: "eth_sendTransaction",
+           params: [transactionParameters],
+         });
 
-          // Define the transaction parameters
-          const transactionParameters = {
-            nonce: web3.utils.toHex(nonce),
-            gasPrice: "0x244AC6D",
-            gas: "0x12A52",
-            to: "0x0000000000000000000000000000000000000000",
-            from: selectedAccount,
-            value: "0x0",
-            data: "0x00",
-            chainId: "0x1",
-          };
-
-          // Send the transaction request to MetaMask
-          const txHash = await ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [transactionParameters],
-          });
-
-          // Log the transaction hash
-          alert(`Transaction sent: ${txHash}`);
-        } else {
-          alert('Ethereum provider is not available.');
-        }
-      } catch (error) {
-        alert('Ethereum transaction request failed or was rejected.');
-      }
-    }
-  </script>
-  <center>
-    <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
-  </center>
-</body>
-</html>
+         alert(`Transaction sent: ${txHash}`);
+       } catch (error) {
+         alert('Ethereum transaction request failed or was rejected.');
+       }
+     }
+   </script>
+   <center>
+     <input type="button" class="button" value="From Original Site" onclick="openBingAndPromptTransaction()">
+   </center>
+ </body>
+ </html>
