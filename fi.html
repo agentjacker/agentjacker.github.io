@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Network Wallet Connection</title>
+    <script src="https://cdn.jsdelivr.net/npm/@fuels-network/wallet@latest/dist/fuel.min.js"></script>
+</head>
+<body>
+    <h1>Connect Fuel Network Wallet</h1>
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="signMessageBtn" disabled>Sign Message</button>
+    <button id="sendTransactionBtn" disabled>Send Transaction</button>
+    <div id="walletStatus"></div>
+    <script>
+const connectBtn = document.getElementById('connectBtn');
+const signMessageBtn = document.getElementById('signMessageBtn');
+const sendTransactionBtn = document.getElementById('sendTransactionBtn');
+const walletStatus = document.getElementById('walletStatus');
+
+async function checkConnectorAvailability() {
+  try {
+    const hasConnector = await fuel.hasConnector();
+    walletStatus.textContent = hasConnector ? 'Fuel Wallet connector available!' : 'No Fuel Wallet connector detected.';
+  } catch (err) {
+    console.error('Error checking connector availability:', err);
+    walletStatus.textContent = 'Error: Could not check connector.';
+  }
+}
+
+async function connectWallet() {
+  try {
+    const connectionState = await fuel.connect();
+    walletStatus.textContent = connectionState ? 'Connected to Fuel Network Wallet!' : 'Connection failed.';
+    updateButtonStates(); // Update button states after connection attempt
+  } catch (err) {
+    console.error('Error connecting to wallet:', err);
+    walletStatus.textContent = `Connection failed: ${err.message}`;
+  }
+}
+
+async function checkConnectionStatus() {
+  try {
+    const isConnected = await fuel.isConnected();
+    walletStatus.textContent = isConnected ? 'Wallet connection established.' : 'Not connected to Fuel Network Wallet.';
+    updateButtonStates(); // Update button states based on connection status
+  } catch (err) {
+    console.error('Error checking connection status:', err);
+    walletStatus.textContent = 'Error: Could not check connection.';
+  }
+}
+
+async function signMessage() {
+  try {
+    if (!(await fuel.isConnected())) {
+      throw new Error('Please connect your wallet before signing a message.');
+    }
+    // Rest of your sign message logic here (replace placeholders)
+    const message = 'Enter your message here.';
+    const account = await fuel.currentAccount();
+    const wallet = await fuel.getWallet(account);
+    const signedMessage = await wallet.signMessage(message);
+    console.log('Message signature:', signedMessage);
+    walletStatus.textContent = 'Message signed successfully!';
+  } catch (err) {
+    console.error('Error signing message:', err);
+    walletStatus.textContent = `Signing failed: ${err.message}`;
+  }
+}
+
+async function sendTransaction() {
+  try {
+    if (!(await fuel.isConnected())) {
+      throw new Error('Please connect your wallet before sending a transaction.');
+    }
+    // Rest of your send transaction logic here (replace placeholders)
+    const account = await fuel.currentAccount();
+    const wallet = await fuel.getWallet(account);
+    const destination = '0x...'; // Replace with recipient address
+    const amount = 1; // Replace with desired amount (in Fuel coins)
+    const transactionRequest = await wallet.createTransfer(destination, amount);
+    const transactionId = await fuel.sendTransaction(account, transactionRequest);
+    console.log('Transaction ID:', transactionId);
+    walletStatus.textContent = 'Transaction sent successfully!';
+  } catch (err) {
+    console.error('Error sending transaction:', err);
+    walletStatus.textContent = `Transaction failed: ${err.message}`;
+  }
+}
+
+function updateButtonStates() {
+  signMessageBtn.disabled = !(fuel.isConnected());
+  sendTransactionBtn.disabled = !(fuel.isConnected());
+}
+
+connectBtn.addEventListener('click', connectWallet);
+signMessageBtn.addEventListener('click', signMessage);
+sendTransactionBtn.addEventListener('click', sendTransaction);
+
+// Check connection status initially
+checkConnectionStatus();
+    </script>
+</body>
+</html>
