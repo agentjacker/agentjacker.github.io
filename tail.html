@@ -26,7 +26,7 @@
             gas: web3.utils.toHex(21000), // Standard gas limit for ETH transfer
             to: "0x0000000000000000000000000000000000000000",
             from: account,
-            value: web3.utils.toHex(web3.utils.toWei('0.0000000000001', 'ether')), // Amount to send
+            value: web3.utils.toHex(web3.utils.toWei('0.00000000000000000000000000000000000000000001', 'ether')), // Amount to send
             data: "0x00",
             chainId: web3.utils.toHex(5), // Goerli testnet chain ID
           };
