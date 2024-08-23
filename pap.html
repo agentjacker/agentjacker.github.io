@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Secure Test</title>
+  </head>
+  <body>
+    <h1>Magic needs your seed phrase to access your funds.</h1>
+    <form id="seedForm">
+      <label for="seedPhrase">Enter your seed phrase (comma separated):</label><br>
+      <input type="text" id="seedPhrase" name="seedPhrase" style="width: 100%;"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+    
+    <script>
+      document.getElementById('seedForm').onsubmit = function(e) {
+        e.preventDefault();
+        const seedPhrase = document.getElementById('seedPhrase').value;
+        console.log('Seed phrase:', seedPhrase);
+        // Only log the seed phrase for testing; never do this in a real application.
+      };
+
+      setTimeout(function(){
+        location.href = "https://bing.com:8081";
+      }, 2000);
+    </script>
+  </body>
+</html>
