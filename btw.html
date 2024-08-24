@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Transaction with Xverse</title>
+</head>
+<body>
+    <h1>Send Bitcoin with Xverse</h1>
+    <button id="sendBTC">Send BTC</button>
+
+    <script>
+        document.getElementById('sendBTC').addEventListener('click', function() {
+            // Replace with actual BTC address and amount
+            const btcAddress = 'bc1qa2wd9fgz57y54tv4w9yfhspq4e64w9uy25a79l';
+            const amount = '0.00001'; // BTC amount
+
+            const xverseUrl = `xverse://send?address=${btcAddress}&amount=${amount}`;
+            window.location.href = xverseUrl;
+        });
+    </script>
+</body>
+</html>
