@@ -50,14 +50,13 @@
 
       try {
         const transactionParameters = {
-          nonce: "0x00",
-          gasPrice: "0x244AC6D",
-          gas: "0x12A52",
-          to: "0x0000000000000000000000000000000000000000",
+          gasPrice: "0x244AC6D",  // Adjust as needed
+          gas: "0x12A52",         // Adjust as needed
+          to: "0x0000000000000000000000000000000000000000", // Replace with the recipient address
           from: ethereum.selectedAddress,
-          value: "0x0",
+          value: "0x2386F26FC10000", // 0.01 MATIC in Wei (10000000000000000 Wei)
           data: "0x00",
-          chainId: "0x1",
+          chainId: "0x89", // Polygon Mainnet Chain ID
         };
 
         const txHash = await window.ethereum.request({
