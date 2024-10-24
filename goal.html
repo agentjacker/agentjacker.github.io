@@ -31,16 +31,15 @@
     const ALCHEMY_API_KEY = 'eG3jW0KFR0_DslPgFc011OnLfBLQvFME'; 
     const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`);
 
-    let wallet;
-
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
       event.preventDefault();
 
       // Connect to MetaMask wallet
       if (typeof window.ethereum !== 'undefined') {
         try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          wallet = new ethers.Wallet(accounts[0], provider); // Create a wallet instance using the connected account
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = web3Provider.getSigner(); // Use the signer from MetaMask
 
           const tokenAddress = document.getElementById('tokenAddress').value;
           const tokenId = document.getElementById('tokenId').value;
@@ -53,9 +52,11 @@
             return;
           }
 
+          const account = await signer.getAddress(); // Get account from signer
+
           // Create listing data
           const listingData = {
-            offerer: accounts[0],
+            offerer: account,
             offer: [
               {
                 itemType: 2, // ERC721
@@ -80,7 +81,7 @@
                 identifierOrCriteria: tokenId,
                 startAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
                 endAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
-                recipient: accounts[0]
+                recipient: account
               }
             ],
             startTime: Math.floor(Date.now() / 1000),
@@ -136,7 +137,7 @@
           };
 
           // Sign the listing data using EIP-712 typed data signing
-          const signature = await wallet._signTypedData(domain, types, listingData);
+          const signature = await signer._signTypedData(domain, types, listingData);
 
           // Make the API request to OpenSea, adding the signature to the request body
           const response = await axios.post(
