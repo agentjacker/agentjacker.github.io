@@ -29,7 +29,10 @@
   <script>
     // Replace with your own Alchemy API key
     const ALCHEMY_API_KEY = 'eG3jW0KFR0_DslPgFc011OnLfBLQvFME'; 
-    const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`);
+    const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`, {
+      name: 'sepolia',
+      chainId: 11155111
+    });
 
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -38,7 +41,7 @@
       if (typeof window.ethereum !== 'undefined') {
         try {
           await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+          const web3Provider = new ethers.providers.Web3Provider(window.ethereum, "any");
           const signer = web3Provider.getSigner();
 
           const tokenAddress = document.getElementById('tokenAddress').value;
@@ -52,7 +55,7 @@
             return;
           }
 
-          // Get address directly from the signer, no ENS resolution needed
+          // Get address directly from the signer, avoiding ENS resolution
           const account = await signer.getAddress(); 
 
           // Create listing data
