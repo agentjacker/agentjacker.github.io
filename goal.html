@@ -27,8 +27,8 @@
   </form>
 
   <script>
-    // Set up the provider to connect to the Sepolia testnet
-    const provider = new ethers.providers.Web3Provider(window.ethereum, "sepolia");
+    // Set up the provider without specifying the network
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     let wallet;
 
     // Wait for the form to be submitted
@@ -43,6 +43,13 @@
       const tokenAddress = document.getElementById('tokenAddress').value;
       const tokenId = document.getElementById('tokenId').value;
       const listingAmount = document.getElementById('listingAmount').value;
+
+      // Check if connected to Sepolia
+      const network = await provider.getNetwork();
+      if (network.chainId !== 11155111) { // 11155111 is the chain ID for Sepolia
+        console.error("Please connect to the Sepolia testnet.");
+        return;
+      }
 
       // Create listing data
       const listingData = {
