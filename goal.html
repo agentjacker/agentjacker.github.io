@@ -27,7 +27,7 @@
   </form>
 
   <script>
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any"); // Allow any network
     let wallet;
 
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
