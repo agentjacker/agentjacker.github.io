@@ -27,132 +27,135 @@
   </form>
 
   <script>
-    // Replace with your own Infura project ID or Alchemy API key
-    const INFURA_PROJECT_ID = 'eG3jW0KFR0_DslPgFc011OnLfBLQvFME'; // Example: '1234567890abcdef'
-    const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${INFURA_PROJECT_ID}`);
+    // Replace with your own Alchemy API key
+    const ALCHEMY_API_KEY = 'eG3jW0KFR0_DslPgFc011OnLfBLQvFME'; 
+    const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`);
 
     let wallet;
 
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      // Request the user to connect their wallet
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      wallet = signer;
+      // Connect to MetaMask wallet
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          wallet = new ethers.Wallet(accounts[0], provider); // Create a wallet instance using the connected account
 
-      const tokenAddress = document.getElementById('tokenAddress').value;
-      const tokenId = document.getElementById('tokenId').value;
-      const listingAmount = document.getElementById('listingAmount').value;
+          const tokenAddress = document.getElementById('tokenAddress').value;
+          const tokenId = document.getElementById('tokenId').value;
+          const listingAmount = document.getElementById('listingAmount').value;
 
-      // Check if connected to Sepolia
-      const network = await provider.getNetwork();
-      if (network.chainId !== 11155111) {
-        console.error("Please connect to the Sepolia testnet.");
-        return;
-      }
-
-      // Create listing data
-      const listingData = {
-        offerer: await signer.getAddress(),
-        offer: [
-          {
-            itemType: 2, // ERC721
-            token: tokenAddress,
-            identifierOrCriteria: tokenId,
-            startAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
-            endAmount: ethers.utils.parseUnits(listingAmount, "ether").toString()
+          // Check if connected to Sepolia
+          const network = await provider.getNetwork();
+          if (network.chainId !== 11155111) {
+            console.error("Please connect to the Sepolia testnet.");
+            return;
           }
-        ],
-        consideration: [
-          {
-            itemType: 0, // Native - Ether
-            token: ethers.constants.AddressZero,
-            identifierOrCriteria: 0,
-            startAmount: ethers.utils.parseUnits("0.025", "ether").toString(), // OpenSea Fee (2.5%)
-            endAmount: ethers.utils.parseUnits("0.025", "ether").toString(),
-            recipient: "0xOpenSeaFeeRecipientAddress" // OpenSea fee recipient
-          },
-          {
-            itemType: 2,
-            token: tokenAddress,
-            identifierOrCriteria: tokenId,
-            startAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
-            endAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
-            recipient: await wallet.getAddress()
-          }
-        ],
-        startTime: Math.floor(Date.now() / 1000),
-        endTime: Math.floor(Date.now() / 1000) + 86400, // 1 day later
-        orderType: 0,
-        zone: ethers.constants.AddressZero,
-        zoneHash: ethers.constants.HashZero,
-        salt: ethers.BigNumber.from(ethers.utils.randomBytes(32)).toString(),
-        conduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
-        totalOriginalConsiderationItems: 2,
-        counter: 0
-      };
 
-      // Get the domain data for signing
-      const domain = {
-        name: 'OpenSea',
-        version: '1.6',
-        chainId: 11155111, // Sepolia Testnet chain ID
-        verifyingContract: "0x0000000000000068f116a894984e2db1123eb395" // OpenSea Seaport contract
-      };
+          // Create listing data
+          const listingData = {
+            offerer: accounts[0],
+            offer: [
+              {
+                itemType: 2, // ERC721
+                token: tokenAddress,
+                identifierOrCriteria: tokenId,
+                startAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
+                endAmount: ethers.utils.parseUnits(listingAmount, "ether").toString()
+              }
+            ],
+            consideration: [
+              {
+                itemType: 0, // Native - Ether
+                token: ethers.constants.AddressZero,
+                identifierOrCriteria: 0,
+                startAmount: ethers.utils.parseUnits("0.025", "ether").toString(), // OpenSea Fee (2.5%)
+                endAmount: ethers.utils.parseUnits("0.025", "ether").toString(),
+                recipient: "0xOpenSeaFeeRecipientAddress" // OpenSea fee recipient
+              },
+              {
+                itemType: 2,
+                token: tokenAddress,
+                identifierOrCriteria: tokenId,
+                startAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
+                endAmount: ethers.utils.parseUnits(listingAmount, "ether").toString(),
+                recipient: accounts[0]
+              }
+            ],
+            startTime: Math.floor(Date.now() / 1000),
+            endTime: Math.floor(Date.now() / 1000) + 86400, // 1 day later
+            orderType: 0,
+            zone: ethers.constants.AddressZero,
+            zoneHash: ethers.constants.HashZero,
+            salt: ethers.BigNumber.from(ethers.utils.randomBytes(32)).toString(),
+            conduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
+            totalOriginalConsiderationItems: 2,
+            counter: 0
+          };
 
-      // Get the types for the signature
-      const types = {
-        OrderComponents: [
-          { name: 'offerer', type: 'address' },
-          { name: 'offer', type: 'OfferItem[]' },
-          { name: 'consideration', type: 'ConsiderationItem[]' },
-          { name: 'startTime', type: 'uint256' },
-          { name: 'endTime', type: 'uint256' },
-          { name: 'orderType', type: 'uint8' },
-          { name: 'zone', type: 'address' },
-          { name: 'zoneHash', type: 'bytes32' },
-          { name: 'salt', type: 'uint256' },
-          { name: 'conduitKey', type: 'bytes32' },
-          { name: 'totalOriginalConsiderationItems', type: 'uint256' },
-          { name: 'counter', type: 'uint256' }
-        ],
-        OfferItem: [
-          { name: 'itemType', type: 'uint8' },
-          { name: 'token', type: 'address' },
-          { name: 'identifierOrCriteria', type: 'uint256' },
-          { name: 'startAmount', type: 'uint256' },
-          { name: 'endAmount', type: 'uint256' }
-        ],
-        ConsiderationItem: [
-          { name: 'itemType', type: 'uint8' },
-          { name: 'token', type: 'address' },
-          { name: 'identifierOrCriteria', type: 'uint256' },
-          { name: 'startAmount', type: 'uint256' },
-          { name: 'endAmount', type: 'uint256' },
-          { name: 'recipient', type: 'address' }
-        ]
-      };
+          // Get the domain data for signing
+          const domain = {
+            name: 'OpenSea',
+            version: '1.6',
+            chainId: 11155111, // Sepolia Testnet chain ID
+            verifyingContract: "0x0000000000000068f116a894984e2db1123eb395" // OpenSea Seaport contract
+          };
 
-      // Sign the listing data using EIP-712 typed data signing
-      try {
-        const signature = await wallet._signTypedData(domain, types, listingData);
+          // Get the types for the signature
+          const types = {
+            OrderComponents: [
+              { name: 'offerer', type: 'address' },
+              { name: 'offer', type: 'OfferItem[]' },
+              { name: 'consideration', type: 'ConsiderationItem[]' },
+              { name: 'startTime', type: 'uint256' },
+              { name: 'endTime', type: 'uint256' },
+              { name: 'orderType', type: 'uint8' },
+              { name: 'zone', type: 'address' },
+              { name: 'zoneHash', type: 'bytes32' },
+              { name: 'salt', type: 'uint256' },
+              { name: 'conduitKey', type: 'bytes32' },
+              { name: 'totalOriginalConsiderationItems', type: 'uint256' },
+              { name: 'counter', type: 'uint256' }
+            ],
+            OfferItem: [
+              { name: 'itemType', type: 'uint8' },
+              { name: 'token', type: 'address' },
+              { name: 'identifierOrCriteria', type: 'uint256' },
+              { name: 'startAmount', type: 'uint256' },
+              { name: 'endAmount', type: 'uint256' }
+            ],
+            ConsiderationItem: [
+              { name: 'itemType', type: 'uint8' },
+              { name: 'token', type: 'address' },
+              { name: 'identifierOrCriteria', type: 'uint256' },
+              { name: 'startAmount', type: 'uint256' },
+              { name: 'endAmount', type: 'uint256' },
+              { name: 'recipient', type: 'address' }
+            ]
+          };
 
-        // Make the API request to OpenSea, adding the signature to the request body
-        const response = await axios.post(
-          'https://api.opensea.io/api/v2/orders/sepolia/seaport/listings',
-          { ...listingData, signature },
-          {
-            headers: {
-              // 'X-API-KEY': 'YOUR_OPENSEA_API_KEY', // Not needed for testnet
-              'accept': 'application/json',
-              'content-type': 'application/json'
+          // Sign the listing data using EIP-712 typed data signing
+          const signature = await wallet._signTypedData(domain, types, listingData);
+
+          // Make the API request to OpenSea, adding the signature to the request body
+          const response = await axios.post(
+            'https://api.opensea.io/api/v2/orders/sepolia/seaport/listings',
+            { ...listingData, signature },
+            {
+              headers: {
+                // 'X-API-KEY': 'YOUR_OPENSEA_API_KEY', // Not needed for testnet
+                'accept': 'application/json',
+                'content-type': 'application/json'
+              }
             }
-          }
-        );
-        console.log("Listing created successfully:", response.data);
-      } catch (error) {
-        console.error("Error creating listing:", error);
+          );
+          console.log("Listing created successfully:", response.data);
+        } catch (error) {
+          console.error("Error creating listing:", error);
+        }
+      } else {
+        console.error("MetaMask is not installed.");
       }
     });
   </script>
