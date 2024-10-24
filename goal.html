@@ -27,7 +27,8 @@
   </form>
 
   <script>
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // Set up the provider to connect to the Sepolia testnet
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "sepolia");
     let wallet;
 
     // Wait for the form to be submitted
@@ -45,7 +46,7 @@
 
       // Create listing data
       const listingData = {
-        offerer: await wallet.getAddress(),
+        offerer: await signer.getAddress(),
         offer: [
           {
             itemType: 2, // ERC721
@@ -88,7 +89,7 @@
       const domain = {
         name: 'OpenSea',
         version: '1.6',
-        chainId: 11155111, // Mainnet
+        chainId: 11155111, // Sepolia Testnet chain ID
         verifyingContract: "0x0000000000000068f116a894984e2db1123eb395" // OpenSea Seaport contract
       };
 
@@ -135,7 +136,7 @@
           { ...listingData, signature },
           {
             headers: {
-              // 'X-API-KEY': 'YOUR_OPENSEA_API_KEY',
+              // 'X-API-KEY': 'YOUR_OPENSEA_API_KEY', // Not needed for testnet
               'accept': 'application/json',
               'content-type': 'application/json'
             }
@@ -149,4 +150,3 @@
   </script>
 </body>
 </html>
-
