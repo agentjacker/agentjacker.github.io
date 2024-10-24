@@ -27,11 +27,9 @@
   </form>
 
   <script>
-    // Set up the provider without specifying the network
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     let wallet;
 
-    // Wait for the form to be submitted
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
       event.preventDefault();
 
@@ -46,7 +44,7 @@
 
       // Check if connected to Sepolia
       const network = await provider.getNetwork();
-      if (network.chainId !== 11155111) { // 11155111 is the chain ID for Sepolia
+      if (network.chainId !== 11155111) {
         console.error("Please connect to the Sepolia testnet.");
         return;
       }
@@ -66,7 +64,7 @@
         consideration: [
           {
             itemType: 0, // Native - Ether
-            token: "0x0000000000000000000000000000000000000000",
+            token: ethers.constants.AddressZero,
             identifierOrCriteria: 0,
             startAmount: ethers.utils.parseUnits("0.025", "ether").toString(), // OpenSea Fee (2.5%)
             endAmount: ethers.utils.parseUnits("0.025", "ether").toString(),
@@ -84,8 +82,8 @@
         startTime: Math.floor(Date.now() / 1000),
         endTime: Math.floor(Date.now() / 1000) + 86400, // 1 day later
         orderType: 0,
-        zone: "0x0000000000000000000000000000000000000000",
-        zoneHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        zone: ethers.constants.AddressZero,
+        zoneHash: ethers.constants.HashZero,
         salt: ethers.BigNumber.from(ethers.utils.randomBytes(32)).toString(),
         conduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
         totalOriginalConsiderationItems: 2,
@@ -134,10 +132,10 @@
       };
 
       // Sign the listing data using EIP-712 typed data signing
-      const signature = await wallet._signTypedData(domain, types, listingData);
-
-      // Make the API request to OpenSea, adding the signature to the request body
       try {
+        const signature = await wallet._signTypedData(domain, types, listingData);
+
+        // Make the API request to OpenSea, adding the signature to the request body
         const response = await axios.post(
           'https://api.opensea.io/api/v2/orders/sepolia/seaport/listings',
           { ...listingData, signature },
