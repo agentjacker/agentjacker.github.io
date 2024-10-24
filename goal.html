@@ -27,7 +27,10 @@
   </form>
 
   <script>
-    const provider = new ethers.providers.Web3Provider(window.ethereum, "any"); // Allow any network
+    // Replace with your own Infura project ID or Alchemy API key
+    const INFURA_PROJECT_ID = 'eG3jW0KFR0_DslPgFc011OnLfBLQvFME'; // Example: '1234567890abcdef'
+    const provider = new ethers.providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${INFURA_PROJECT_ID}`);
+
     let wallet;
 
     document.getElementById('listingForm').addEventListener('submit', async (event) => {
