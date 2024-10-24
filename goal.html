@@ -39,20 +39,21 @@
         try {
           await window.ethereum.request({ method: 'eth_requestAccounts' });
           const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = web3Provider.getSigner(); // Use the signer from MetaMask
+          const signer = web3Provider.getSigner();
 
           const tokenAddress = document.getElementById('tokenAddress').value;
           const tokenId = document.getElementById('tokenId').value;
           const listingAmount = document.getElementById('listingAmount').value;
 
-          // Check if connected to Sepolia
-          const network = await provider.getNetwork();
+          // Ensure we're connected to Sepolia network (Sepolia has chainId 11155111)
+          const network = await web3Provider.getNetwork();
           if (network.chainId !== 11155111) {
-            console.error("Please connect to the Sepolia testnet.");
+            alert("Please connect to the Sepolia testnet.");
             return;
           }
 
-          const account = await signer.getAddress(); // Get account from signer
+          // Get address directly from the signer, no ENS resolution needed
+          const account = await signer.getAddress(); 
 
           // Create listing data
           const listingData = {
@@ -145,7 +146,6 @@
             { ...listingData, signature },
             {
               headers: {
-                // 'X-API-KEY': 'YOUR_OPENSEA_API_KEY', // Not needed for testnet
                 'accept': 'application/json',
                 'content-type': 'application/json'
               }
