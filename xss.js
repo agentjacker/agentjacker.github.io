@@ -1,1 +1,1 @@
-<script>alert(document.location)</script>
+alert(document.location)
