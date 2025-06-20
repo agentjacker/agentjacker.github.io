@@ -1,0 +1,28 @@
+{
+  "stages": [
+    {
+      "endTime": 1750647327,
+      "feeBps": 1000,
+      "isPublic": true,
+      "maxTokenSupplyForStage": 100,
+      "maxTotalMintableByWallet": 100,
+      "mintPrice": 1000000000000000,
+      "name": "Public Stage",
+      "restrictFeeRecipients": true,
+      "startTime": 1750560927,
+      "uuid": "7f0bfc7e4d8d4bf98268fca06eccfec5"
+    },
+    {
+      "endTime": 1750560927,
+      "feeBps": 1000,
+      "isPublic": false,
+      "maxTokenSupplyForStage": 100,
+      "maxTotalMintableByWallet": 100,
+      "mintPrice": 1000000000,
+      "name": "Presale 1",
+      "restrictFeeRecipients": true,
+      "startTime": 1750474527,
+      "uuid": "bbc6c000c69942ba883df10885994e7d"
+    }
+  ]
+}
