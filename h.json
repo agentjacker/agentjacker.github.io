@@ -1,0 +1,42 @@
+{
+  "stages" : [ {
+    "uuid" : "ccca69d1-ae60-4d50-8d73-b697d92eba04",
+    "name" : "Public stage",
+    "description" : "",
+    "isPublic" : true,
+    "maxTotalMintableByWallet" : 10,
+    "maxTokenSupplyForStage" : 10,
+    "startTime" : 1753040466,
+    "endTime" : 1753040526,
+    "restrictFeeRecipients" : true,
+    "feeBps" : 1000,
+    "mintPrice" : 100000000000000,
+    "paymentToken" : ETH,
+    "startPrice" : null,
+    "endPrice" : null,
+    "fromTokenId" : null,
+    "toTokenId" : null,
+    "maxTotalMintableByWalletPerToken" : null,
+    "dropStageIndex" : null
+  }, {
+    "uuid" : "55594c9e-1a9b-4415-bca8-f1d18c9f80ca",
+    "name" : "ejrfnger",
+    "description" : "",
+    "isPublic" : false,
+    "maxTotalMintableByWallet" : 10,
+    "maxTokenSupplyForStage" : 10,
+    "startTime" : 1752954006,
+    "endTime" : 1753040466,
+    "restrictFeeRecipients" : true,
+    "feeBps" : 1000,
+    "mintPrice" : 10000000000000,
+    "paymentToken" : null,
+    "startPrice" : null,
+    "endPrice" : null,
+    "fromTokenId" : null,
+    "toTokenId" : null,
+    "maxTotalMintableByWalletPerToken" : null,
+    "dropStageIndex" : null
+  } ],
+  "erc1155TokenMintDetails" : null
+}
